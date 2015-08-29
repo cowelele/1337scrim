@@ -1,0 +1,83 @@
+L 08/02/2015 - 13:00:42: SourceMod log file session started (file "L20150802.log") (Version "1.7.2")
+L 08/02/2015 - 13:00:42: -------- Mapchange to de_overpass --------
+L 08/02/2015 - 13:00:43: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/02/2015 - 13:14:06: -------- Mapchange to de_overpass --------
+L 08/02/2015 - 13:14:06: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/02/2015 - 15:44:56: -------- Mapchange to de_overpass --------
+L 08/02/2015 - 15:44:57: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/02/2015 - 16:58:24: -------- Mapchange to de_overpass --------
+L 08/02/2015 - 16:58:24: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/02/2015 - 17:17:43: -------- Mapchange to de_overpass --------
+L 08/02/2015 - 17:17:43: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/02/2015 - 18:12:51: -------- Mapchange to de_overpass --------
+L 08/02/2015 - 18:12:51: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/02/2015 - 18:13:29: [mapchooser.smx] Starting map vote because outside request
+L 08/02/2015 - 18:13:29: [mapchooser.smx] Voting for next map has started.
+L 08/02/2015 - 18:13:32: [mapchooser.smx] Voting for next map has finished. Nextmap: de_dust2.
+L 08/02/2015 - 18:13:40: [SM] Changed map to "de_dust2"
+L 08/02/2015 - 18:13:46: -------- Mapchange to de_dust2 --------
+L 08/02/2015 - 18:13:46: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/02/2015 - 18:26:53: [mapchooser.smx] Voting for next map has started.
+L 08/02/2015 - 18:26:57: [mapchooser.smx] Voting for next map has finished. Nextmap: de_inferno.
+L 08/02/2015 - 18:28:21: [SM] Changed map to "de_inferno"
+L 08/02/2015 - 18:28:29: -------- Mapchange to de_inferno --------
+L 08/02/2015 - 18:28:29: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/02/2015 - 18:40:32: [mapchooser.smx] Voting for next map has started.
+L 08/02/2015 - 18:40:40: [mapchooser.smx] Voting for next map has finished. Nextmap: de_nuke.
+L 08/02/2015 - 18:42:30: [SM] Changed map to "de_nuke"
+L 08/02/2015 - 18:42:35: -------- Mapchange to de_nuke --------
+L 08/02/2015 - 18:42:35: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/02/2015 - 18:56:26: [mapchooser.smx] Voting for next map has started.
+L 08/02/2015 - 18:56:35: [mapchooser.smx] Voting for next map has finished. Nextmap: de_mirage.
+L 08/02/2015 - 18:58:03: [SM] Changed map to "de_mirage"
+L 08/02/2015 - 18:58:07: -------- Mapchange to de_mirage --------
+L 08/02/2015 - 18:58:08: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/02/2015 - 19:15:20: [mapchooser.smx] Voting for next map has started.
+L 08/02/2015 - 19:15:31: [mapchooser.smx] Voting for next map has finished. Nextmap: de_cache.
+L 08/02/2015 - 19:17:42: [SM] Changed map to "de_cache"
+L 08/02/2015 - 19:17:47: -------- Mapchange to de_cache --------
+L 08/02/2015 - 19:17:48: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/02/2015 - 19:34:30: [mapchooser.smx] Voting for next map has started.
+L 08/02/2015 - 19:34:39: [mapchooser.smx] Voting for next map has finished. Nextmap: de_train.
+L 08/02/2015 - 19:36:07: [SM] Changed map to "de_train"
+L 08/02/2015 - 19:36:13: -------- Mapchange to de_train --------
+L 08/02/2015 - 19:36:13: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/02/2015 - 19:51:24: [mapchooser.smx] Voting for next map has started.
+L 08/02/2015 - 19:51:27: [mapchooser.smx] Voting for next map has finished. Nextmap: de_cbble.
+L 08/02/2015 - 20:01:53: -------- Mapchange to de_train --------
+L 08/02/2015 - 20:01:53: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/02/2015 - 20:02:42: [mapchooser.smx] Starting map vote because outside request
+L 08/02/2015 - 20:02:42: [mapchooser.smx] Voting for next map has started.
+L 08/02/2015 - 20:02:42: [mapchooser.smx] Voting for next map has finished. Nextmap: de_dust2.
+L 08/02/2015 - 20:03:25: [SM] Changed map to "de_dust2"
+L 08/02/2015 - 20:03:28: -------- Mapchange to de_dust2 --------
+L 08/02/2015 - 20:03:29: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/02/2015 - 20:18:02: [mapchooser.smx] Voting for next map has started.
+L 08/02/2015 - 20:18:12: [mapchooser.smx] Voting for next map has finished. Nextmap: de_inferno.
+L 08/02/2015 - 20:31:14: [SM] Changed map to "de_inferno"
+L 08/02/2015 - 20:31:15: -------- Mapchange to de_inferno --------
+L 08/02/2015 - 20:31:15: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/02/2015 - 21:29:00: -------- Mapchange to de_inferno --------
+L 08/02/2015 - 21:29:00: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/02/2015 - 21:43:57: [mapchooser.smx] Voting for next map has started.
+L 08/02/2015 - 21:44:07: [mapchooser.smx] Voting for next map has finished. Nextmap: de_mirage.
+L 08/02/2015 - 21:45:42: [SM] Changed map to "de_mirage"
+L 08/02/2015 - 21:45:43: -------- Mapchange to de_mirage --------
+L 08/02/2015 - 21:45:43: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/02/2015 - 21:59:25: [mapchooser.smx] Voting for next map has started.
+L 08/02/2015 - 21:59:35: [mapchooser.smx] Voting for next map has finished. Nextmap: de_cbble.
+L 08/02/2015 - 22:02:29: [SM] Changed map to "de_cbble"
+L 08/02/2015 - 22:02:33: -------- Mapchange to de_cbble --------
+L 08/02/2015 - 22:02:33: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/02/2015 - 22:16:23: [mapchooser.smx] Voting for next map has started.
+L 08/02/2015 - 22:16:34: [mapchooser.smx] Voting for next map has finished. Nextmap: de_cache.
+L 08/02/2015 - 22:18:33: [SM] Changed map to "de_cache"
+L 08/02/2015 - 22:18:34: -------- Mapchange to de_cache --------
+L 08/02/2015 - 22:18:34: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/02/2015 - 22:30:59: [mapchooser.smx] Voting for next map has started.
+L 08/02/2015 - 22:31:19: [mapchooser.smx] Voting for next map has finished. Nextmap: de_train.
+L 08/02/2015 - 22:32:56: [SM] Changed map to "de_train"
+L 08/02/2015 - 22:32:56: -------- Mapchange to de_train --------
+L 08/02/2015 - 22:32:57: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/02/2015 - 22:47:44: [mapchooser.smx] Voting for next map has started.
+L 08/02/2015 - 22:47:51: [mapchooser.smx] Voting for next map has finished. Nextmap: de_overpass.

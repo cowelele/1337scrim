@@ -1,0 +1,75 @@
+L 07/20/2015 - 05:54:38: SourceMod log file session started (file "L20150720.log") (Version "1.7.2")
+L 07/20/2015 - 05:54:38: -------- Mapchange to de_sugarcane --------
+L 07/20/2015 - 05:54:44: [randomcycle.smx] RandomCycle has chosen de_aztec for the nextmap.
+L 07/20/2015 - 18:35:55: -------- Mapchange to de_sugarcane --------
+L 07/20/2015 - 18:36:08: [randomcycle.smx] RandomCycle has chosen cs_italy for the nextmap.
+L 07/20/2015 - 18:39:07: [mapchooser.smx] Voting for next map has started.
+L 07/20/2015 - 18:39:13: [mapchooser.smx] Voting for next map has finished. Nextmap: de_dust2.
+L 07/20/2015 - 18:39:21: [rockthevote.smx] RTV changing map manually
+L 07/20/2015 - 18:39:21: [SM] Changed map to "de_dust2"
+L 07/20/2015 - 18:39:27: -------- Mapchange to de_dust2 --------
+L 07/20/2015 - 18:39:34: [randomcycle.smx] RandomCycle has chosen de_inferno for the nextmap.
+L 07/20/2015 - 18:45:32: [mapchooser.smx] Voting for next map has started.
+L 07/20/2015 - 18:45:40: [mapchooser.smx] Voting for next map has finished. Nextmap: de_nuke.
+L 07/20/2015 - 18:47:14: [rockthevote.smx] RTV changing map manually
+L 07/20/2015 - 18:47:14: [SM] Changed map to "de_nuke"
+L 07/20/2015 - 18:47:22: -------- Mapchange to de_nuke --------
+L 07/20/2015 - 18:47:30: [randomcycle.smx] RandomCycle has chosen de_aztec for the nextmap.
+L 07/20/2015 - 19:45:49: -------- Mapchange to de_nuke --------
+L 07/20/2015 - 19:45:56: [randomcycle.smx] RandomCycle has chosen de_dust for the nextmap.
+L 07/20/2015 - 19:53:41: [mapchooser.smx] Voting for next map has started.
+L 07/20/2015 - 19:54:02: [mapchooser.smx] Voting for next map has finished. Nextmap: ar_baggage.
+L 07/20/2015 - 19:56:13: [SM] Changed map to "ar_baggage"
+L 07/20/2015 - 19:56:15: -------- Mapchange to ar_baggage --------
+L 07/20/2015 - 19:56:21: [randomcycle.smx] RandomCycle has chosen de_train for the nextmap.
+L 07/20/2015 - 19:57:09: [mapchooser.smx] Starting map vote because outside request
+L 07/20/2015 - 19:57:09: [mapchooser.smx] Voting for next map has started.
+L 07/20/2015 - 19:57:29: [mapchooser.smx] Voting for next map has finished. Nextmap: de_inferno.
+L 07/20/2015 - 19:57:39: [SM] Changed map to "de_inferno"
+L 07/20/2015 - 19:57:44: -------- Mapchange to de_inferno --------
+L 07/20/2015 - 19:57:51: [randomcycle.smx] RandomCycle has chosen de_dust for the nextmap.
+L 07/20/2015 - 20:05:18: [mapchooser.smx] Voting for next map has started.
+L 07/20/2015 - 20:05:38: [mapchooser.smx] Voting for next map has finished. Nextmap: de_shorttrain.
+L 07/20/2015 - 20:06:59: [SM] Changed map to "de_shorttrain"
+L 07/20/2015 - 20:07:05: -------- Mapchange to de_shorttrain --------
+L 07/20/2015 - 20:07:11: [randomcycle.smx] RandomCycle has chosen de_train for the nextmap.
+L 07/20/2015 - 20:08:52: [mapchooser.smx] Starting map vote because outside request
+L 07/20/2015 - 20:08:52: [mapchooser.smx] Voting for next map has started.
+L 07/20/2015 - 20:09:00: [mapchooser.smx] Voting for next map has finished. Nextmap: de_train.
+L 07/20/2015 - 20:09:05: [SM] Changed map to "de_train"
+L 07/20/2015 - 20:09:08: -------- Mapchange to de_train --------
+L 07/20/2015 - 20:09:15: [randomcycle.smx] RandomCycle has chosen de_dust for the nextmap.
+L 07/20/2015 - 20:16:38: [mapchooser.smx] Voting for next map has started.
+L 07/20/2015 - 20:16:59: [mapchooser.smx] Voting for next map has finished. Nextmap: cs_italy.
+L 07/20/2015 - 20:17:52: [SM] Changed map to "cs_italy"
+L 07/20/2015 - 20:17:55: -------- Mapchange to cs_italy --------
+L 07/20/2015 - 20:18:01: [randomcycle.smx] RandomCycle has chosen de_inferno for the nextmap.
+L 07/20/2015 - 21:11:55: -------- Mapchange to cs_italy --------
+L 07/20/2015 - 21:12:02: [randomcycle.smx] RandomCycle has chosen de_nuke for the nextmap.
+L 07/20/2015 - 21:12:33: [mapchooser.smx] Starting map vote because outside request
+L 07/20/2015 - 21:12:33: [mapchooser.smx] Voting for next map has started.
+L 07/20/2015 - 21:12:40: [mapchooser.smx] Voting for next map has finished. Nextmap: cs_office.
+L 07/20/2015 - 21:12:44: [SM] Changed map to "cs_office"
+L 07/20/2015 - 21:12:46: -------- Mapchange to cs_office --------
+L 07/20/2015 - 21:12:54: [randomcycle.smx] RandomCycle has chosen de_dust2 for the nextmap.
+L 07/20/2015 - 21:13:24: -------- Mapchange to de_dust2 --------
+L 07/20/2015 - 21:13:31: [randomcycle.smx] RandomCycle has chosen de_aztec for the nextmap.
+L 07/20/2015 - 21:19:49: [mapchooser.smx] Voting for next map has started.
+L 07/20/2015 - 21:19:54: [mapchooser.smx] Voting for next map has finished. Nextmap: de_aztec.
+L 07/20/2015 - 21:21:25: [rockthevote.smx] RTV changing map manually
+L 07/20/2015 - 21:21:25: [SM] Changed map to "de_aztec"
+L 07/20/2015 - 21:21:27: -------- Mapchange to de_aztec --------
+L 07/20/2015 - 21:21:33: [randomcycle.smx] RandomCycle has chosen de_train for the nextmap.
+L 07/20/2015 - 21:22:04: [mapchooser.smx] Starting map vote because outside request
+L 07/20/2015 - 21:22:04: [mapchooser.smx] Voting for next map has started.
+L 07/20/2015 - 21:22:11: -------- Mapchange to de_dust2 --------
+L 07/20/2015 - 21:22:18: [randomcycle.smx] RandomCycle has chosen de_inferno for the nextmap.
+L 07/20/2015 - 21:28:39: [mapchooser.smx] Voting for next map has started.
+L 07/20/2015 - 21:28:48: [mapchooser.smx] Voting for next map has finished. Nextmap: ar_baggage.
+L 07/20/2015 - 21:45:04: -------- Mapchange to de_dust2 --------
+L 07/20/2015 - 21:45:10: [randomcycle.smx] RandomCycle has chosen de_inferno for the nextmap.
+L 07/20/2015 - 21:50:54: [mapchooser.smx] Voting for next map has started.
+L 07/20/2015 - 21:51:00: [mapchooser.smx] Voting for next map has finished. Nextmap: de_dust.
+L 07/20/2015 - 21:53:20: [SM] Changed map to "de_dust"
+L 07/20/2015 - 21:53:23: -------- Mapchange to de_dust --------
+L 07/20/2015 - 21:53:29: [randomcycle.smx] RandomCycle has chosen de_inferno for the nextmap.

@@ -1,0 +1,16 @@
+L 08/14/2015 - 04:04:17: SourceMod log file session started (file "L20150814.log") (Version "1.7.2")
+L 08/14/2015 - 04:04:17: -------- Mapchange to de_overpass --------
+L 08/14/2015 - 04:04:17: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/14/2015 - 04:18:54: [mapchooser.smx] Voting for next map has started.
+L 08/14/2015 - 04:19:05: [mapchooser.smx] Voting for next map has finished. Nextmap: de_inferno.
+L 08/14/2015 - 04:21:08: [SM] Changed map to "de_inferno"
+L 08/14/2015 - 04:21:09: -------- Mapchange to de_inferno --------
+L 08/14/2015 - 04:21:09: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/14/2015 - 04:36:34: [mapchooser.smx] Voting for next map has started.
+L 08/14/2015 - 04:36:37: [mapchooser.smx] Voting for next map has finished. Nextmap: de_mirage.
+L 08/14/2015 - 04:39:08: [SM] Changed map to "de_mirage"
+L 08/14/2015 - 04:39:08: -------- Mapchange to de_mirage --------
+L 08/14/2015 - 04:39:09: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/14/2015 - 04:51:28: [mapchooser.smx] Voting for next map has started.
+L 08/14/2015 - 04:51:34: -------- Mapchange to de_cache --------
+L 08/14/2015 - 04:51:34: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")

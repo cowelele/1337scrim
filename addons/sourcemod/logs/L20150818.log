@@ -1,0 +1,6 @@
+L 08/18/2015 - 00:02:43: SourceMod log file session started (file "L20150818.log") (Version "1.7.2")
+L 08/18/2015 - 00:02:43: [mapchooser.smx] Voting for next map has started.
+L 08/18/2015 - 00:03:04: [mapchooser.smx] Voting for next map has finished. Nextmap: de_overpass.
+L 08/18/2015 - 00:04:12: [SM] Changed map to "de_overpass"
+L 08/18/2015 - 00:04:13: -------- Mapchange to de_overpass --------
+L 08/18/2015 - 00:04:13: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")

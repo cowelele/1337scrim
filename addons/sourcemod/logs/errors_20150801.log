@@ -1,0 +1,31 @@
+L 08/01/2015 - 16:37:30: SourceMod error session started
+L 08/01/2015 - 16:37:30: Info (map "cs_italy") (file "errors_20150801.log")
+L 08/01/2015 - 16:37:30: [retakes.smx] The retakes config file (addons/sourcemod/configs/retakes/cs_italy.cfg) does not exist
+L 08/01/2015 - 16:37:54: Error log file session closed.
+L 08/01/2015 - 19:12:24: SourceMod error session started
+L 08/01/2015 - 19:12:24: Info (map "de_stmarc") (file "errors_20150801.log")
+L 08/01/2015 - 19:12:24: [retakes.smx] The retakes config file (addons/sourcemod/configs/retakes/de_stmarc.cfg) does not exist
+L 08/01/2015 - 19:12:53: [retakes.smx] This map does not have enough spawns!
+L 08/01/2015 - 19:12:53: [retakes.smx] Had to resort to fallback spawn on de_stmarc, site=1
+L 08/01/2015 - 19:12:53: [retakes.smx] Failed to get any spawn on de_stmarc, site=1, team=2
+L 08/01/2015 - 19:12:53: [retakes.smx] Failed to get any spawn on de_stmarc, site=1, team=1
+L 08/01/2015 - 19:13:11: [retakes.smx] This map does not have enough spawns!
+L 08/01/2015 - 19:13:11: [retakes.smx] Had to resort to fallback spawn on de_stmarc, site=1
+L 08/01/2015 - 19:13:11: [retakes.smx] Failed to get any spawn on de_stmarc, site=1, team=2
+L 08/01/2015 - 19:13:11: [retakes.smx] Failed to get any spawn on de_stmarc, site=1, team=1
+L 08/01/2015 - 19:13:29: [retakes.smx] This map does not have enough spawns!
+L 08/01/2015 - 19:13:29: [retakes.smx] Had to resort to fallback spawn on de_stmarc, site=1
+L 08/01/2015 - 19:13:29: [retakes.smx] Failed to get any spawn on de_stmarc, site=1, team=2
+L 08/01/2015 - 19:13:29: [retakes.smx] Failed to get any spawn on de_stmarc, site=1, team=1
+L 08/01/2015 - 19:13:47: [retakes.smx] This map does not have enough spawns!
+L 08/01/2015 - 19:13:47: [retakes.smx] Had to resort to fallback spawn on de_stmarc, site=1
+L 08/01/2015 - 19:13:47: [retakes.smx] Failed to get any spawn on de_stmarc, site=1, team=2
+L 08/01/2015 - 19:13:47: [retakes.smx] Failed to get any spawn on de_stmarc, site=1, team=1
+L 08/01/2015 - 19:13:49: Error log file session closed.
+L 08/01/2015 - 19:44:02: SourceMod error session started
+L 08/01/2015 - 19:44:02: Info (map "cs_italy") (file "errors_20150801.log")
+L 08/01/2015 - 19:44:02: [retakes.smx] The retakes config file (addons/sourcemod/configs/retakes/cs_italy.cfg) does not exist
+L 08/01/2015 - 19:44:06: Error log file session closed.
+L 08/01/2015 - 19:44:08: SourceMod error session started
+L 08/01/2015 - 19:44:08: Info (map "cs_italy") (file "errors_20150801.log")
+L 08/01/2015 - 19:44:08: [retakes.smx] The retakes config file (addons/sourcemod/configs/retakes/cs_italy.cfg) does not exist

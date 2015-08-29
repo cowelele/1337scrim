@@ -1,0 +1,65 @@
+L 08/29/2015 - 01:35:37: SourceMod log file session started (file "L20150829.log") (Version "1.7.2")
+L 08/29/2015 - 01:35:37: -------- Mapchange to de_dust2 --------
+L 08/29/2015 - 01:35:40: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/29/2015 - 01:41:01: [UPDATER] Successfully updated gamedata file "sm-cstrike.games/game.csgo.txt"
+L 08/29/2015 - 01:41:01: [UPDATER] Successfully updated gamedata file "sm-tf2.games.txt"
+L 08/29/2015 - 01:41:01: [UPDATER] SourceMod has been updated, please reload it or restart your server.
+L 08/29/2015 - 01:41:02: -------- Mapchange to de_dust2 --------
+L 08/29/2015 - 01:41:02: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/29/2015 - 01:55:40: [mapchooser.smx] Voting for next map has started.
+L 08/29/2015 - 01:56:00: [mapchooser.smx] Voting for next map has finished. Nextmap: de_cbble.
+L 08/29/2015 - 01:58:06: [SM] Changed map to "de_cbble"
+L 08/29/2015 - 01:58:10: -------- Mapchange to de_cbble --------
+L 08/29/2015 - 01:58:10: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/29/2015 - 02:12:05: [mapchooser.smx] Voting for next map has started.
+L 08/29/2015 - 02:12:12: [mapchooser.smx] Voting for next map has finished. Nextmap: de_mirage.
+L 08/29/2015 - 02:13:16: [SM] Changed map to "de_mirage"
+L 08/29/2015 - 02:13:20: -------- Mapchange to de_mirage --------
+L 08/29/2015 - 02:13:20: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/29/2015 - 02:28:20: [mapchooser.smx] Voting for next map has started.
+L 08/29/2015 - 02:28:36: [mapchooser.smx] Voting for next map has finished. Nextmap: de_nuke.
+L 08/29/2015 - 02:30:04: [SM] Changed map to "de_nuke"
+L 08/29/2015 - 02:30:09: -------- Mapchange to de_nuke --------
+L 08/29/2015 - 02:30:09: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/29/2015 - 03:09:30: -------- Mapchange to de_nuke --------
+L 08/29/2015 - 03:09:30: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/29/2015 - 11:07:50: -------- Mapchange to de_nuke --------
+L 08/29/2015 - 11:07:50: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/29/2015 - 11:21:24: [mapchooser.smx] Starting map vote because outside request
+L 08/29/2015 - 11:21:24: [mapchooser.smx] Voting for next map has started.
+L 08/29/2015 - 11:21:31: [mapchooser.smx] Voting for next map has finished. Nextmap: de_inferno.
+L 08/29/2015 - 11:22:06: [SM] Changed map to "de_inferno"
+L 08/29/2015 - 11:22:11: -------- Mapchange to de_inferno --------
+L 08/29/2015 - 11:22:11: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/29/2015 - 11:35:09: [mapchooser.smx] Starting map vote because outside request
+L 08/29/2015 - 11:35:09: [mapchooser.smx] Voting for next map has started.
+L 08/29/2015 - 11:35:29: [mapchooser.smx] Voting for next map has finished. Nextmap: de_dust2.
+L 08/29/2015 - 11:35:49: [SM] Changed map to "de_dust2"
+L 08/29/2015 - 11:35:50: -------- Mapchange to de_dust2 --------
+L 08/29/2015 - 11:35:50: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/29/2015 - 11:51:00: [mapchooser.smx] Voting for next map has started.
+L 08/29/2015 - 11:51:09: [mapchooser.smx] Voting for next map has finished. Nextmap: de_overpass.
+L 08/29/2015 - 11:52:52: [SM] Changed map to "de_overpass"
+L 08/29/2015 - 11:52:57: -------- Mapchange to de_overpass --------
+L 08/29/2015 - 11:52:57: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/29/2015 - 12:09:06: [mapchooser.smx] Voting for next map has started.
+L 08/29/2015 - 12:09:27: [mapchooser.smx] Voting for next map has finished. Nextmap: de_mirage.
+L 08/29/2015 - 12:10:59: [SM] Changed map to "de_mirage"
+L 08/29/2015 - 12:11:02: -------- Mapchange to de_mirage --------
+L 08/29/2015 - 12:11:02: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/29/2015 - 12:57:17: -------- Mapchange to de_mirage --------
+L 08/29/2015 - 12:57:17: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/29/2015 - 14:19:10: -------- Mapchange to de_mirage --------
+L 08/29/2015 - 14:19:10: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/29/2015 - 15:45:02: -------- Mapchange to de_mirage --------
+L 08/29/2015 - 15:45:02: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/29/2015 - 17:42:03: -------- Mapchange to de_mirage --------
+L 08/29/2015 - 17:42:03: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/29/2015 - 18:42:09: -------- Mapchange to de_mirage --------
+L 08/29/2015 - 18:42:09: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/29/2015 - 18:44:50: -------- Mapchange to de_mirage --------
+L 08/29/2015 - 18:44:50: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/29/2015 - 19:13:56: -------- Mapchange to de_mirage --------
+L 08/29/2015 - 19:13:56: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/29/2015 - 19:34:40: -------- Mapchange to de_mirage --------
+L 08/29/2015 - 19:34:40: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")

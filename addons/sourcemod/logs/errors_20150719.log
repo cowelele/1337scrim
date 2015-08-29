@@ -1,0 +1,94 @@
+L 07/19/2015 - 13:14:01: SourceMod error session started
+L 07/19/2015 - 13:14:01: Info (map "ar_baggage") (file "errors_20150719.log")
+L 07/19/2015 - 13:14:01: [retakes.smx] The retakes config file (addons/sourcemod/configs/retakes/ar_baggage.cfg) does not exist
+L 07/19/2015 - 13:14:30: [retakes.smx] This map does not have enough spawns!
+L 07/19/2015 - 13:14:30: [retakes.smx] Had to resort to fallback spawn on ar_baggage, site=0
+L 07/19/2015 - 13:14:30: [retakes.smx] Failed to get any spawn on ar_baggage, site=0, team=2
+L 07/19/2015 - 13:14:30: [retakes.smx] Failed to get any spawn on ar_baggage, site=0, team=1
+L 07/19/2015 - 13:14:48: [retakes.smx] This map does not have enough spawns!
+L 07/19/2015 - 13:14:48: [retakes.smx] Had to resort to fallback spawn on ar_baggage, site=0
+L 07/19/2015 - 13:14:48: [retakes.smx] Failed to get any spawn on ar_baggage, site=0, team=2
+L 07/19/2015 - 13:14:48: [retakes.smx] Failed to get any spawn on ar_baggage, site=0, team=1
+L 07/19/2015 - 13:15:02: [retakes.smx] This map does not have enough spawns!
+L 07/19/2015 - 13:15:02: [retakes.smx] Had to resort to fallback spawn on ar_baggage, site=0
+L 07/19/2015 - 13:15:02: [retakes.smx] Failed to get any spawn on ar_baggage, site=0, team=2
+L 07/19/2015 - 13:15:02: [retakes.smx] Failed to get any spawn on ar_baggage, site=0, team=1
+L 07/19/2015 - 13:15:20: [retakes.smx] This map does not have enough spawns!
+L 07/19/2015 - 13:15:20: [retakes.smx] Had to resort to fallback spawn on ar_baggage, site=0
+L 07/19/2015 - 13:15:20: [retakes.smx] Failed to get any spawn on ar_baggage, site=0, team=2
+L 07/19/2015 - 13:15:20: [retakes.smx] Failed to get any spawn on ar_baggage, site=0, team=1
+L 07/19/2015 - 13:15:38: [retakes.smx] This map does not have enough spawns!
+L 07/19/2015 - 13:15:38: [retakes.smx] Had to resort to fallback spawn on ar_baggage, site=0
+L 07/19/2015 - 13:15:38: [retakes.smx] Failed to get any spawn on ar_baggage, site=0, team=2
+L 07/19/2015 - 13:15:38: [retakes.smx] Failed to get any spawn on ar_baggage, site=0, team=1
+L 07/19/2015 - 13:15:56: [retakes.smx] This map does not have enough spawns!
+L 07/19/2015 - 13:15:56: [retakes.smx] Had to resort to fallback spawn on ar_baggage, site=0
+L 07/19/2015 - 13:15:56: [retakes.smx] Failed to get any spawn on ar_baggage, site=0, team=2
+L 07/19/2015 - 13:15:56: [retakes.smx] Failed to get any spawn on ar_baggage, site=0, team=1
+L 07/19/2015 - 13:15:57: Error log file session closed.
+L 07/19/2015 - 13:24:09: SourceMod error session started
+L 07/19/2015 - 13:24:09: Info (map "de_bank") (file "errors_20150719.log")
+L 07/19/2015 - 13:24:09: [retakes.smx] The retakes config file (addons/sourcemod/configs/retakes/de_bank.cfg) does not exist
+L 07/19/2015 - 13:24:38: [retakes.smx] This map does not have enough spawns!
+L 07/19/2015 - 13:24:38: [retakes.smx] Had to resort to fallback spawn on de_bank, site=1
+L 07/19/2015 - 13:24:38: [retakes.smx] Failed to get any spawn on de_bank, site=1, team=2
+L 07/19/2015 - 13:24:38: [retakes.smx] Failed to get any spawn on de_bank, site=1, team=1
+L 07/19/2015 - 13:24:38: [retakes.smx] Failed to get any spawn on de_bank, site=1, team=1
+L 07/19/2015 - 13:24:56: [retakes.smx] This map does not have enough spawns!
+L 07/19/2015 - 13:24:56: [retakes.smx] Had to resort to fallback spawn on de_bank, site=1
+L 07/19/2015 - 13:24:56: [retakes.smx] Failed to get any spawn on de_bank, site=1, team=2
+L 07/19/2015 - 13:24:56: [retakes.smx] Failed to get any spawn on de_bank, site=1, team=1
+L 07/19/2015 - 13:24:56: [retakes.smx] Failed to get any spawn on de_bank, site=1, team=1
+L 07/19/2015 - 13:25:14: [retakes.smx] This map does not have enough spawns!
+L 07/19/2015 - 13:25:14: [retakes.smx] Had to resort to fallback spawn on de_bank, site=1
+L 07/19/2015 - 13:25:14: [retakes.smx] Failed to get any spawn on de_bank, site=1, team=2
+L 07/19/2015 - 13:25:14: [retakes.smx] Failed to get any spawn on de_bank, site=1, team=1
+L 07/19/2015 - 13:25:14: [retakes.smx] Failed to get any spawn on de_bank, site=1, team=1
+L 07/19/2015 - 13:25:28: [retakes.smx] This map does not have enough spawns!
+L 07/19/2015 - 13:25:28: [retakes.smx] Had to resort to fallback spawn on de_bank, site=1
+L 07/19/2015 - 13:25:28: [retakes.smx] Failed to get any spawn on de_bank, site=1, team=2
+L 07/19/2015 - 13:25:28: [retakes.smx] Failed to get any spawn on de_bank, site=1, team=1
+L 07/19/2015 - 13:25:28: [retakes.smx] Failed to get any spawn on de_bank, site=1, team=1
+L 07/19/2015 - 13:25:29: Error log file session closed.
+L 07/19/2015 - 13:50:45: SourceMod error session started
+L 07/19/2015 - 13:50:45: Info (map "de_lake") (file "errors_20150719.log")
+L 07/19/2015 - 13:50:45: [retakes.smx] The retakes config file (addons/sourcemod/configs/retakes/de_lake.cfg) does not exist
+L 07/19/2015 - 13:51:15: [retakes.smx] This map does not have enough spawns!
+L 07/19/2015 - 13:51:15: [retakes.smx] Had to resort to fallback spawn on de_lake, site=0
+L 07/19/2015 - 13:51:15: [retakes.smx] Failed to get any spawn on de_lake, site=0, team=2
+L 07/19/2015 - 13:51:33: [retakes.smx] This map does not have enough spawns!
+L 07/19/2015 - 13:51:33: [retakes.smx] Had to resort to fallback spawn on de_lake, site=0
+L 07/19/2015 - 13:51:33: [retakes.smx] Failed to get any spawn on de_lake, site=0, team=2
+L 07/19/2015 - 13:51:51: [retakes.smx] This map does not have enough spawns!
+L 07/19/2015 - 13:51:51: [retakes.smx] Had to resort to fallback spawn on de_lake, site=0
+L 07/19/2015 - 13:51:51: [retakes.smx] Failed to get any spawn on de_lake, site=0, team=2
+L 07/19/2015 - 13:51:54: [retakes.smx] This map does not have enough spawns!
+L 07/19/2015 - 16:06:20: Error log file session closed.
+L 07/19/2015 - 16:06:21: SourceMod error session started
+L 07/19/2015 - 16:06:21: Info (map "de_lake") (file "errors_20150719.log")
+L 07/19/2015 - 16:06:21: [retakes.smx] The retakes config file (addons/sourcemod/configs/retakes/de_lake.cfg) does not exist
+L 07/19/2015 - 16:06:52: Error log file session closed.
+L 07/19/2015 - 16:16:22: SourceMod error session started
+L 07/19/2015 - 16:16:22: Info (map "de_shorttrain") (file "errors_20150719.log")
+L 07/19/2015 - 16:16:22: [retakes.smx] The retakes config file (addons/sourcemod/configs/retakes/de_shorttrain.cfg) does not exist
+L 07/19/2015 - 16:16:24: Error log file session closed.
+L 07/19/2015 - 20:35:43: SourceMod error session started
+L 07/19/2015 - 20:35:43: Info (map "de_sugarcane") (file "errors_20150719.log")
+L 07/19/2015 - 20:35:43: [retakes.smx] The retakes config file (addons/sourcemod/configs/retakes/de_sugarcane.cfg) does not exist
+L 07/19/2015 - 20:36:13: [retakes.smx] This map does not have enough spawns!
+L 07/19/2015 - 20:36:13: [retakes.smx] Had to resort to fallback spawn on de_sugarcane, site=0
+L 07/19/2015 - 20:36:13: [retakes.smx] Failed to get any spawn on de_sugarcane, site=0, team=2
+L 07/19/2015 - 20:36:13: [retakes.smx] Failed to get any spawn on de_sugarcane, site=0, team=1
+L 07/19/2015 - 20:36:31: [retakes.smx] This map does not have enough spawns!
+L 07/19/2015 - 20:36:31: [retakes.smx] Had to resort to fallback spawn on de_sugarcane, site=0
+L 07/19/2015 - 20:36:31: [retakes.smx] Failed to get any spawn on de_sugarcane, site=0, team=2
+L 07/19/2015 - 20:36:31: [retakes.smx] Failed to get any spawn on de_sugarcane, site=0, team=1
+L 07/19/2015 - 20:36:49: [retakes.smx] This map does not have enough spawns!
+L 07/19/2015 - 20:36:49: [retakes.smx] Had to resort to fallback spawn on de_sugarcane, site=0
+L 07/19/2015 - 20:36:49: [retakes.smx] Failed to get any spawn on de_sugarcane, site=0, team=2
+L 07/19/2015 - 20:36:49: [retakes.smx] Failed to get any spawn on de_sugarcane, site=0, team=1
+L 07/19/2015 - 20:36:56: [retakes.smx] This map does not have enough spawns!
+L 07/19/2015 - 20:56:05: Error log file session closed.
+L 07/19/2015 - 20:56:06: SourceMod error session started
+L 07/19/2015 - 20:56:06: Info (map "de_sugarcane") (file "errors_20150719.log")
+L 07/19/2015 - 20:56:06: [retakes.smx] The retakes config file (addons/sourcemod/configs/retakes/de_sugarcane.cfg) does not exist

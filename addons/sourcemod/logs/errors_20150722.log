@@ -1,0 +1,102 @@
+L 07/22/2015 - 18:16:15: SourceMod error session started
+L 07/22/2015 - 18:16:15: Info (map "ar_shoots") (file "errors_20150722.log")
+L 07/22/2015 - 18:16:15: [retakes.smx] The retakes config file (addons/sourcemod/configs/retakes/ar_shoots.cfg) does not exist
+L 07/22/2015 - 18:16:44: [retakes.smx] This map does not have enough spawns!
+L 07/22/2015 - 18:16:44: [retakes.smx] Had to resort to fallback spawn on ar_shoots, site=1
+L 07/22/2015 - 18:16:44: [retakes.smx] Failed to get any spawn on ar_shoots, site=1, team=2
+L 07/22/2015 - 18:16:44: [retakes.smx] Failed to get any spawn on ar_shoots, site=1, team=1
+L 07/22/2015 - 18:16:44: [retakes.smx] Failed to get any spawn on ar_shoots, site=1, team=1
+L 07/22/2015 - 18:17:02: [retakes.smx] This map does not have enough spawns!
+L 07/22/2015 - 18:17:02: [retakes.smx] Had to resort to fallback spawn on ar_shoots, site=1
+L 07/22/2015 - 18:17:02: [retakes.smx] Failed to get any spawn on ar_shoots, site=1, team=2
+L 07/22/2015 - 18:17:02: [retakes.smx] Failed to get any spawn on ar_shoots, site=1, team=1
+L 07/22/2015 - 18:17:02: [retakes.smx] Failed to get any spawn on ar_shoots, site=1, team=1
+L 07/22/2015 - 18:17:20: [retakes.smx] This map does not have enough spawns!
+L 07/22/2015 - 18:17:20: [retakes.smx] Had to resort to fallback spawn on ar_shoots, site=1
+L 07/22/2015 - 18:17:20: [retakes.smx] Failed to get any spawn on ar_shoots, site=1, team=2
+L 07/22/2015 - 18:17:20: [retakes.smx] Failed to get any spawn on ar_shoots, site=1, team=1
+L 07/22/2015 - 18:17:20: [retakes.smx] Failed to get any spawn on ar_shoots, site=1, team=1
+L 07/22/2015 - 18:17:23: Error log file session closed.
+L 07/22/2015 - 18:17:25: SourceMod error session started
+L 07/22/2015 - 18:17:25: Info (map "cs_italy") (file "errors_20150722.log")
+L 07/22/2015 - 18:17:25: [retakes.smx] The retakes config file (addons/sourcemod/configs/retakes/cs_italy.cfg) does not exist
+L 07/22/2015 - 18:17:55: [retakes.smx] This map does not have enough spawns!
+L 07/22/2015 - 18:17:55: [retakes.smx] Had to resort to fallback spawn on cs_italy, site=1
+L 07/22/2015 - 18:17:55: [retakes.smx] Failed to get any spawn on cs_italy, site=1, team=2
+L 07/22/2015 - 18:17:55: [retakes.smx] Failed to get any spawn on cs_italy, site=1, team=1
+L 07/22/2015 - 18:18:13: [retakes.smx] This map does not have enough spawns!
+L 07/22/2015 - 18:18:13: [retakes.smx] Had to resort to fallback spawn on cs_italy, site=1
+L 07/22/2015 - 18:18:13: [retakes.smx] Failed to get any spawn on cs_italy, site=1, team=2
+L 07/22/2015 - 18:18:13: [retakes.smx] Failed to get any spawn on cs_italy, site=1, team=1
+L 07/22/2015 - 18:18:31: [retakes.smx] This map does not have enough spawns!
+L 07/22/2015 - 18:18:31: [retakes.smx] Had to resort to fallback spawn on cs_italy, site=1
+L 07/22/2015 - 18:18:31: [retakes.smx] Failed to get any spawn on cs_italy, site=1, team=2
+L 07/22/2015 - 18:18:31: [retakes.smx] Failed to get any spawn on cs_italy, site=1, team=1
+L 07/22/2015 - 18:18:34: Error log file session closed.
+L 07/22/2015 - 18:18:35: SourceMod error session started
+L 07/22/2015 - 18:18:35: Info (map "de_stmarc") (file "errors_20150722.log")
+L 07/22/2015 - 18:18:35: [retakes.smx] The retakes config file (addons/sourcemod/configs/retakes/de_stmarc.cfg) does not exist
+L 07/22/2015 - 18:19:05: [retakes.smx] This map does not have enough spawns!
+L 07/22/2015 - 18:19:05: [retakes.smx] Had to resort to fallback spawn on de_stmarc, site=1
+L 07/22/2015 - 18:19:05: [retakes.smx] Failed to get any spawn on de_stmarc, site=1, team=2
+L 07/22/2015 - 18:19:05: [retakes.smx] Failed to get any spawn on de_stmarc, site=1, team=1
+L 07/22/2015 - 18:19:23: [retakes.smx] This map does not have enough spawns!
+L 07/22/2015 - 18:19:23: [retakes.smx] Had to resort to fallback spawn on de_stmarc, site=1
+L 07/22/2015 - 18:19:23: [retakes.smx] Failed to get any spawn on de_stmarc, site=1, team=2
+L 07/22/2015 - 18:19:23: [retakes.smx] Failed to get any spawn on de_stmarc, site=1, team=1
+L 07/22/2015 - 18:19:26: Error log file session closed.
+L 07/22/2015 - 18:49:52: SourceMod error session started
+L 07/22/2015 - 18:49:52: Info (map "de_sugarcane") (file "errors_20150722.log")
+L 07/22/2015 - 18:49:52: [retakes.smx] The retakes config file (addons/sourcemod/configs/retakes/de_sugarcane.cfg) does not exist
+L 07/22/2015 - 18:50:22: [retakes.smx] This map does not have enough spawns!
+L 07/22/2015 - 18:50:22: [retakes.smx] Had to resort to fallback spawn on de_sugarcane, site=0
+L 07/22/2015 - 18:50:22: [retakes.smx] Failed to get any spawn on de_sugarcane, site=0, team=2
+L 07/22/2015 - 18:50:22: [retakes.smx] Failed to get any spawn on de_sugarcane, site=0, team=1
+L 07/22/2015 - 18:50:40: [retakes.smx] This map does not have enough spawns!
+L 07/22/2015 - 18:50:40: [retakes.smx] Had to resort to fallback spawn on de_sugarcane, site=0
+L 07/22/2015 - 18:50:40: [retakes.smx] Failed to get any spawn on de_sugarcane, site=0, team=2
+L 07/22/2015 - 18:50:40: [retakes.smx] Failed to get any spawn on de_sugarcane, site=0, team=1
+L 07/22/2015 - 18:50:58: [retakes.smx] This map does not have enough spawns!
+L 07/22/2015 - 18:50:58: [retakes.smx] Failed to get any spawn on de_sugarcane, site=0, team=1
+L 07/22/2015 - 18:51:00: [retakes.smx] This map does not have enough spawns!
+L 07/22/2015 - 18:53:31: [retakes.smx] This map does not have enough spawns!
+L 07/22/2015 - 18:54:23: [retakes.smx] This map does not have enough spawns!
+L 07/22/2015 - 19:05:59: [retakes.smx] This map does not have enough spawns!
+L 07/22/2015 - 19:19:10: Error log file session closed.
+L 07/22/2015 - 19:19:11: SourceMod error session started
+L 07/22/2015 - 19:19:11: Info (map "de_sugarcane") (file "errors_20150722.log")
+L 07/22/2015 - 19:19:11: [retakes.smx] The retakes config file (addons/sourcemod/configs/retakes/de_sugarcane.cfg) does not exist
+L 07/22/2015 - 20:20:37: Error log file session closed.
+L 07/22/2015 - 20:20:38: SourceMod error session started
+L 07/22/2015 - 20:20:38: Info (map "de_sugarcane") (file "errors_20150722.log")
+L 07/22/2015 - 20:20:38: [retakes.smx] The retakes config file (addons/sourcemod/configs/retakes/de_sugarcane.cfg) does not exist
+L 07/22/2015 - 21:12:42: Error log file session closed.
+L 07/22/2015 - 21:12:43: SourceMod error session started
+L 07/22/2015 - 21:12:43: Info (map "de_sugarcane") (file "errors_20150722.log")
+L 07/22/2015 - 21:12:43: [retakes.smx] The retakes config file (addons/sourcemod/configs/retakes/de_sugarcane.cfg) does not exist
+L 07/22/2015 - 21:13:12: [retakes.smx] This map does not have enough spawns!
+L 07/22/2015 - 21:13:12: [retakes.smx] Had to resort to fallback spawn on de_sugarcane, site=0
+L 07/22/2015 - 21:13:12: [retakes.smx] Failed to get any spawn on de_sugarcane, site=0, team=2
+L 07/22/2015 - 21:13:30: [retakes.smx] This map does not have enough spawns!
+L 07/22/2015 - 21:13:30: [retakes.smx] Had to resort to fallback spawn on de_sugarcane, site=0
+L 07/22/2015 - 21:13:30: [retakes.smx] Failed to get any spawn on de_sugarcane, site=0, team=2
+L 07/22/2015 - 21:13:32: [retakes.smx] This map does not have enough spawns!
+L 07/22/2015 - 21:13:32: [retakes.smx] Had to resort to fallback spawn on de_sugarcane, site=0
+L 07/22/2015 - 21:13:32: [retakes.smx] Failed to get any spawn on de_sugarcane, site=0, team=2
+L 07/22/2015 - 21:13:35: [retakes.smx] This map does not have enough spawns!
+L 07/22/2015 - 21:13:35: [retakes.smx] Had to resort to fallback spawn on de_sugarcane, site=0
+L 07/22/2015 - 21:13:35: [retakes.smx] Failed to get any spawn on de_sugarcane, site=0, team=2
+L 07/22/2015 - 21:13:36: [retakes.smx] This map does not have enough spawns!
+L 07/22/2015 - 21:13:36: [retakes.smx] Had to resort to fallback spawn on de_sugarcane, site=0
+L 07/22/2015 - 21:13:36: [retakes.smx] Failed to get any spawn on de_sugarcane, site=0, team=2
+L 07/22/2015 - 21:13:40: [retakes.smx] This map does not have enough spawns!
+L 07/22/2015 - 21:13:40: [retakes.smx] Had to resort to fallback spawn on de_sugarcane, site=0
+L 07/22/2015 - 21:13:40: [retakes.smx] Failed to get any spawn on de_sugarcane, site=0, team=2
+L 07/22/2015 - 21:13:58: [retakes.smx] This map does not have enough spawns!
+L 07/22/2015 - 21:13:58: [retakes.smx] Had to resort to fallback spawn on de_sugarcane, site=0
+L 07/22/2015 - 21:13:58: [retakes.smx] Failed to get any spawn on de_sugarcane, site=0, team=2
+L 07/22/2015 - 21:14:07: [retakes.smx] This map does not have enough spawns!
+L 07/22/2015 - 21:14:07: [retakes.smx] Had to resort to fallback spawn on de_sugarcane, site=0
+L 07/22/2015 - 21:14:07: [retakes.smx] Failed to get any spawn on de_sugarcane, site=0, team=2
+L 07/22/2015 - 21:14:08: [retakes.smx] This map does not have enough spawns!
+L 07/22/2015 - 21:14:10: Error log file session closed.

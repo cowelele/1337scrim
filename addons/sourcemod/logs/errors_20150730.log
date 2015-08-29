@@ -1,0 +1,6 @@
+L 07/30/2015 - 19:40:20: SourceMod error session started
+L 07/30/2015 - 19:40:20: Info (map "de_bank") (file "errors_20150730.log")
+L 07/30/2015 - 19:40:20: Error log file session closed.
+L 07/30/2015 - 19:40:32: SourceMod error session started
+L 07/30/2015 - 19:40:32: Info (map "de_bank") (file "errors_20150730.log")
+L 07/30/2015 - 19:40:32: [retakes.smx] The retakes config file (addons/sourcemod/configs/retakes/de_bank.cfg) does not exist
