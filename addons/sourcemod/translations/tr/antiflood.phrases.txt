@@ -1,8 +1,8 @@
-"Phrases"
-{
-	"Flooding the server"
-	{
-		"tr"		"Sunucuyu taşırıyorsunuz!"
-	}
-
-}
+"Phrases"
+{
+	"Flooding the server"
+	{
+		"tr"		"Sunucuyu taşırıyorsunuz!"
+	}
+
+}

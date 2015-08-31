@@ -1,8 +1,8 @@
-"Phrases"
-{
-	"Slot reserved"
-	{
-		"hu"		"Ki lettél rúgva helyfoglalás miatt"
-	}
-
-}
+"Phrases"
+{
+	"Slot reserved"
+	{
+		"hu"		"Ki lettél rúgva helyfoglalás miatt"
+	}
+
+}

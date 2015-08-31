@@ -43,12 +43,12 @@ enum CommType
 
 DisplayGagTypesMenu(client)
 {
-	Menu menu = CreateMenu(MenuHandler_GagTypes);
+	new Handle:menu = CreateMenu(MenuHandler_GagTypes);
 	
 	decl String:title[100];
 	Format(title, sizeof(title), "%T: %N", "Choose Type", client, g_GagTarget[client]);
-	menu.SetTitle(title);
-	menu.ExitBackButton = true;
+	SetMenuTitle(menu, title);
+	SetMenuExitBackButton(menu, true);
 	
 	new target = g_GagTarget[client];
 	
@@ -79,28 +79,28 @@ DisplayGagTypesMenu(client)
 		AddTranslatedMenuItem(menu, "5", "UnSilence Player", client);
 	}
 		
-	menu.Display(client, MENU_TIME_FOREVER);
+	DisplayMenu(menu, client, MENU_TIME_FOREVER);
 }
 
-void AddTranslatedMenuItem(Menu menu, const char[] opt, const char[] phrase, int client)
+AddTranslatedMenuItem(Handle:menu, const String:opt[], const String:phrase[], client)
 {
-	char buffer[128];
+	decl String:buffer[128];
 	Format(buffer, sizeof(buffer), "%T", phrase, client);
-	menu.AddItem(opt, buffer);
+	AddMenuItem(menu, opt, buffer);
 }
 
-void DisplayGagPlayerMenu(int client)
+DisplayGagPlayerMenu(client)
 {
-	Menu menu = CreateMenu(MenuHandler_GagPlayer);
+	new Handle:menu = CreateMenu(MenuHandler_GagPlayer);
 	
-	char title[100];
+	decl String:title[100];
 	Format(title, sizeof(title), "%T:", "Gag/Mute player", client);
-	menu.SetTitle(title);
-	menu.ExitBackButton = true;
+	SetMenuTitle(menu, title);
+	SetMenuExitBackButton(menu, true);
 	
 	AddTargetsToMenu(menu, client, true, false);
 	
-	menu.Display(client, MENU_TIME_FOREVER);
+	DisplayMenu(menu, client, MENU_TIME_FOREVER);
 }
 
 public AdminMenu_Gag(Handle:topmenu, 
@@ -120,17 +120,17 @@ public AdminMenu_Gag(Handle:topmenu,
 	}
 }
 
-public MenuHandler_GagPlayer(Menu menu, MenuAction action, int param1, int param2)
+public MenuHandler_GagPlayer(Handle:menu, MenuAction:action, param1, param2)
 {
 	if (action == MenuAction_End)
 	{
-		delete menu;
+		CloseHandle(menu);
 	}
 	else if (action == MenuAction_Cancel)
 	{
-		if (param2 == MenuCancel_ExitBack && hTopMenu)
+		if (param2 == MenuCancel_ExitBack && hTopMenu != INVALID_HANDLE)
 		{
-			hTopMenu.Display(param1, TopMenuPosition_LastCategory);
+			DisplayTopMenu(hTopMenu, param1, TopMenuPosition_LastCategory);
 		}
 	}
 	else if (action == MenuAction_Select)
@@ -138,7 +138,7 @@ public MenuHandler_GagPlayer(Menu menu, MenuAction action, int param1, int param
 		decl String:info[32];
 		new userid, target;
 		
-		menu.GetItem(param2, info, sizeof(info));
+		GetMenuItem(menu, param2, info, sizeof(info));
 		userid = StringToInt(info);
 
 		if ((target = GetClientOfUserId(userid)) == 0)
@@ -157,17 +157,17 @@ public MenuHandler_GagPlayer(Menu menu, MenuAction action, int param1, int param
 	}
 }
 
-public MenuHandler_GagTypes(Menu menu, MenuAction action, int param1, int param2)
+public MenuHandler_GagTypes(Handle:menu, MenuAction:action, param1, param2)
 {
 	if (action == MenuAction_End)
 	{
-		delete menu;
+		CloseHandle(menu);
 	}
 	else if (action == MenuAction_Cancel)
 	{
-		if (param2 == MenuCancel_ExitBack && hTopMenu)
+		if (param2 == MenuCancel_ExitBack && hTopMenu != INVALID_HANDLE)
 		{
-			hTopMenu.Display(param1, TopMenuPosition_LastCategory);
+			DisplayTopMenu(hTopMenu, param1, TopMenuPosition_LastCategory);
 		}
 	}
 	else if (action == MenuAction_Select)
@@ -175,7 +175,7 @@ public MenuHandler_GagTypes(Menu menu, MenuAction action, int param1, int param2
 		decl String:info[32];
 		new CommType:type;
 		
-		menu.GetItem(param2, info, sizeof(info));
+		GetMenuItem(menu, param2, info, sizeof(info));
 		type = CommType:StringToInt(info);
 		
 		decl String:name[MAX_NAME_LENGTH];
@@ -233,11 +233,11 @@ PerformMute(client, target, bool:silent=false)
 PerformUnMute(client, target, bool:silent=false)
 {
 	g_Muted[target] = false;
-	if (g_Cvar_Deadtalk.IntValue == 1 && !IsPlayerAlive(target))
+	if (GetConVarInt(g_Cvar_Deadtalk) == 1 && !IsPlayerAlive(target))
 	{
 		SetClientListeningFlags(target, VOICE_LISTENALL);
 	}
-	else if (g_Cvar_Deadtalk.IntValue == 2 && !IsPlayerAlive(target))
+	else if (GetConVarInt(g_Cvar_Deadtalk) == 2 && !IsPlayerAlive(target))
 	{
 		SetClientListeningFlags(target, VOICE_TEAM);
 	}
@@ -306,11 +306,11 @@ PerformUnSilence(client, target)
 	{
 		g_Muted[target] = false;
 		
-		if (g_Cvar_Deadtalk.IntValue == 1 && !IsPlayerAlive(target))
+		if (GetConVarInt(g_Cvar_Deadtalk) == 1 && !IsPlayerAlive(target))
 		{
 			SetClientListeningFlags(target, VOICE_LISTENALL);
 		}
-		else if (g_Cvar_Deadtalk.IntValue == 2 && !IsPlayerAlive(target))
+		else if (GetConVarInt(g_Cvar_Deadtalk) == 2 && !IsPlayerAlive(target))
 		{
 			SetClientListeningFlags(target, VOICE_TEAM);
 		}

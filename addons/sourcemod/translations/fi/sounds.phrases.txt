@@ -1,8 +1,8 @@
-"Phrases"
-{
-	"Played sound to target"
-	{
-		"fi"		"Soitettiin ääni pelaajalle {1}"
-	}
-
-}
+"Phrases"
+{
+	"Played sound to target"
+	{
+		"fi"		"Soitettiin ääni pelaajalle {1}"
+	}
+
+}

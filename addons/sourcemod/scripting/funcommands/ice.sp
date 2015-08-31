@@ -36,10 +36,10 @@ new g_FreezeBombSerial[MAXPLAYERS+1] = { 0, ... };
 new g_FreezeTime[MAXPLAYERS+1] = { 0, ... };
 new g_FreezeBombTime[MAXPLAYERS+1] = { 0, ... };
 
-ConVar g_Cvar_FreezeDuration;
-ConVar g_Cvar_FreezeBombTicks;
-ConVar g_Cvar_FreezeBombRadius;
-ConVar g_Cvar_FreezeBombMode;
+new Handle:g_Cvar_FreezeDuration = INVALID_HANDLE;
+new Handle:g_Cvar_FreezeBombTicks = INVALID_HANDLE;
+new Handle:g_Cvar_FreezeBombRadius = INVALID_HANDLE;
+new Handle:g_Cvar_FreezeBombMode = INVALID_HANDLE;
 
 FreezeClient(client, time)
 {
@@ -51,12 +51,9 @@ FreezeClient(client, time)
 	SetEntityMoveType(client, MOVETYPE_NONE);
 	SetEntityRenderColor(client, 0, 128, 255, 192);
 
-	if (g_FreezeSound[0])
-	{
-		new Float:vec[3];
-		GetClientEyePosition(client, vec);
-		EmitAmbientSound(g_FreezeSound, vec, client, SNDLEVEL_RAIDSIREN);
-	}
+	new Float:vec[3];
+	GetClientEyePosition(client, vec);
+	EmitAmbientSound(SOUND_FREEZE, vec, client, SNDLEVEL_RAIDSIREN);
 
 	g_FreezeTime[client] = time;
 	g_FreezeSerial[client] = ++ g_Serial_Gen;
@@ -70,15 +67,12 @@ UnfreezeClient(client)
 
 	if (IsClientInGame(client))
 	{
-		if (g_FreezeSound[0])
-		{
-			new Float:vec[3];
-			GetClientAbsOrigin(client, vec);
-			vec[2] += 10;	
-			
-			GetClientEyePosition(client, vec);
-			EmitAmbientSound(g_FreezeSound, vec, client, SNDLEVEL_RAIDSIREN);
-		}
+		new Float:vec[3];
+		GetClientAbsOrigin(client, vec);
+		vec[2] += 10;	
+		
+		GetClientEyePosition(client, vec);
+		EmitAmbientSound(SOUND_FREEZE, vec, client, SNDLEVEL_RAIDSIREN);
 
 		SetEntityMoveType(client, MOVETYPE_WALK);
 		
@@ -93,7 +87,7 @@ CreateFreezeBomb(client)
 		KillFreezeBomb(client);
 		return;
 	}
-	g_FreezeBombTime[client] = g_Cvar_FreezeBombTicks.IntValue;
+	g_FreezeBombTime[client] = GetConVarInt(g_Cvar_FreezeBombTicks);
 	g_FreezeBombSerial[client] = ++g_Serial_Gen;
 	CreateTimer(1.0, Timer_FreezeBomb, client | (g_Serial_Gen << 7), DEFAULT_TIMER_FLAGS);
 }
@@ -195,13 +189,13 @@ public Action:Timer_Freeze(Handle:timer, any:value)
 	if (g_GlowSprite > -1)
 	{
 		TE_SetupGlowSprite(vec, g_GlowSprite, 0.95, 1.5, 50);
-		TE_SendToAll();
 	}
-	else if (g_HaloSprite > -1)
+	else
 	{
 		TE_SetupGlowSprite(vec, g_HaloSprite, 0.95, 1.5, 50);
-		TE_SendToAll();
 	}
+	
+	TE_SendToAll();
 
 	return Plugin_Continue;
 }
@@ -229,60 +223,48 @@ public Action:Timer_FreezeBomb(Handle:timer, any:value)
 
 		if (g_FreezeBombTime[client] > 1)
 		{
-			color = RoundToFloor(g_FreezeBombTime[client] * (255.0 / g_Cvar_FreezeBombTicks.FloatValue));
-			if (g_BeepSound[0])
-			{
-				EmitAmbientSound(g_BeepSound, vec, client, SNDLEVEL_RAIDSIREN);
-			}
+			color = RoundToFloor(g_FreezeBombTime[client] * (255.0 / GetConVarFloat(g_Cvar_FreezeBombTicks)));
+			EmitAmbientSound(SOUND_BEEP, vec, client, SNDLEVEL_RAIDSIREN);	
 		}
 		else
 		{
 			color = 0;
-			if (g_FinalSound[0])
-			{
-				EmitAmbientSound(g_FinalSound, vec, client, SNDLEVEL_RAIDSIREN);
-			}
+			EmitAmbientSound(SOUND_FINAL, vec, client, SNDLEVEL_RAIDSIREN);
 		}
 		
 		SetEntityRenderColor(client, color, color, 255, 255);
 
-		char name[64];
+		decl String:name[64];
 		GetClientName(client, name, sizeof(name));
 		PrintCenterTextAll("%t", "Till Explodes", name, g_FreezeBombTime[client]);
 
-		if (g_BeamSprite > -1 && g_HaloSprite > -1)
-		{
-			GetClientAbsOrigin(client, vec);
-			vec[2] += 10;
+		GetClientAbsOrigin(client, vec);
+		vec[2] += 10;
 
-			TE_SetupBeamRingPoint(vec, 10.0, g_Cvar_FreezeBombRadius.FloatValue / 3.0, g_BeamSprite, g_HaloSprite, 0, 15, 0.5, 5.0, 0.0, greyColor, 10, 0);
-			TE_SendToAll();
-			TE_SetupBeamRingPoint(vec, 10.0, g_Cvar_FreezeBombRadius.FloatValue / 3.0, g_BeamSprite, g_HaloSprite, 0, 10, 0.6, 10.0, 0.5, whiteColor, 10, 0);
-			TE_SendToAll();
-		}
+		TE_SetupBeamRingPoint(vec, 10.0, GetConVarFloat(g_Cvar_FreezeBombRadius) / 3.0, g_BeamSprite, g_HaloSprite, 0, 15, 0.5, 5.0, 0.0, greyColor, 10, 0);
+		TE_SendToAll();
+		TE_SetupBeamRingPoint(vec, 10.0, GetConVarFloat(g_Cvar_FreezeBombRadius) / 3.0, g_BeamSprite, g_HaloSprite, 0, 10, 0.6, 10.0, 0.5, whiteColor, 10, 0);
+		TE_SendToAll();
 		return Plugin_Continue;
 	}
 	else
 	{
 		if (g_ExplosionSprite > -1)
 		{
-			TE_SetupExplosion(vec, g_ExplosionSprite, 5.0, 1, 0, g_Cvar_FreezeBombRadius.IntValue, 5000);
+			TE_SetupExplosion(vec, g_ExplosionSprite, 5.0, 1, 0, GetConVarInt(g_Cvar_FreezeBombRadius), 5000);
 			TE_SendToAll();
 		}
 
-		if (g_BoomSound[0])
-		{
-			EmitAmbientSound(g_BoomSound, vec, client, SNDLEVEL_RAIDSIREN);
-		}
+		EmitAmbientSound(SOUND_BOOM, vec, client, SNDLEVEL_RAIDSIREN);
 
 		KillFreezeBomb(client);
-		FreezeClient(client, g_Cvar_FreezeDuration.IntValue);
+		FreezeClient(client, GetConVarInt(g_Cvar_FreezeDuration));
 		
-		if (g_Cvar_FreezeBombMode.IntValue > 0)
+		if (GetConVarInt(g_Cvar_FreezeBombMode) > 0)
 		{
-			bool teamOnly = ((g_Cvar_FreezeBombMode.IntValue == 1) ? true : false);
+			new bool:teamOnly = ((GetConVarInt(g_Cvar_FreezeBombMode) == 1) ? true : false);
 			
-			for (int i = 1; i <= MaxClients; i++)
+			for (new i = 1; i <= MaxClients; i++)
 			{
 				if (!IsClientInGame(i) || !IsPlayerAlive(i) || i == client)
 				{
@@ -294,31 +276,27 @@ public Action:Timer_FreezeBomb(Handle:timer, any:value)
 					continue;
 				}
 				
-				float pos[3];
+				new Float:pos[3];
 				GetClientEyePosition(i, pos);
 				
-				float distance = GetVectorDistance(vec, pos);
+				new Float:distance = GetVectorDistance(vec, pos);
 				
-				if (distance > g_Cvar_FreezeBombRadius.FloatValue)
+				if (distance > GetConVarFloat(g_Cvar_FreezeBombRadius))
 				{
 					continue;
 				}
 				
-				if (g_HaloSprite > -1)
+				if (g_BeamSprite2 > -1)
 				{
-					if (g_BeamSprite2 > -1)
-					{
-						TE_SetupBeamPoints(vec, pos, g_BeamSprite2, g_HaloSprite, 0, 1, 0.7, 20.0, 50.0, 1, 1.5, blueColor, 10);
-						TE_SendToAll();
-					}
-					else if (g_BeamSprite > -1)
-					{
-						TE_SetupBeamPoints(vec, pos, g_BeamSprite, g_HaloSprite, 0, 1, 0.7, 20.0, 50.0, 1, 1.5, blueColor, 10);
-						TE_SendToAll();
-					}
+					TE_SetupBeamPoints(vec, pos, g_BeamSprite2, g_HaloSprite, 0, 1, 0.7, 20.0, 50.0, 1, 1.5, blueColor, 10);
 				}
+				else
+				{
+					TE_SetupBeamPoints(vec, pos, g_BeamSprite, g_HaloSprite, 0, 1, 0.7, 20.0, 50.0, 1, 1.5, blueColor, 10);
+				}
+				TE_SendToAll();
 				
-				FreezeClient(i, g_Cvar_FreezeDuration.IntValue);
+				FreezeClient(i, GetConVarInt(g_Cvar_FreezeDuration));
 			}		
 		}
 		return Plugin_Stop;
@@ -361,43 +339,43 @@ public AdminMenu_FreezeBomb(Handle:topmenu,
 
 DisplayFreezeMenu(client)
 {
-	Menu menu = CreateMenu(MenuHandler_Freeze);
+	new Handle:menu = CreateMenu(MenuHandler_Freeze);
 	
 	decl String:title[100];
 	Format(title, sizeof(title), "%T:", "Freeze player", client);
-	menu.SetTitle(title);
-	menu.ExitBackButton = true;
+	SetMenuTitle(menu, title);
+	SetMenuExitBackButton(menu, true);
 	
 	AddTargetsToMenu(menu, client, true, true);
 	
-	menu.Display(client, MENU_TIME_FOREVER);
+	DisplayMenu(menu, client, MENU_TIME_FOREVER);
 }
 
 DisplayFreezeBombMenu(client)
 {
-	Menu menu = CreateMenu(MenuHandler_FreezeBomb);
+	new Handle:menu = CreateMenu(MenuHandler_FreezeBomb);
 	
 	decl String:title[100];
 	Format(title, sizeof(title), "%T:", "FreezeBomb player", client);
-	menu.SetTitle(title);
-	menu.ExitBackButton = true;
+	SetMenuTitle(menu, title);
+	SetMenuExitBackButton(menu, true);
 	
 	AddTargetsToMenu(menu, client, true, true);
 	
-	menu.Display(client, MENU_TIME_FOREVER);
+	DisplayMenu(menu, client, MENU_TIME_FOREVER);
 }
 
-public MenuHandler_Freeze(Menu menu, MenuAction action, int param1, int param2)
+public MenuHandler_Freeze(Handle:menu, MenuAction:action, param1, param2)
 {
 	if (action == MenuAction_End)
 	{
-		delete menu;
+		CloseHandle(menu);
 	}
 	else if (action == MenuAction_Cancel)
 	{
-		if (param2 == MenuCancel_ExitBack && hTopMenu)
+		if (param2 == MenuCancel_ExitBack && hTopMenu != INVALID_HANDLE)
 		{
-			hTopMenu.Display(param1, TopMenuPosition_LastCategory);
+			DisplayTopMenu(hTopMenu, param1, TopMenuPosition_LastCategory);
 		}
 	}
 	else if (action == MenuAction_Select)
@@ -405,7 +383,7 @@ public MenuHandler_Freeze(Menu menu, MenuAction action, int param1, int param2)
 		decl String:info[32];
 		new userid, target;
 		
-		menu.GetItem(param2, info, sizeof(info));
+		GetMenuItem(menu, param2, info, sizeof(info));
 		userid = StringToInt(info);
 
 		if ((target = GetClientOfUserId(userid)) == 0)
@@ -421,7 +399,7 @@ public MenuHandler_Freeze(Menu menu, MenuAction action, int param1, int param2)
 			new String:name[32];
 			GetClientName(target, name, sizeof(name));
 			
-			PerformFreeze(param1, target, g_Cvar_FreezeDuration.IntValue);
+			PerformFreeze(param1, target, GetConVarInt(g_Cvar_FreezeDuration));
 			ShowActivity2(param1, "[SM] ", "%t", "Froze target", "_s", name);
 		}
 		
@@ -433,17 +411,17 @@ public MenuHandler_Freeze(Menu menu, MenuAction action, int param1, int param2)
 	}
 }
 
-public MenuHandler_FreezeBomb(Menu menu, MenuAction action, int param1, int param2)
+public MenuHandler_FreezeBomb(Handle:menu, MenuAction:action, param1, param2)
 {
 	if (action == MenuAction_End)
 	{
-		delete menu;
+		CloseHandle(menu);
 	}
 	else if (action == MenuAction_Cancel)
 	{
-		if (param2 == MenuCancel_ExitBack && hTopMenu)
+		if (param2 == MenuCancel_ExitBack && hTopMenu != INVALID_HANDLE)
 		{
-			hTopMenu.Display(param1, TopMenuPosition_LastCategory);
+			DisplayTopMenu(hTopMenu, param1, TopMenuPosition_LastCategory);
 		}
 	}
 	else if (action == MenuAction_Select)
@@ -451,7 +429,7 @@ public MenuHandler_FreezeBomb(Menu menu, MenuAction action, int param1, int para
 		decl String:info[32];
 		new userid, target;
 		
-		menu.GetItem(param2, info, sizeof(info));
+		GetMenuItem(menu, param2, info, sizeof(info));
 		userid = StringToInt(info);
 
 		if ((target = GetClientOfUserId(userid)) == 0)
@@ -479,7 +457,7 @@ public MenuHandler_FreezeBomb(Menu menu, MenuAction action, int param1, int para
 	}
 }
 
-public Action Command_Freeze(int client, int args)
+public Action:Command_Freeze(client, args)
 {
 	if (args < 1)
 	{
@@ -487,10 +465,10 @@ public Action Command_Freeze(int client, int args)
 		return Plugin_Handled;
 	}
 
-	char arg[65];
+	decl String:arg[65];
 	GetCmdArg(1, arg, sizeof(arg));
 	
-	int seconds = g_Cvar_FreezeDuration.IntValue;
+	new seconds = GetConVarInt(g_Cvar_FreezeDuration);
 	
 	if (args > 1)
 	{

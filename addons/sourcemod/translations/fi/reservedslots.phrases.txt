@@ -1,8 +1,8 @@
-"Phrases"
-{
-	"Slot reserved"
-	{
-		"fi"		"Yhteys katkesi koska sinulle ei löytynyt varattua paikkaa"
-	}
-
-}
+"Phrases"
+{
+	"Slot reserved"
+	{
+		"fi"		"Yhteys katkesi koska sinulle ei löytynyt varattua paikkaa"
+	}
+
+}

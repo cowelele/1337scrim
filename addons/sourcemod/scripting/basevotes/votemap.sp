@@ -31,7 +31,7 @@
  * Version: $Id$
  */
 
-Menu g_MapList;
+new Handle:g_MapList = INVALID_HANDLE;
 new g_mapCount;
 
 new Handle:g_SelectedMaps;
@@ -50,23 +50,23 @@ DisplayVoteMapMenu(client, mapCount, String:maps[5][])
 	{
 		strcopy(g_voteInfo[VOTE_NAME], sizeof(g_voteInfo[]), maps[0]);
 			
-		g_hVoteMenu.SetTitle("Change Map To");
-		g_hVoteMenu.AddItem(maps[0], "Yes");
-		g_hVoteMenu.AddItem(VOTE_NO, "No");
+		SetMenuTitle(g_hVoteMenu, "Change Map To");
+		AddMenuItem(g_hVoteMenu, maps[0], "Yes");
+		AddMenuItem(g_hVoteMenu, VOTE_NO, "No");
 	}
 	else
 	{
 		g_voteInfo[VOTE_NAME][0] = '\0';
 		
-		g_hVoteMenu.SetTitle("Map Vote");
+		SetMenuTitle(g_hVoteMenu, "Map Vote");
 		for (new i = 0; i < mapCount; i++)
 		{
-			g_hVoteMenu.AddItem(maps[i], maps[i]);
+			AddMenuItem(g_hVoteMenu, maps[i], maps[i]);
 		}	
 	}
 	
-	g_hVoteMenu.ExitButton = false;
-	g_hVoteMenu.DisplayVoteToAll(20);		
+	SetMenuExitButton(g_hVoteMenu, false);
+	VoteMenuToAll(g_hVoteMenu, 20);		
 }
 
 ResetMenu()
@@ -77,34 +77,34 @@ ResetMenu()
 
 ConfirmVote(client)
 {
-	Menu menu = CreateMenu(MenuHandler_Confirm);
+	new Handle:menu = CreateMenu(MenuHandler_Confirm);
 	
 	decl String:title[100];
 	Format(title, sizeof(title), "%T:", "Confirm Vote", client);
-	menu.SetTitle(title);
-	menu.ExitBackButton = true;
+	SetMenuTitle(menu, title);
+	SetMenuExitBackButton(menu, true);
 	
 	decl String:itemtext[256];
 	Format(itemtext, sizeof(itemtext), "%T", "Start the Vote", client);
-	menu.AddItem("Confirm", itemtext);
+	AddMenuItem(menu, "Confirm", itemtext);
 	
-	menu.Display(client, MENU_TIME_FOREVER);	
+	DisplayMenu(menu, client, MENU_TIME_FOREVER);	
 }
 
-public MenuHandler_Confirm(Menu menu, MenuAction action, int param1, int param2)
+public MenuHandler_Confirm(Handle:menu, MenuAction:action, param1, param2)
 {
 	if (action == MenuAction_End)
 	{
-		delete menu;
+		CloseHandle(menu);
 		g_VoteMapInUse = false;
 	}
 	else if (action == MenuAction_Cancel)
 	{
 		ResetMenu();
 		
-		if (param2 == MenuCancel_ExitBack && hTopMenu)
+		if (param2 == MenuCancel_ExitBack && hTopMenu != INVALID_HANDLE)
 		{
-			hTopMenu.Display(param1, TopMenuPosition_LastCategory);
+			DisplayTopMenu(hTopMenu, param1, TopMenuPosition_LastCategory);
 		}
 	}
 	else if (action == MenuAction_Select)
@@ -123,11 +123,11 @@ public MenuHandler_Confirm(Menu menu, MenuAction action, int param1, int param2)
 	}
 }
 
-public MenuHandler_Map(Menu menu, MenuAction action, int param1, int param2)
+public MenuHandler_Map(Handle:menu, MenuAction:action, param1, param2)
 {
 	if (action == MenuAction_Cancel)
 	{		
-		if (param2 == MenuCancel_ExitBack && hTopMenu)
+		if (param2 == MenuCancel_ExitBack && hTopMenu != INVALID_HANDLE)
 		{
 			ConfirmVote(param1);
 		}
@@ -141,7 +141,7 @@ public MenuHandler_Map(Menu menu, MenuAction action, int param1, int param2)
 	{
 		decl String:info[32], String:name[32];
 		
-		menu.GetItem(param2, info, sizeof(info), _, name, sizeof(name));
+		GetMenuItem(menu, param2, info, sizeof(info), _, name, sizeof(name));
 		
 		if (FindStringInArray(g_SelectedMaps, info) != -1)
 		{
@@ -156,14 +156,14 @@ public MenuHandler_Map(Menu menu, MenuAction action, int param1, int param2)
 	{
 		decl String:info[32], String:name[32];
 		
-		menu.GetItem(param2, info, sizeof(info), _, name, sizeof(name));
+		GetMenuItem(menu, param2, info, sizeof(info), _, name, sizeof(name));
 		
 		PushArrayString(g_SelectedMaps, info);
 		
 		/* Redisplay the list */
 		if (GetArraySize(g_SelectedMaps) < 5)
 		{
-			g_MapList.Display(param1, MENU_TIME_FOREVER);
+			DisplayMenu(g_MapList, param1, MENU_TIME_FOREVER);
 		}
 		else
 		{
@@ -197,7 +197,7 @@ public AdminMenu_VoteMap(Handle:topmenu,
 		{
 			ResetMenu();
 			g_VoteMapInUse = true;
-			g_MapList.Display(param, MENU_TIME_FOREVER);
+			DisplayMenu(g_MapList, param, MENU_TIME_FOREVER);
 		}
 		else 
 		{
@@ -260,10 +260,10 @@ public Action:Command_Votemap(client, args)
 	return Plugin_Handled;	
 }
 
-new Handle:g_map_array = null;
+new Handle:g_map_array = INVALID_HANDLE;
 new g_map_serial = -1;
 
-int LoadMapList(Menu menu)
+LoadMapList(Handle:menu)
 {
 	new Handle:map_array;
 	
@@ -271,25 +271,25 @@ int LoadMapList(Menu menu)
 			g_map_serial,
 			"sm_votemap menu",
 			MAPLIST_FLAG_CLEARARRAY|MAPLIST_FLAG_NO_DEFAULT|MAPLIST_FLAG_MAPSFOLDER))
-		!= null)
+		!= INVALID_HANDLE)
 	{
 		g_map_array = map_array;
 	}
 	
-	if (g_map_array == null)
+	if (g_map_array == INVALID_HANDLE)
 	{
 		return 0;
 	}
 	
 	RemoveAllMenuItems(menu);
 	
-	char map_name[64];
+	decl String:map_name[64];
 	new map_count = GetArraySize(g_map_array);
 	
 	for (new i = 0; i < map_count; i++)
 	{
 		GetArrayString(g_map_array, i, map_name, sizeof(map_name));
-		menu.AddItem(map_name, map_name);
+		AddMenuItem(menu, map_name, map_name);
 	}
 	
 	return map_count;

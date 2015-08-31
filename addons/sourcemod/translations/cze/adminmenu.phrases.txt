@@ -1,23 +1,23 @@
-"Phrases"
-{
-	"Admin Menu"
-	{
-		"cze"		"Admin Menu"
-	}
-
-	"Voting Commands"
-	{
-		"cze"		"Hlasovani"
-	}
-
-	"Server Commands"
-	{
-		"cze"		"Serverove prikazy"
-	}
-
-	"Player Commands"
-	{
-		"cze"		"Hracske prikazy"
-	}
-
-}
+"Phrases"
+{
+	"Admin Menu"
+	{
+		"cze"		"Admin Menu"
+	}
+
+	"Player Commands"
+	{
+		"cze"		"Hracske prikazy"
+	}
+
+	"Server Commands"
+	{
+		"cze"		"Serverove prikazy"
+	}
+
+	"Voting Commands"
+	{
+		"cze"		"Hlasovani"
+	}
+
+}

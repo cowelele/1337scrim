@@ -1,3 +1,0 @@
-L 08/20/2015 - 21:00:23: SourceMod log file session started (file "L20150820.log") (Version "1.7.2")
-L 08/20/2015 - 21:00:23: -------- Mapchange to de_overpass --------
-L 08/20/2015 - 21:00:26: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")

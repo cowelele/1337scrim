@@ -1,8 +1,8 @@
-"Phrases"
-{
-	"Slot reserved"
-	{
-		"cze"		"Pokousite se pripojit na rezervovany slot"
-	}
-
-}
+"Phrases"
+{
+	"Slot reserved"
+	{
+		"cze"		"Pokousite se pripojit na rezervovany slot"
+	}
+
+}

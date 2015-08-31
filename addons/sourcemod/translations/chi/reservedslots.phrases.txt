@@ -1,8 +1,8 @@
-"Phrases"
-{
-	"Slot reserved"
-	{
-		"chi"		"无权使用保留通道而被踢出"
-	}
-
-}
+"Phrases"
+{
+	"Slot reserved"
+	{
+		"chi"		"无权使用保留通道而被踢出"
+	}
+
+}

@@ -1,8 +1,8 @@
-"Phrases"
-{
-	"Slot reserved"
-	{
-		"jp"		"予約スロットのために落とされます。"
-	}
-
-}
+"Phrases"
+{
+	"Slot reserved"
+	{
+		"jp"		"予約スロットのために落とされます。"
+	}
+
+}

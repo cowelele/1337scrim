@@ -1,8 +1,8 @@
-"Phrases"
-{
-	"Flooding the server"
-	{
-		"sk"		"Zahlcuješ server!"
-	}
-
-}
+"Phrases"
+{
+	"Flooding the server"
+	{
+		"sk"		"Zahlcuješ server!"
+	}
+
+}

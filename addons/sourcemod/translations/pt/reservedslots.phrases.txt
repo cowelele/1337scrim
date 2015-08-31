@@ -1,8 +1,8 @@
-"Phrases"
-{
-	"Slot reserved"
-	{
-		"pt"		"Conexão cancelada por reserva de vaga"
-	}
-
-}
+"Phrases"
+{
+	"Slot reserved"
+	{
+		"pt"		"Conexão cancelada por reserva de vaga"
+	}
+
+}

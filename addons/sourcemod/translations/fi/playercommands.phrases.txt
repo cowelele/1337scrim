@@ -1,48 +1,48 @@
-"Phrases"
-{
-	"Slap damage"
-	{
-		"fi"		"Läpsäisyn vahinko"
-	}
-
-	"Slap player"
-	{
-		"fi"		"Läpsäise pelaajaa"
-	}
-
-	"Slay player"
-	{
-		"fi"		"Teloita pelaaja"
-	}
-
-	"Slayed target"
-	{
-		"fi"		"Teloitettiin {1}."
-	}
-
-	"Slapped target"
-	{
-		"fi"		"Läpsäistiin pelaajaa {1}."
-	}
-
-	"Dead Player Rename"
-	{
-		"fi"		"Pelaajan {1} nimi vaihdetaan seuraavassa erässä."
-	}
-
-	"Name changed"
-	{
-		"fi"		"Ylläpitäjä on vaihtanut nimesi"
-	}
-
-	"Rename player"
-	{
-		"fi"		"Uudelleennimeä pelaaja"
-	}
-
-	"Renamed target"
-	{
-		"fi"		"Uudelleennimettiin {1}."
-	}
-
-}
+"Phrases"
+{
+	"Slap player"
+	{
+		"fi"		"Läpsäise pelaajaa"
+	}
+
+	"Slap damage"
+	{
+		"fi"		"Läpsäisyn vahinko"
+	}
+
+	"Slay player"
+	{
+		"fi"		"Teloita pelaaja"
+	}
+
+	"Slapped target"
+	{
+		"fi"		"Läpsäistiin pelaajaa {1}."
+	}
+
+	"Slayed target"
+	{
+		"fi"		"Teloitettiin {1}."
+	}
+
+	"Name changed"
+	{
+		"fi"		"Ylläpitäjä on vaihtanut nimesi"
+	}
+
+	"Renamed target"
+	{
+		"fi"		"Uudelleennimettiin {1}."
+	}
+
+	"Rename player"
+	{
+		"fi"		"Uudelleennimeä pelaaja"
+	}
+
+	"Dead Player Rename"
+	{
+		"fi"		"Pelaajan {1} nimi vaihdetaan seuraavassa erässä."
+	}
+
+}

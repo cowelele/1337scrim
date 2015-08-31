@@ -46,9 +46,9 @@ public Plugin:myinfo =
 	url = "http://www.sourcemod.net/"
 };
 
-TopMenu hTopMenu;
+new Handle:hTopMenu = INVALID_HANDLE;
 
-Menu g_MapList;
+new Handle:g_MapList;
 new Handle:g_ProtectedVars;
 
 #include "basecommands/kick.sp"
@@ -75,17 +75,17 @@ public OnPluginStart()
 	RegConsoleCmd("sm_revote", Command_ReVote);
 	
 	/* Account for late loading */
-	TopMenu topmenu;
-	if (LibraryExists("adminmenu") && ((topmenu = GetAdminTopMenu()) != null))
+	new Handle:topmenu;
+	if (LibraryExists("adminmenu") && ((topmenu = GetAdminTopMenu()) != INVALID_HANDLE))
 	{
 		OnAdminMenuReady(topmenu);
 	}
 	
 	g_MapList = CreateMenu(MenuHandler_ChangeMap, MenuAction_Display);
-	g_MapList.SetTitle("%T", "Please select a map", LANG_SERVER);
-	g_MapList.ExitBackButton = true;
+	SetMenuTitle(g_MapList, "%T", "Please select a map", LANG_SERVER);
+	SetMenuExitBackButton(g_MapList, true);
 	
-	char mapListPath[PLATFORM_MAX_PATH];
+	decl String:mapListPath[PLATFORM_MAX_PATH];
 	BuildPath(Path_SM, mapListPath, sizeof(mapListPath), "configs/adminmenu_maplist.ini");
 	SetMapListCompatBind("sm_map menu", mapListPath);
 	
@@ -118,7 +118,7 @@ bool:IsVarProtected(const String:cvar[])
 
 bool:IsClientAllowedToChangeCvar(client, const String:cvarname[])
 {
-	ConVar hndl = FindConVar(cvarname);
+	new Handle:hndl = FindConVar(cvarname);
 
 	new bool:allowed = false;
 	new client_flags = client == 0 ? ADMFLAG_ROOT : GetUserFlagBits(client);
@@ -129,7 +129,7 @@ bool:IsClientAllowedToChangeCvar(client, const String:cvarname[])
 	}
 	else
 	{
-		if (hndl.Flags & FCVAR_PROTECTED)
+		if (GetConVarFlags(hndl) & FCVAR_PROTECTED)
 		{
 			allowed = ((client_flags & ADMFLAG_PASSWORD) == ADMFLAG_PASSWORD);
 		}
@@ -146,10 +146,8 @@ bool:IsClientAllowedToChangeCvar(client, const String:cvarname[])
 	return allowed;
 }
 
-public OnAdminMenuReady(Handle aTopMenu)
+public OnAdminMenuReady(Handle:topmenu)
 {
-	TopMenu topmenu = TopMenu.FromHandle(aTopMenu);
-
 	/* Block us from being called twice */
 	if (topmenu == hTopMenu)
 	{
@@ -160,28 +158,67 @@ public OnAdminMenuReady(Handle aTopMenu)
 	hTopMenu = topmenu;
 	
 	/* Build the "Player Commands" category */
-	TopMenuObject player_commands = hTopMenu.FindCategory(ADMINMENU_PLAYERCOMMANDS);
+	new TopMenuObject:player_commands = FindTopMenuCategory(hTopMenu, ADMINMENU_PLAYERCOMMANDS);
 	
 	if (player_commands != INVALID_TOPMENUOBJECT)
 	{
-		hTopMenu.AddItem("sm_kick", AdminMenu_Kick, player_commands, "sm_kick", ADMFLAG_KICK);
-		hTopMenu.AddItem("sm_who", AdminMenu_Who, player_commands, "sm_who", ADMFLAG_GENERIC);
+		AddToTopMenu(hTopMenu, 
+			"sm_kick",
+			TopMenuObject_Item,
+			AdminMenu_Kick,
+			player_commands,
+			"sm_kick",
+			ADMFLAG_KICK);
+			
+		AddToTopMenu(hTopMenu,
+			"sm_who",
+			TopMenuObject_Item,
+			AdminMenu_Who,
+			player_commands,
+			"sm_who",
+			ADMFLAG_GENERIC);
 	}
 
-	TopMenuObject server_commands = hTopMenu.FindCategory(ADMINMENU_SERVERCOMMANDS);
+	new TopMenuObject:server_commands = FindTopMenuCategory(hTopMenu, ADMINMENU_SERVERCOMMANDS);
 
 	if (server_commands != INVALID_TOPMENUOBJECT)
 	{
-		hTopMenu.AddItem("sm_reloadadmins", AdminMenu_ReloadAdmins, server_commands, "sm_reloadadmins", ADMFLAG_BAN);
-		hTopMenu.AddItem("sm_map", AdminMenu_Map, server_commands, "sm_map", ADMFLAG_CHANGEMAP);
-		hTopMenu.AddItem("sm_execcfg", AdminMenu_ExecCFG, server_commands, "sm_execcfg", ADMFLAG_CONFIG);		
+		AddToTopMenu(hTopMenu,
+			"sm_reloadadmins",
+			TopMenuObject_Item,
+			AdminMenu_ReloadAdmins,
+			server_commands,
+			"sm_reloadadmins",
+			ADMFLAG_BAN);
+			
+		AddToTopMenu(hTopMenu,
+			"sm_map",
+			TopMenuObject_Item,
+			AdminMenu_Map,
+			server_commands,
+			"sm_map",
+			ADMFLAG_CHANGEMAP);
+			
+		AddToTopMenu(hTopMenu,
+			"sm_execcfg",
+			TopMenuObject_Item,
+			AdminMenu_ExecCFG,
+			server_commands,
+			"sm_execcfg",
+			ADMFLAG_CONFIG);		
 	}
 
-	TopMenuObject voting_commands = hTopMenu.FindCategory(ADMINMENU_VOTINGCOMMANDS);
+	new TopMenuObject:voting_commands = FindTopMenuCategory(hTopMenu, ADMINMENU_VOTINGCOMMANDS);
 
 	if (voting_commands != INVALID_TOPMENUOBJECT)
 	{
-		hTopMenu.AddItem("sm_cancelvote", AdminMenu_CancelVote, voting_commands, "sm_cancelvote", ADMFLAG_VOTE);
+		AddToTopMenu(hTopMenu,
+			"sm_cancelvote",
+			TopMenuObject_Item,
+			AdminMenu_CancelVote,
+			voting_commands,
+			"sm_cancelvote",
+			ADMFLAG_VOTE);
 	}
 }
 
@@ -189,7 +226,7 @@ public OnLibraryRemoved(const String:name[])
 {
 	if (strcmp(name, "adminmenu") == 0)
 	{
-		hTopMenu = null;
+		hTopMenu = INVALID_HANDLE;
 	}
 }
 
@@ -214,7 +251,7 @@ new String:g_FlagNames[FLAG_STRINGS][20] =
 
 CustomFlagsToString(String:buffer[], maxlength, flags)
 {
-	char joins[6][6];
+	decl String:joins[6][6];
 	new total;
 	
 	for (new i=_:Admin_Custom1; i<=_:Admin_Custom6; i++)
@@ -232,7 +269,7 @@ CustomFlagsToString(String:buffer[], maxlength, flags)
 
 FlagsToString(String:buffer[], maxlength, flags)
 {
-	char joins[FLAG_STRINGS+1][32];
+	decl String:joins[FLAG_STRINGS+1][32];
 	new total;
 
 	for (new i=0; i<FLAG_STRINGS; i++)
@@ -243,7 +280,7 @@ FlagsToString(String:buffer[], maxlength, flags)
 		}
 	}
 	
-	char custom_flags[32];
+	decl String:custom_flags[32];
 	if (CustomFlagsToString(custom_flags, sizeof(custom_flags), flags))
 	{
 		Format(joins[total++], 32, "custom(%s)", custom_flags);
@@ -267,7 +304,7 @@ public Action:Command_Cvar(client, args)
 		return Plugin_Handled;
 	}
 
-	char cvarname[64];
+	decl String:cvarname[64];
 	GetCmdArg(1, cvarname, sizeof(cvarname));
 	
 	if (client == 0 && StrEqual(cvarname, "protect"))
@@ -283,8 +320,8 @@ public Action:Command_Cvar(client, args)
 		return Plugin_Handled;
 	}
 
-	ConVar hndl = FindConVar(cvarname);
-	if (hndl == null)
+	new Handle:hndl = FindConVar(cvarname);
+	if (hndl == INVALID_HANDLE)
 	{
 		ReplyToCommand(client, "[SM] %t", "Unable to find cvar", cvarname);
 		return Plugin_Handled;
@@ -296,10 +333,10 @@ public Action:Command_Cvar(client, args)
 		return Plugin_Handled;
 	}
 
-	char value[255];
+	decl String:value[255];
 	if (args < 2)
 	{
-		hndl.GetString(value, sizeof(value));
+		GetConVarString(hndl, value, sizeof(value));
 
 		ReplyToCommand(client, "[SM] %t", "Value of cvar", cvarname, value);
 		return Plugin_Handled;
@@ -307,7 +344,7 @@ public Action:Command_Cvar(client, args)
 
 	GetCmdArg(2, value, sizeof(value));
 
-	if ((hndl.Flags & FCVAR_PROTECTED) != FCVAR_PROTECTED)
+	if ((GetConVarFlags(hndl) & FCVAR_PROTECTED) != FCVAR_PROTECTED)
 	{
 		ShowActivity2(client, "[SM] ", "%t", "Cvar changed", cvarname, value);
 	}
@@ -318,7 +355,7 @@ public Action:Command_Cvar(client, args)
 
 	LogAction(client, -1, "\"%L\" changed cvar (cvar \"%s\") (value \"%s\")", client, cvarname, value);
 
-	hndl.SetString(value, true);
+	SetConVarString(hndl, value, true);
 
 	return Plugin_Handled;
 }
@@ -332,11 +369,11 @@ public Action:Command_ResetCvar(client, args)
 		return Plugin_Handled;
 	}
 
-	char cvarname[64];
+	decl String:cvarname[64];
 	GetCmdArg(1, cvarname, sizeof(cvarname));
 	
-	ConVar hndl = FindConVar(cvarname);
-	if (hndl == null)
+	new Handle:hndl = FindConVar(cvarname);
+	if (hndl == INVALID_HANDLE)
 	{
 		ReplyToCommand(client, "[SM] %t", "Unable to find cvar", cvarname);
 		return Plugin_Handled;
@@ -348,12 +385,12 @@ public Action:Command_ResetCvar(client, args)
 		return Plugin_Handled;
 	}
 
-	hndl.RestoreDefault();
+	ResetConVar(hndl);
 
-	char value[255];
-	hndl.GetString(value, sizeof(value));
+	decl String:value[255];
+	GetConVarString(hndl, value, sizeof(value));
 
-	if ((hndl.Flags & FCVAR_PROTECTED) != FCVAR_PROTECTED)
+	if ((GetConVarFlags(hndl) & FCVAR_PROTECTED) != FCVAR_PROTECTED)
 	{
 		ShowActivity2(client, "[SM] ", "%t", "Cvar changed", cvarname, value);
 	}
@@ -375,7 +412,7 @@ public Action:Command_Rcon(client, args)
 		return Plugin_Handled;
 	}
 
-	char argstring[255];
+	decl String:argstring[255];
 	GetCmdArgString(argstring, sizeof(argstring));
 
 	LogAction(client, -1, "\"%L\" console command (cmdline \"%s\")", client, argstring);

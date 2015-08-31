@@ -34,15 +34,15 @@
 new g_TimeBombSerial[MAXPLAYERS+1] = { 0, ... };
 new g_TimeBombTime[MAXPLAYERS+1] = { 0, ... };
 
-ConVar g_Cvar_TimeBombTicks;
-ConVar g_Cvar_TimeBombRadius;
-ConVar g_Cvar_TimeBombMode;
+new Handle:g_Cvar_TimeBombTicks = INVALID_HANDLE;
+new Handle:g_Cvar_TimeBombRadius = INVALID_HANDLE;
+new Handle:g_Cvar_TimeBombMode = INVALID_HANDLE;
 
 CreateTimeBomb(client)
 {
 	g_TimeBombSerial[client] = ++g_Serial_Gen;
 	CreateTimer(1.0, Timer_TimeBomb, client | (g_Serial_Gen << 7), DEFAULT_TIMER_FLAGS);
-	g_TimeBombTime[client] = g_Cvar_TimeBombTicks.IntValue;
+	g_TimeBombTime[client] = GetConVarInt(g_Cvar_TimeBombTicks);
 }
 
 KillTimeBomb(client)
@@ -80,8 +80,8 @@ PerformTimeBomb(client, target)
 
 public Action:Timer_TimeBomb(Handle:timer, any:value)
 {
-	int client = value & 0x7f;
-	int serial = value >> 7;
+	new client = value & 0x7f;
+	new serial = value >> 7;
 
 	if (!IsClientInGame(client)
 		|| !IsPlayerAlive(client)
@@ -92,68 +92,56 @@ public Action:Timer_TimeBomb(Handle:timer, any:value)
 	}	
 	g_TimeBombTime[client]--;
 	
-	float vec[3];
+	new Float:vec[3];
 	GetClientEyePosition(client, vec);
 	
 	if (g_TimeBombTime[client] > 0)
 	{
-		int color;
+		new color;
 		
 		if (g_TimeBombTime[client] > 1)
 		{
-			color = RoundToFloor(g_TimeBombTime[client] * (128.0 / g_Cvar_TimeBombTicks.FloatValue));
-			if (g_BeepSound[0])
-			{
-				EmitAmbientSound(g_BeepSound, vec, client, SNDLEVEL_RAIDSIREN);	
-			}
+			color = RoundToFloor(g_TimeBombTime[client] * (128.0 / GetConVarFloat(g_Cvar_TimeBombTicks)));
+			EmitAmbientSound(SOUND_BEEP, vec, client, SNDLEVEL_RAIDSIREN);	
 		}
 		else
 		{
 			color = 0;
-			if (g_FinalSound[0])
-			{
-				EmitAmbientSound(g_FinalSound, vec, client, SNDLEVEL_RAIDSIREN);
-			}
+			EmitAmbientSound(SOUND_FINAL, vec, client, SNDLEVEL_RAIDSIREN);
 		}
 		
 		SetEntityRenderColor(client, 255, 128, color, 255);
 
-		char name[64];
+		decl String:name[64];
 		GetClientName(client, name, sizeof(name));
 		PrintCenterTextAll("%t", "Till Explodes", name, g_TimeBombTime[client]);
 		
-		if (g_BeamSprite > -1 && g_HaloSprite > -1)
-		{
-			GetClientAbsOrigin(client, vec);
-			vec[2] += 10;
+		GetClientAbsOrigin(client, vec);
+		vec[2] += 10;
 
-			TE_SetupBeamRingPoint(vec, 10.0, g_Cvar_TimeBombRadius.FloatValue / 3.0, g_BeamSprite, g_HaloSprite, 0, 15, 0.5, 5.0, 0.0, greyColor, 10, 0);
-			TE_SendToAll();
-			TE_SetupBeamRingPoint(vec, 10.0, g_Cvar_TimeBombRadius.FloatValue / 3.0, g_BeamSprite, g_HaloSprite, 0, 10, 0.6, 10.0, 0.5, whiteColor, 10, 0);
-			TE_SendToAll();
-		}
+		TE_SetupBeamRingPoint(vec, 10.0, GetConVarFloat(g_Cvar_TimeBombRadius) / 3.0, g_BeamSprite, g_HaloSprite, 0, 15, 0.5, 5.0, 0.0, greyColor, 10, 0);
+		TE_SendToAll();
+		TE_SetupBeamRingPoint(vec, 10.0, GetConVarFloat(g_Cvar_TimeBombRadius) / 3.0, g_BeamSprite, g_HaloSprite, 0, 10, 0.6, 10.0, 0.5, whiteColor, 10, 0);
+		TE_SendToAll();
 		return Plugin_Continue;
 	}
 	else
 	{
 		if (g_ExplosionSprite > -1)
 		{
-			TE_SetupExplosion(vec, g_ExplosionSprite, 5.0, 1, 0, g_Cvar_TimeBombRadius.IntValue, 5000);
+			TE_SetupExplosion(vec, g_ExplosionSprite, 5.0, 1, 0, GetConVarInt(g_Cvar_TimeBombRadius), 5000);
 			TE_SendToAll();
 		}
 
-		if (g_BoomSound[0])
-		{
-			EmitAmbientSound(g_BoomSound, vec, client, SNDLEVEL_RAIDSIREN);
-		}
+		EmitAmbientSound(SOUND_BOOM, vec, client, SNDLEVEL_RAIDSIREN);
 
 		ForcePlayerSuicide(client);
 		KillTimeBomb(client);
 		SetEntityRenderColor(client, 255, 255, 255, 255);
 		
-		if (g_Cvar_TimeBombMode.IntValue > 0)
+		if (GetConVarInt(g_Cvar_TimeBombMode) > 0)
 		{
-			int teamOnly = ((g_Cvar_TimeBombMode.IntValue == 1) ? true : false);
+			new teamOnly = ((GetConVarInt(g_Cvar_TimeBombMode) == 1) ? true : false);
 			
 			for (new i = 1; i <= MaxClients; i++)
 			{
@@ -167,18 +155,18 @@ public Action:Timer_TimeBomb(Handle:timer, any:value)
 					continue;
 				}
 				
-				float pos[3];
+				new Float:pos[3];
 				GetClientEyePosition(i, pos);
 				
-				float distance = GetVectorDistance(vec, pos);
+				new Float:distance = GetVectorDistance(vec, pos);
 				
-				if (distance > g_Cvar_TimeBombRadius.FloatValue)
+				if (distance > GetConVarFloat(g_Cvar_TimeBombRadius))
 				{
 					continue;
 				}
 				
 				new damage = 220;
-				damage = RoundToFloor(damage * ((g_Cvar_TimeBombRadius.FloatValue - distance) / g_Cvar_TimeBombRadius.FloatValue));
+				damage = RoundToFloor(damage * ((GetConVarFloat(g_Cvar_TimeBombRadius) - distance) / GetConVarFloat(g_Cvar_TimeBombRadius)));
 					
 				SlapPlayer(i, damage, false);
 				
@@ -189,14 +177,14 @@ public Action:Timer_TimeBomb(Handle:timer, any:value)
 				}
 				
 				/* ToDo
-				float dir[3];
+				new Float:dir[3];
 				SubtractVectors(vec, pos, dir);
 				TR_TraceRayFilter(vec, dir, MASK_SOLID, RayType_Infinite, TR_Filter_Client);
 
 				if (i == TR_GetEntityIndex())
 				{
 					new damage = 100;
-					new radius = g_Cvar_TimeBombRadius.IntValue / 2;
+					new radius = GetConVarInt(g_Cvar_TimeBombRadius) / 2;
 					
 					if (distance > radius)
 					{
@@ -232,29 +220,29 @@ public AdminMenu_TimeBomb(Handle:topmenu,
 
 DisplayTimeBombMenu(client)
 {
-	Menu menu = CreateMenu(MenuHandler_TimeBomb);
+	new Handle:menu = CreateMenu(MenuHandler_TimeBomb);
 	
 	decl String:title[100];
 	Format(title, sizeof(title), "%T:", "TimeBomb player", client);
-	menu.SetTitle(title);
-	menu.ExitBackButton = true;
+	SetMenuTitle(menu, title);
+	SetMenuExitBackButton(menu, true);
 	
 	AddTargetsToMenu(menu, client, true, true);
 	
-	menu.Display(client, MENU_TIME_FOREVER);
+	DisplayMenu(menu, client, MENU_TIME_FOREVER);
 }
 
-public MenuHandler_TimeBomb(Menu menu, MenuAction action, int param1, int param2)
+public MenuHandler_TimeBomb(Handle:menu, MenuAction:action, param1, param2)
 {
 	if (action == MenuAction_End)
 	{
-		delete menu;
+		CloseHandle(menu);
 	}
 	else if (action == MenuAction_Cancel)
 	{
-		if (param2 == MenuCancel_ExitBack && hTopMenu)
+		if (param2 == MenuCancel_ExitBack && hTopMenu != INVALID_HANDLE)
 		{
-			hTopMenu.Display(param1, TopMenuPosition_LastCategory);
+			DisplayTopMenu(hTopMenu, param1, TopMenuPosition_LastCategory);
 		}
 	}
 	else if (action == MenuAction_Select)
@@ -262,7 +250,7 @@ public MenuHandler_TimeBomb(Menu menu, MenuAction action, int param1, int param2
 		decl String:info[32];
 		new userid, target;
 		
-		menu.GetItem(param2, info, sizeof(info));
+		GetMenuItem(menu, param2, info, sizeof(info));
 		userid = StringToInt(info);
 
 		if ((target = GetClientOfUserId(userid)) == 0)

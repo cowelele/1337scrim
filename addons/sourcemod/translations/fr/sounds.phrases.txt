@@ -1,8 +1,8 @@
-"Phrases"
-{
-	"Played sound to target"
-	{
-		"fr"		"Son envoyé à {1}"
-	}
-
-}
+"Phrases"
+{
+	"Played sound to target"
+	{
+		"fr"		"Son envoyé à {1}"
+	}
+
+}

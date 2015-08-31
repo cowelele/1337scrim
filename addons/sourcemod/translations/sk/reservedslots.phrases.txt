@@ -1,8 +1,8 @@
-"Phrases"
-{
-	"Slot reserved"
-	{
-		"sk"		"Vyhodený kvôli rezervovanému slotu"
-	}
-
-}
+"Phrases"
+{
+	"Slot reserved"
+	{
+		"sk"		"Vyhodený kvôli rezervovanému slotu"
+	}
+
+}

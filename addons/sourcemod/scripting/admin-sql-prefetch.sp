@@ -48,8 +48,8 @@ public Plugin:myinfo =
 public OnRebuildAdminCache(AdminCachePart:part)
 {
 	/* First try to get a database connection */
-	char error[255];
-	Database db;
+	decl String:error[255];
+	new Handle:db;
 	
 	if (SQL_CheckConfig("admins"))
 	{
@@ -58,7 +58,7 @@ public OnRebuildAdminCache(AdminCachePart:part)
 		db = SQL_Connect("default", true, error, sizeof(error));
 	}
 	
-	if (db == null)
+	if (db == INVALID_HANDLE)
 	{
 		LogError("Could not connect to database \"default\": %s", error);
 		return;
@@ -73,16 +73,16 @@ public OnRebuildAdminCache(AdminCachePart:part)
 		FetchUsers(db);
 	}
 	
-	delete db;
+	CloseHandle(db);
 }
 
-void FetchUsers(Database db)
+FetchUsers(Handle:db)
 {
-	char query[255], error[255];
-	DBResultSet rs;
+	decl String:query[255], String:error[255];
+	new Handle:hQuery;
 
 	Format(query, sizeof(query), "SELECT id, authtype, identity, password, flags, name, immunity FROM sm_admins");
-	if ((rs = SQL_Query(db, query)) == null)
+	if ((hQuery = SQL_Query(db, query)) == INVALID_HANDLE)
 	{
 		SQL_GetError(db, error, sizeof(error));
 		LogError("FetchUsers() query failed: %s", query);
@@ -90,31 +90,30 @@ void FetchUsers(Database db)
 		return;
 	}
 
-	char authtype[16];
-	char identity[80];
-	char password[80];
-	char flags[32];
-	char name[80];
-	int immunity;
-	AdminId adm;
-	GroupId gid;
-	int id;
+	decl String:authtype[16];
+	decl String:identity[80];
+	decl String:password[80];
+	decl String:flags[32];
+	decl String:name[80];
+	new immunity;
+	new AdminId:adm, id;
+	new GroupId:gid;
 
 	/* Keep track of a mapping from admin DB IDs to internal AdminIds to
 	 * enable group lookups en masse */
-	StringMap htAdmins = new StringMap();
-	char key[16];
+	new Handle:htAdmins = CreateTrie();
+	decl String:key[16];
 	
-	while (rs.FetchRow())
+	while (SQL_FetchRow(hQuery))
 	{
-		id = rs.FetchInt(0);
+		id = SQL_FetchInt(hQuery, 0);
 		IntToString(id, key, sizeof(key));
-		rs.FetchString(1, authtype, sizeof(authtype));
-		rs.FetchString(2, identity, sizeof(identity));
-		rs.FetchString(3, password, sizeof(password));
-		rs.FetchString(4, flags, sizeof(flags));
-		rs.FetchString(5, name, sizeof(name));
-		immunity = rs.FetchInt(6);
+		SQL_FetchString(hQuery, 1, authtype, sizeof(authtype));
+		SQL_FetchString(hQuery, 2, identity, sizeof(identity));
+		SQL_FetchString(hQuery, 3, password, sizeof(password));
+		SQL_FetchString(hQuery, 4, flags, sizeof(flags));
+		SQL_FetchString(hQuery, 5, name, sizeof(name));
+		immunity = SQL_FetchInt(hQuery, 6);
 		
 		/* Use a pre-existing admin if we can */
 		if ((adm = FindAdminByIdentity(authtype, identity)) == INVALID_ADMIN_ID)
@@ -127,11 +126,11 @@ void FetchUsers(Database db)
 			}
 		}
 
-		htAdmins.SetValue(key, adm);
+		SetTrieValue(htAdmins, key, adm);
 		
-#if defined _DEBUG
+		#if defined _DEBUG
 		PrintToServer("Found SQL admin (%d,%s,%s,%s,%s,%s,%d):%d", id, authtype, identity, password, flags, name, immunity, adm);
-#endif
+		#endif
 		
 		/* See if this admin wants a password */
 		if (password[0] != '\0')
@@ -140,8 +139,8 @@ void FetchUsers(Database db)
 		}
 		
 		/* Apply each flag */
-		int len = strlen(flags);
-		AdminFlag flag;
+		new len = strlen(flags);
+		new AdminFlag:flag;
 		for (new i=0; i<len; i++)
 		{
 			if (!FindFlagByChar(flags[i], flag))
@@ -154,10 +153,9 @@ void FetchUsers(Database db)
 		SetAdminImmunityLevel(adm, immunity);
 	}
 
-	delete rs;
-
+	new Handle:hGroupQuery;
 	Format(query, sizeof(query), "SELECT ag.admin_id AS id, g.name FROM sm_admins_groups ag JOIN sm_groups g ON ag.group_id = g.id  ORDER BY id, inherit_order ASC");
-	if ((rs = SQL_Query(db, query)) == null)
+	if ((hGroupQuery = SQL_Query(db, query)) == INVALID_HANDLE)
 	{
 		SQL_GetError(db, error, sizeof(error));
 		LogError("FetchUsers() query failed: %s", query);
@@ -165,13 +163,13 @@ void FetchUsers(Database db)
 		return;
 	}
 
-	char group[80];
-	while (rs.FetchRow())
+	decl String:group[80];
+	while (SQL_FetchRow(hGroupQuery))
 	{
-		IntToString(rs.FetchInt(0), key, sizeof(key));
-		rs.FetchString(1, group, sizeof(group));
+		IntToString(SQL_FetchInt(hGroupQuery, 0), key, sizeof(key));
+		SQL_FetchString(hGroupQuery, 1, group, sizeof(group));
 
-		if (htAdmins.GetValue(key, adm))
+		if (GetTrieValue(htAdmins, key, adm))
 		{
 			if ((gid = FindAdmGroup(group)) == INVALID_GROUP_ID)
 			{
@@ -183,20 +181,21 @@ void FetchUsers(Database db)
 		}
 	}
 	
-	delete rs;
-	delete htAdmins;
+	CloseHandle(hQuery);
+	CloseHandle(hGroupQuery);
+	CloseHandle(htAdmins);
 }
 
-FetchGroups(Database db)
+FetchGroups(Handle:db)
 {
-	char query[255];
-	DBResultSet rs;
+	decl String:query[255];
+	new Handle:hQuery;
 	
 	Format(query, sizeof(query), "SELECT flags, name, immunity_level FROM sm_groups");
 
-	if ((rs = SQL_Query(db, query)) == null)
+	if ((hQuery = SQL_Query(db, query)) == INVALID_HANDLE)
 	{
-		char error[255];
+		decl String:error[255];
 		SQL_GetError(db, error, sizeof(error));
 		LogError("FetchGroups() query failed: %s", query);
 		LogError("Query error: %s", error);
@@ -204,28 +203,28 @@ FetchGroups(Database db)
 	}
 	
 	/* Now start fetching groups */
-	char flags[32];
-	char name[128];
-	int immunity;
-	while (rs.FetchRow())
+	decl String:flags[32];
+	decl String:name[128];
+	new immunity;
+	while (SQL_FetchRow(hQuery))
 	{
-		rs.FetchString(0, flags, sizeof(flags));
-		rs.FetchString(1, name, sizeof(name));
-		immunity = rs.FetchInt(2);
+		SQL_FetchString(hQuery, 0, flags, sizeof(flags));
+		SQL_FetchString(hQuery, 1, name, sizeof(name));
+		immunity = SQL_FetchInt(hQuery, 2);
 		
 #if defined _DEBUG
 		PrintToServer("Adding group (%d, %s, %s)", immunity, flags, name);
 #endif
 		
 		/* Find or create the group */
-		GroupId gid;
+		new GroupId:gid;
 		if ((gid = FindAdmGroup(name)) == INVALID_GROUP_ID)
 		{
 			gid = CreateAdmGroup(name);
 		}
 		
 		/* Add flags from the database to the group */
-		int num_flag_chars = strlen(flags);
+		new num_flag_chars = strlen(flags);
 		for (new i=0; i<num_flag_chars; i++)
 		{
 			decl AdminFlag:flag;
@@ -240,7 +239,7 @@ FetchGroups(Database db)
 		SetAdmGroupImmunityLevel(gid, immunity);
 	}
 	
-	delete rs;
+	CloseHandle(hQuery);
 	
 	/** 
 	 * Get immunity in a big lump.  This is a nasty query but it gets the job done.
@@ -250,23 +249,23 @@ FetchGroups(Database db)
 	len += Format(query[len], sizeof(query)-len, " LEFT JOIN sm_groups g1 ON g1.id = gi.group_id ");
 	len += Format(query[len], sizeof(query)-len, " LEFT JOIN sm_groups g2 ON g2.id = gi.other_id");
 	
-	if ((rs = SQL_Query(db, query)) == null)
+	if ((hQuery = SQL_Query(db, query)) == INVALID_HANDLE)
 	{
-		char error[255];
+		decl String:error[255];
 		SQL_GetError(db, error, sizeof(error));
 		LogError("FetchGroups() query failed: %s", query);
 		LogError("Query error: %s", error);
 		return;
 	}
 	
-	while (rs.FetchRow())
+	while (SQL_FetchRow(hQuery))
 	{
-		char group1[80];
-		char group2[80];
-		GroupId gid1, gid2;
+		decl String:group1[80];
+		decl String:group2[80];
+		new GroupId:gid1, GroupId:gid2;
 		
-		rs.FetchString(0, group1, sizeof(group1));
-		rs.FetchString(1, group2, sizeof(group2));
+		SQL_FetchString(hQuery, 0, group1, sizeof(group1));
+		SQL_FetchString(hQuery, 1, group2, sizeof(group2));
 		
 		if (((gid1 = FindAdmGroup(group1)) == INVALID_GROUP_ID)
 			|| (gid2 = FindAdmGroup(group2)) == INVALID_GROUP_ID)
@@ -280,85 +279,85 @@ FetchGroups(Database db)
 #endif
 	}
 	
-	delete rs;
+	CloseHandle(hQuery);
 	
 	/**
 	 * Fetch overrides in a lump query.
 	 */
 	Format(query, sizeof(query), "SELECT g.name, go.type, go.name, go.access FROM sm_group_overrides go LEFT JOIN sm_groups g ON go.group_id = g.id");
 	
-	if ((rs = SQL_Query(db, query)) == null)
+	if ((hQuery = SQL_Query(db, query)) == INVALID_HANDLE)
 	{
-		char error[255];
+		decl String:error[255];
 		SQL_GetError(db, error, sizeof(error));
 		LogError("FetchGroups() query failed: %s", query);
 		LogError("Query error: %s", error);
 		return;
 	}
 	
-	char type[16];
-	char cmd[64];
-	char access[16];
-	while (rs.FetchRow())
+	decl String:type[16];
+	decl String:cmd[64];
+	decl String:access[16];
+	while (SQL_FetchRow(hQuery))
 	{
-		rs.FetchString(0, name, sizeof(name));
-		rs.FetchString(1, type, sizeof(type));
-		rs.FetchString(2, cmd, sizeof(cmd));
-		rs.FetchString(3, access, sizeof(access));
+		SQL_FetchString(hQuery, 0, name, sizeof(name));
+		SQL_FetchString(hQuery, 1, type, sizeof(type));
+		SQL_FetchString(hQuery, 2, cmd, sizeof(cmd));
+		SQL_FetchString(hQuery, 3, access, sizeof(access));
 		
-		GroupId gid;
+		new GroupId:gid;
 		if ((gid = FindAdmGroup(name)) == INVALID_GROUP_ID)
 		{
 			continue;
 		}
 				
-		OverrideType o_type = Override_Command;
+		new OverrideType:o_type = Override_Command;
 		if (StrEqual(type, "group"))
 		{
 			o_type = Override_CommandGroup;
 		}
 		
-		OverrideRule o_rule = Command_Deny;
+		new OverrideRule:o_rule = Command_Deny;
 		if (StrEqual(access, "allow"))
 		{
 			o_rule = Command_Allow;
 		}
 				
-#if defined _DEBUG
+		#if defined _DEBUG
 		PrintToServer("AddAdmGroupCmdOverride(%d, %s, %d, %d)", gid, cmd, o_type, o_rule);
-#endif
+		#endif
 		
 		AddAdmGroupCmdOverride(gid, cmd, o_type, o_rule);
 	}
 	
-	delete rs;
+	CloseHandle(hQuery);
 }
 
-FetchOverrides(Database db)
+FetchOverrides(Handle:db)
 {
-	char query[255];
-	DBResultSet rs;
+	decl String:query[255];
+	new Handle:hQuery;
 	
 	Format(query, sizeof(query), "SELECT type, name, flags FROM sm_overrides");
 
-	if ((rs = SQL_Query(db, query)) == null)
+	if ((hQuery = SQL_Query(db, query)) == INVALID_HANDLE)
 	{
-		char error[255];
+		decl String:error[255];
 		SQL_GetError(db, error, sizeof(error));
 		LogError("FetchOverrides() query failed: %s", query);
 		LogError("Query error: %s", error);
 		return;
 	}
 	
-	char type[64];
-	char name[64];
-	char flags[32];
-	int flag_bits;
-	while (rs.FetchRow())
+	decl String:type[64];
+	decl String:name[64];
+	decl String:flags[32];
+	new flag_bits;
+	while (SQL_FetchRow(hQuery))
 	{
-		rs.FetchString(0, type, sizeof(type));
-		rs.FetchString(1, name, sizeof(name));
-		rs.FetchString(2, flags, sizeof(flags));
+		SQL_FetchString(hQuery, 0, type, sizeof(type));
+		SQL_FetchString(hQuery, 1, name, sizeof(name));
+		SQL_FetchString(hQuery, 2, flags, sizeof(flags));
 		
 #if defined _DEBUG
 		PrintToServer("Adding override (%s, %s, %s)", type, name, flags);
@@ -373,6 +372,6 @@ FetchOverrides(Database db)
 		}
 	}
 	
-	delete rs;
+	CloseHandle(hQuery);
 }
 

@@ -46,88 +46,34 @@ public Plugin:myinfo =
 	url = "http://www.sourcemod.net/"
 };
 
-TopMenu hTopMenu;
+new Handle:hTopMenu = INVALID_HANDLE;
 
 new g_BanTarget[MAXPLAYERS+1];
 new g_BanTargetUserId[MAXPLAYERS+1];
 new g_BanTime[MAXPLAYERS+1];
 
-new g_IsWaitingForChatReason[MAXPLAYERS+1];
-KeyValues g_hKvBanReasons;
-new String:g_BanReasonsPath[PLATFORM_MAX_PATH];
-
 #include "basebans/ban.sp"
 
 public OnPluginStart()
 {
-	BuildPath(Path_SM, g_BanReasonsPath, sizeof(g_BanReasonsPath), "configs/banreasons.txt");
-
-	LoadBanReasons();
-
 	LoadTranslations("common.phrases");
 	LoadTranslations("basebans.phrases");
-	LoadTranslations("core.phrases");
 
 	RegAdminCmd("sm_ban", Command_Ban, ADMFLAG_BAN, "sm_ban <#userid|name> <minutes|0> [reason]");
 	RegAdminCmd("sm_unban", Command_Unban, ADMFLAG_UNBAN, "sm_unban <steamid|ip>");
 	RegAdminCmd("sm_addban", Command_AddBan, ADMFLAG_RCON, "sm_addban <time> <steamid> [reason]");
 	RegAdminCmd("sm_banip", Command_BanIp, ADMFLAG_BAN, "sm_banip <ip|#userid|name> <time> [reason]");
 	
-	//This to manage custom ban reason messages
-	RegConsoleCmd("sm_abortban", Command_AbortBan, "sm_abortban");
-	
 	/* Account for late loading */
-	TopMenu topmenu;
-	if (LibraryExists("adminmenu") && ((topmenu = GetAdminTopMenu()) != null))
+	new Handle:topmenu;
+	if (LibraryExists("adminmenu") && ((topmenu = GetAdminTopMenu()) != INVALID_HANDLE))
 	{
 		OnAdminMenuReady(topmenu);
 	}
 }
 
-public OnMapStart()
+public OnAdminMenuReady(Handle:topmenu)
 {
-	//(Re-)Load BanReasons
-	LoadBanReasons();
-}
-
-public OnClientDisconnect(client)
-{
-	g_IsWaitingForChatReason[client] = false;
-}
-
-LoadBanReasons()
-{
-	delete g_hKvBanReasons;
-
-	g_hKvBanReasons = new KeyValues("banreasons");
-
-	if (g_hKvBanReasons.ImportFromFile(g_BanReasonsPath))
-	{
-		char sectionName[255];
-		if (!g_hKvBanReasons.GetSectionName(sectionName, sizeof(sectionName)))
-		{
-			SetFailState("Error in %s: File corrupt or in the wrong format", g_BanReasonsPath);
-			return;
-		}
-
-		if (strcmp(sectionName, "banreasons") != 0)
-		{
-			SetFailState("Error in %s: Couldn't find 'banreasons'", g_BanReasonsPath);
-			return;
-		}
-		
-		//Reset kvHandle
-		g_hKvBanReasons.Rewind();
-	} else {
-		SetFailState("Error in %s: File not found, corrupt or in the wrong format", g_BanReasonsPath);
-		return;
-	}
-}
-
-public OnAdminMenuReady(Handle aTopMenu)
-{
-	TopMenu topmenu = TopMenu.FromHandle(aTopMenu);
-
 	/* Block us from being called twice */
 	if (topmenu == hTopMenu)
 	{
@@ -138,11 +84,18 @@ public OnAdminMenuReady(Handle aTopMenu)
 	hTopMenu = topmenu;
 	
 	/* Find the "Player Commands" category */
-	new TopMenuObject:player_commands = hTopMenu.FindCategory(ADMINMENU_PLAYERCOMMANDS);
+	new TopMenuObject:player_commands = FindTopMenuCategory(hTopMenu, ADMINMENU_PLAYERCOMMANDS);
 
 	if (player_commands != INVALID_TOPMENUOBJECT)
 	{
-		hTopMenu.AddItem("sm_ban", AdminMenu_Ban, player_commands, "sm_ban", ADMFLAG_BAN);
+		AddToTopMenu(hTopMenu,
+			"sm_ban",
+			TopMenuObject_Item,
+			AdminMenu_Ban,
+			player_commands,
+			"sm_ban",
+			ADMFLAG_BAN);
+			
 	}
 }
 
@@ -284,13 +237,7 @@ public Action:Command_AddBan(client, args)
 	}
 
 	/* Verify steamid */
-	new bool:idValid = false;
-	if (!strncmp(authid, "STEAM_", 6) && authid[7] == ':')
-		idValid = true;
-	else if (!strncmp(authid, "[U:", 3))
-		idValid = true;
-	
-	if (!idValid)
+	if (strncmp(authid, "STEAM_", 6) != 0 || authid[7] != ':')
 	{
 		ReplyToCommand(client, "[SM] %t", "Invalid SteamID specified");
 		return Plugin_Handled;
@@ -331,13 +278,13 @@ public Action:Command_Unban(client, args)
 	ReplaceString(arg, sizeof(arg), "\"", "");	
 
 	new ban_flags;
-	if (IsCharNumeric(arg[0]))
+	if (strncmp(arg, "STEAM_", 6) == 0 && arg[7] == ':')
 	{
-		ban_flags |= BANFLAG_IP;
+		ban_flags |= BANFLAG_AUTHID;
 	}
 	else
 	{
-		ban_flags |= BANFLAG_AUTHID;
+		ban_flags |= BANFLAG_IP;
 	}
 
 	LogAction(client, -1, "\"%L\" removed ban (filter \"%s\")", client, arg);
@@ -348,34 +295,3 @@ public Action:Command_Unban(client, args)
 	return Plugin_Handled;
 }
 
-public Action:Command_AbortBan(client, args)
-{
-	if(!CheckCommandAccess(client, "sm_ban", ADMFLAG_BAN))
-	{
-		ReplyToCommand(client, "[SM] %t", "No Access");
-		return Plugin_Handled;
-	}
-	if(g_IsWaitingForChatReason[client])
-	{
-		g_IsWaitingForChatReason[client] = false;
-		ReplyToCommand(client, "[SM] %t", "AbortBan applied successfully");
-	}
-	else
-	{
-		ReplyToCommand(client, "[SM] %t", "AbortBan not waiting for custom reason");
-	}
-	
-	return Plugin_Handled;
-}
-
-public Action:OnClientSayCommand(client, const String:command[], const String:sArgs[])
-{
-	if(g_IsWaitingForChatReason[client])
-	{
-		g_IsWaitingForChatReason[client] = false;
-		PrepareBan(client, g_BanTarget[client], g_BanTime[client], sArgs);
-		return Plugin_Stop;
-	}
-
-	return Plugin_Continue;
-}

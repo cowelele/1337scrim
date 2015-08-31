@@ -1,8 +1,8 @@
-"Phrases"
-{
-	"Flooding the server"
-	{
-		"hu"		"Szervertúlcsordulást okozol, FEJEZD BE!!!"
-	}
-
-}
+"Phrases"
+{
+	"Flooding the server"
+	{
+		"hu"		"Szervertúlcsordulást okozol, FEJEZD BE!!!"
+	}
+
+}

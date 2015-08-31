@@ -39,16 +39,16 @@ PerformSlay(client, target)
 
 DisplaySlayMenu(client)
 {
-	Menu menu = CreateMenu(MenuHandler_Slay);
+	new Handle:menu = CreateMenu(MenuHandler_Slay);
 	
-	char title[100];
+	decl String:title[100];
 	Format(title, sizeof(title), "%T:", "Slay player", client);
-	menu.SetTitle(title);
-	menu.ExitBackButton = true;
+	SetMenuTitle(menu, title);
+	SetMenuExitBackButton(menu, true);
 	
 	AddTargetsToMenu(menu, client, true, true);
 	
-	menu.Display(client, MENU_TIME_FOREVER);
+	DisplayMenu(menu, client, MENU_TIME_FOREVER);
 }
 
 public AdminMenu_Slay(Handle:topmenu, 
@@ -68,25 +68,25 @@ public AdminMenu_Slay(Handle:topmenu,
 	}
 }
 
-public MenuHandler_Slay(Menu menu, MenuAction action, param1, param2)
+public MenuHandler_Slay(Handle:menu, MenuAction:action, param1, param2)
 {
 	if (action == MenuAction_End)
 	{
-		delete menu;
+		CloseHandle(menu);
 	}
 	else if (action == MenuAction_Cancel)
 	{
-		if (param2 == MenuCancel_ExitBack && hTopMenu != null)
+		if (param2 == MenuCancel_ExitBack && hTopMenu != INVALID_HANDLE)
 		{
-			hTopMenu.Display(param1, TopMenuPosition_LastCategory);
+			DisplayTopMenu(hTopMenu, param1, TopMenuPosition_LastCategory);
 		}
 	}
 	else if (action == MenuAction_Select)
 	{
-		char info[32];
-		int userid, target;
+		decl String:info[32];
+		new userid, target;
 		
-		menu.GetItem(param2, info, sizeof(info));
+		GetMenuItem(menu, param2, info, sizeof(info));
 		userid = StringToInt(info);
 
 		if ((target = GetClientOfUserId(userid)) == 0)

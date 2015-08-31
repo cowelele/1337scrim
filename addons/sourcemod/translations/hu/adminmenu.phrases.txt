@@ -1,23 +1,23 @@
-"Phrases"
-{
-	"Voting Commands"
-	{
-		"hu"		"Szavazások"
-	}
-
-	"Server Commands"
-	{
-		"hu"		"Szerver parancsok"
-	}
-
-	"Player Commands"
-	{
-		"hu"		"Játékos parancsok"
-	}
-
-	"Admin Menu"
-	{
-		"hu"		"Admin menü"
-	}
-
-}
+"Phrases"
+{
+	"Admin Menu"
+	{
+		"hu"		"Admin menü"
+	}
+
+	"Player Commands"
+	{
+		"hu"		"Játékos parancsok"
+	}
+
+	"Server Commands"
+	{
+		"hu"		"Szerver parancsok"
+	}
+
+	"Voting Commands"
+	{
+		"hu"		"Szavazások"
+	}
+
+}

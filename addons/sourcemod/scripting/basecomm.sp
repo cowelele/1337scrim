@@ -50,11 +50,11 @@ public Plugin:myinfo =
 new bool:g_Muted[MAXPLAYERS+1];		// Is the player muted?
 new bool:g_Gagged[MAXPLAYERS+1];	// Is the player gagged?
 
-ConVar g_Cvar_Deadtalk;				// Holds the handle for sm_deadtalk
-ConVar g_Cvar_Alltalk;				// Holds the handle for sv_alltalk
+new Handle:g_Cvar_Deadtalk = INVALID_HANDLE;	// Holds the handle for sm_deadtalk
+new Handle:g_Cvar_Alltalk = INVALID_HANDLE;	// Holds the handle for sv_alltalk
 new bool:g_Hooked = false;			// Tracks if we've hooked events for deadtalk
 
-TopMenu hTopMenu;
+new Handle:hTopMenu = INVALID_HANDLE;
 
 new g_GagTarget[MAXPLAYERS+1];
 
@@ -89,21 +89,35 @@ public OnPluginStart()
 	RegAdminCmd("sm_ungag", Command_Ungag, ADMFLAG_CHAT, "sm_ungag <player> - Restores a player's ability to use chat.");
 	RegAdminCmd("sm_unsilence", Command_Unsilence, ADMFLAG_CHAT, "sm_unsilence <player> - Restores a player's ability to use voice and chat.");	
 	
-	g_Cvar_Deadtalk.AddChangeHook(ConVarChange_Deadtalk);
-	g_Cvar_Alltalk.AddChangeHook(ConVarChange_Alltalk);
+	HookConVarChange(g_Cvar_Deadtalk, ConVarChange_Deadtalk);
+	HookConVarChange(g_Cvar_Alltalk, ConVarChange_Alltalk);
 	
 	/* Account for late loading */
-	TopMenu topmenu;
-	if (LibraryExists("adminmenu") && ((topmenu = GetAdminTopMenu()) != null))
+	new Handle:topmenu;
+	if (LibraryExists("adminmenu") && ((topmenu = GetAdminTopMenu()) != INVALID_HANDLE))
 	{
 		OnAdminMenuReady(topmenu);
 	}
+	
+	// Normally, OnClientSayCommand would be aqequate and more appropirate here, but it does
+	// not catch attempted chat triggers, which we also want to be blocked if a player is gagged.
+	AddCommandListener(Command_Say, "say");
+	AddCommandListener(Command_Say, "say_team");
+	
+	new String:gameDir[64];
+	GetGameFolderName(gameDir, sizeof(gameDir));
+	if (StrEqual(gameDir, "insurgency", false))
+	{
+		AddCommandListener(Command_Say, "say2");
+	}
+	else if (StrEqual(gameDir, "nucleardawn", false))
+	{
+		AddCommandListener(Command_Say, "say_squad");
+	}
 }
 
-public OnAdminMenuReady(Handle aTopMenu)
+public OnAdminMenuReady(Handle:topmenu)
 {
-	TopMenu topmenu = TopMenu.FromHandle(aTopMenu);
-
 	/* Block us from being called twice */
 	if (topmenu == hTopMenu)
 	{
@@ -114,17 +128,23 @@ public OnAdminMenuReady(Handle aTopMenu)
 	hTopMenu = topmenu;
 	
 	/* Build the "Player Commands" category */
-	TopMenuObject player_commands = hTopMenu.FindCategory(ADMINMENU_PLAYERCOMMANDS);
+	new TopMenuObject:player_commands = FindTopMenuCategory(hTopMenu, ADMINMENU_PLAYERCOMMANDS);
 	
 	if (player_commands != INVALID_TOPMENUOBJECT)
 	{
-		hTopMenu.AddItem("sm_gag", AdminMenu_Gag, player_commands, "sm_gag", ADMFLAG_CHAT);
+		AddToTopMenu(hTopMenu, 
+			"sm_gag",
+			TopMenuObject_Item,
+			AdminMenu_Gag,
+			player_commands,
+			"sm_gag",
+			ADMFLAG_CHAT);
 	}
 }
 
 public ConVarChange_Deadtalk(Handle:convar, const String:oldValue[], const String:newValue[])
 {
-	if (g_Cvar_Deadtalk.IntValue)
+	if (GetConVarInt(g_Cvar_Deadtalk))
 	{
 		HookEvent("player_spawn", Event_PlayerSpawn, EventHookMode_Post);
 		HookEvent("player_death", Event_PlayerDeath, EventHookMode_Post);
@@ -147,21 +167,24 @@ public bool:OnClientConnect(client, String:rejectmsg[], maxlen)
 	return true;
 }
 
-public Action:OnClientSayCommand(client, const String:command[], const String:sArgs[])
+public Action:Command_Say(client, const String:command[], argc)
 {
-	if (client && g_Gagged[client])
+	if (client)
 	{
-		return Plugin_Stop;
+		if (g_Gagged[client])
+		{
+			return Plugin_Stop;		
+		}
 	}
 	
 	return Plugin_Continue;
 }
 
-public void ConVarChange_Alltalk(ConVar convar, const char[] oldValue, const char[] newValue)
+public ConVarChange_Alltalk(Handle:convar, const String:oldValue[], const String:newValue[])
 {
-	int mode = g_Cvar_Deadtalk.IntValue;
+	new mode = GetConVarInt(g_Cvar_Deadtalk);
 	
-	for (int i = 1; i <= MaxClients; i++)
+	for (new i = 1; i <= MaxClients; i++)
 	{
 		if (!IsClientInGame(i))
 		{
@@ -172,7 +195,7 @@ public void ConVarChange_Alltalk(ConVar convar, const char[] oldValue, const cha
 		{
 			SetClientListeningFlags(i, VOICE_MUTED);
 		}
-		else if (g_Cvar_Alltalk.BoolValue)
+		else if (GetConVarBool(g_Cvar_Alltalk))
 		{
 			SetClientListeningFlags(i, VOICE_NORMAL);
 		}
@@ -190,9 +213,9 @@ public void ConVarChange_Alltalk(ConVar convar, const char[] oldValue, const cha
 	}
 }
 
-public Event_PlayerSpawn(Event event, const String:name[], bool:dontBroadcast)
+public Event_PlayerSpawn(Handle:event, const String:name[], bool:dontBroadcast)
 {
-	new client = GetClientOfUserId(event.GetInt("userid"));
+	new client = GetClientOfUserId(GetEventInt(event, "userid"));
 	
 	if (!client)
 	{
@@ -209,9 +232,9 @@ public Event_PlayerSpawn(Event event, const String:name[], bool:dontBroadcast)
 	}
 }
 
-public Event_PlayerDeath(Event event, const String:name[], bool:dontBroadcast)
+public Event_PlayerDeath(Handle:event, const String:name[], bool:dontBroadcast)
 {
-	int client = GetClientOfUserId(event.GetInt("userid"));
+	new client = GetClientOfUserId(GetEventInt(event, "userid"));
 	
 	if (!client)
 	{
@@ -224,13 +247,13 @@ public Event_PlayerDeath(Event event, const String:name[], bool:dontBroadcast)
 		return;
 	}
 	
-	if (g_Cvar_Alltalk.BoolValue)
+	if (GetConVarBool(g_Cvar_Alltalk))
 	{
 		SetClientListeningFlags(client, VOICE_NORMAL);
 		return;
 	}
 	
-	int mode = g_Cvar_Deadtalk.IntValue;
+	new mode = GetConVarInt(g_Cvar_Deadtalk);
 	if (mode == 1)
 	{
 		SetClientListeningFlags(client, VOICE_LISTENALL);

@@ -1,8 +1,8 @@
-"Phrases"
-{
-	"Slot reserved"
-	{
-		"nl"		"Verwijderd door reserve slot"
-	}
-
-}
+"Phrases"
+{
+	"Slot reserved"
+	{
+		"nl"		"Verwijdert door reserve slot"
+	}
+
+}

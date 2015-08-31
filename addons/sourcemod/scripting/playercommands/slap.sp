@@ -41,36 +41,36 @@ PerformSlap(client, target, damage)
 
 DisplaySlapDamageMenu(client)
 {
-	Menu menu = CreateMenu(MenuHandler_SlapDamage);
+	new Handle:menu = CreateMenu(MenuHandler_SlapDamage);
 	
-	char title[100];
+	decl String:title[100];
 	Format(title, sizeof(title), "%T:", "Slap damage", client);
-	menu.SetTitle(title);
-	menu.ExitBackButton = true;
+	SetMenuTitle(menu, title);
+	SetMenuExitBackButton(menu, true);
 	
-	menu.AddItem("0", "0");
-	menu.AddItem("1", "1");
-	menu.AddItem("5", "5");
-	menu.AddItem("10", "10");
-	menu.AddItem("20", "20");
-	menu.AddItem("50", "50");
-	menu.AddItem("99", "99");
+	AddMenuItem(menu, "0", "0");
+	AddMenuItem(menu, "1", "1");
+	AddMenuItem(menu, "5", "5");
+	AddMenuItem(menu, "10", "10");
+	AddMenuItem(menu, "20", "20");
+	AddMenuItem(menu, "50", "50");
+	AddMenuItem(menu, "99", "99");
 	
-	menu.Display(client, MENU_TIME_FOREVER);
+	DisplayMenu(menu, client, MENU_TIME_FOREVER);
 }
 
 DisplaySlapTargetMenu(client)
 {
-	Menu menu = CreateMenu(MenuHandler_Slap);
+	new Handle:menu = CreateMenu(MenuHandler_Slap);
 	
-	char title[100];
+	decl String:title[100];
 	Format(title, sizeof(title), "%T: %d damage", "Slap player", client, g_SlapDamage[client]);
-	menu.SetTitle(title);
-	menu.ExitBackButton = true;
+	SetMenuTitle(menu, title);
+	SetMenuExitBackButton(menu, true);
 	
 	AddTargetsToMenu(menu, client, true, true);
 	
-	menu.Display(client, MENU_TIME_FOREVER);
+	DisplayMenu(menu, client, MENU_TIME_FOREVER);
 }
 
 public AdminMenu_Slap(Handle:topmenu, 
@@ -90,49 +90,49 @@ public AdminMenu_Slap(Handle:topmenu,
 	}
 }
 
-public MenuHandler_SlapDamage(Menu menu, MenuAction action, param1, param2)
+public MenuHandler_SlapDamage(Handle:menu, MenuAction:action, param1, param2)
 {
 	if (action == MenuAction_End)
 	{
-		delete menu;
+		CloseHandle(menu);
 	}
 	else if (action == MenuAction_Cancel)
 	{
-		if (param2 == MenuCancel_ExitBack && hTopMenu)
+		if (param2 == MenuCancel_ExitBack && hTopMenu != INVALID_HANDLE)
 		{
-			hTopMenu.Display(param1, TopMenuPosition_LastCategory);
+			DisplayTopMenu(hTopMenu, param1, TopMenuPosition_LastCategory);
 		}
 	}
 	else if (action == MenuAction_Select)
 	{
-		char info[32];
+		decl String:info[32];
 		
-		menu.GetItem(param2, info, sizeof(info));
+		GetMenuItem(menu, param2, info, sizeof(info));
 		g_SlapDamage[param1] = StringToInt(info);
 		
 		DisplaySlapTargetMenu(param1);
 	}
 }
 
-public MenuHandler_Slap(Menu menu, MenuAction action, int param1, int param2)
+public MenuHandler_Slap(Handle:menu, MenuAction:action, param1, param2)
 {
 	if (action == MenuAction_End)
 	{
-		delete menu;
+		CloseHandle(menu);
 	}
 	else if (action == MenuAction_Cancel)
 	{
-		if (param2 == MenuCancel_ExitBack)
+		if (param2 == MenuCancel_ExitBack && hTopMenu != INVALID_HANDLE)
 		{
-			hTopMenu.Display(param1, TopMenuPosition_LastCategory);
+			DisplayTopMenu(hTopMenu, param1, TopMenuPosition_LastCategory);
 		}
 	}
 	else if (action == MenuAction_Select)
 	{
-		char info[32];
+		decl String:info[32];
 		new userid, target;
 		
-		menu.GetItem(param2, info, sizeof(info));
+		GetMenuItem(menu, param2, info, sizeof(info));
 		userid = StringToInt(info);
 
 		if ((target = GetClientOfUserId(userid)) == 0)

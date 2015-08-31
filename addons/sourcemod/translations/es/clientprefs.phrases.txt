@@ -1,48 +1,48 @@
-"Phrases"
-{
-	"Choose Option"
-	{
-		"es"		"Elige Opcion"
-	}
-
-	"Cookie Changed Value"
-	{
-		"es"		"Cambiado el valor de cookie \"{1}\" a \"{2}\""
-	}
-
-	"Cookie List"
-	{
-		"es"		"Lista de Cookies de Sourcemod"
-	}
-
-	"Cookie Value"
-	{
-		"es"		" El valor de {1} es {2}"
-	}
-
-	"Printing Cookie List"
-	{
-		"es"		"Mostrando lista de cookies en consola"
-	}
-
-	"Protected Cookie"
-	{
-		"es"		"No se puede cambiar el valor de una cookie protegida \"{1}\""
-	}
-
-	"Client Settings"
-	{
-		"es"		"Configuración de Cliente"
-	}
-
-	"Cookie not Found"
-	{
-		"es"		"Cookie \"{1}\" no encontrada"
-	}
-
-	"No Console"
-	{
-		"es"		"Imposible mostrar el menu de configuración en consola"
-	}
-
-}
+"Phrases"
+{
+	"Cookie List"
+	{
+		"es"		"Lista de Cookies de Sourcemod"
+	}
+
+	"Printing Cookie List"
+	{
+		"es"		"Mostrando lista de cookies en consola"
+	}
+
+	"Cookie not Found"
+	{
+		"es"		"Cookie \"{1}\" no encontrada"
+	}
+
+	"Cookie Value"
+	{
+		"es"		" El valor de {1} es {2}"
+	}
+
+	"Protected Cookie"
+	{
+		"es"		"No se puede cambiar el valor de una cookie protegida \"{1}\""
+	}
+
+	"Cookie Changed Value"
+	{
+		"es"		"Cambiado el valor de cookie \"{1}\" a \"{2}\""
+	}
+
+	"No Console"
+	{
+		"es"		"Imposible mostrar el menu de configuración en consola"
+	}
+
+	"Choose Option"
+	{
+		"es"		"Elige Opcion"
+	}
+
+	"Client Settings"
+	{
+		"es"		"Configuración de Cliente"
+	}
+
+}

@@ -1,8 +1,8 @@
-"Phrases"
-{
-	"Played sound to target"
-	{
-		"chi"		"播放音乐给 {1}"
-	}
-
-}
+"Phrases"
+{
+	"Played sound to target"
+	{
+		"chi"		"播放音乐给 {1}"
+	}
+
+}

@@ -1,0 +1,41 @@
+"Updater"
+{
+	"Information"
+	{
+		"Version"
+		{
+			"Latest"	"0.5.6.2"
+			"Previous"	"0.5.6.1"
+		}
+
+		"Notes"	"More info @ forums.alliedmods.net/showthread.php?t=225474. For changes in 0.5.6.2 look in thread"
+
+	}
+
+	"Files"
+	{
+		"Patch"
+		{
+			"Plugin"	"Path_SM/plugins/warmod.smx"
+		
+			"Source"	"Path_SM/scripting/warmod.sp"
+			"Source"	"Path_SM/scripting/include/warmod.inc"
+			"Source"	"Path_SM/scripting/include/warmod_configs.inc"
+		}
+		
+		"Plugin"	"Path_SM/plugins/warmod.smx"
+		"Plugin"	"Path_SM/translations/warmod.phrases.txt"
+		"Plugin"	"Path_SM/translations/ru/warmod.phrases.txt"
+		"Plugin"	"Path_SM/translations/ro/warmod.phrases.txt"
+		"Plugin"	"Path_SM/translations/pt/warmod.phrases.txt"
+		"Plugin"	"Path_SM/translations/hu/warmod.phrases.txt"
+		"Plugin"	"Path_SM/translations/fr/warmod.phrases.txt"
+		"Plugin"	"Path_SM/translations/de/warmod.phrases.txt"
+		"Plugin"	"Path_SM/translations/chi/warmod.phrases.txt"
+		"Plugin"	"Path_SM/translations/sv/warmod.phrases.txt"
+		
+		"Source"	"Path_SM/scripting/warmod.sp"
+		"Source"	"Path_SM/scripting/include/warmod.inc"
+		"Source"	"Path_SM/scripting/include/warmod_configs.inc"
+	}
+}

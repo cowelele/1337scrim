@@ -45,25 +45,25 @@ DisplayVoteBanMenu(client, target)
 	g_voteType = voteType:ban;
 	
 	g_hVoteMenu = CreateMenu(Handler_VoteCallback, MenuAction:MENU_ACTIONS_ALL);
-	g_hVoteMenu.SetTitle("Voteban Player");
-	g_hVoteMenu.AddItem(VOTE_YES, "Yes");
-	g_hVoteMenu.AddItem(VOTE_NO, "No");
-	g_hVoteMenu.ExitButton = false;
-	g_hVoteMenu.DisplayVoteToAll(20);
+	SetMenuTitle(g_hVoteMenu, "Voteban Player");
+	AddMenuItem(g_hVoteMenu, VOTE_YES, "Yes");
+	AddMenuItem(g_hVoteMenu, VOTE_NO, "No");
+	SetMenuExitButton(g_hVoteMenu, false);
+	VoteMenuToAll(g_hVoteMenu, 20);
 }
 
 DisplayBanTargetMenu(client)
 {
-	Menu menu = CreateMenu(MenuHandler_Ban);
+	new Handle:menu = CreateMenu(MenuHandler_Ban);
 	
 	decl String:title[100];
 	Format(title, sizeof(title), "%T:", "Ban vote", client);
-	menu.SetTitle(title);
-	menu.ExitBackButton = true;
+	SetMenuTitle(menu, title);
+	SetMenuExitBackButton(menu, true);
 	
 	AddTargetsToMenu(menu, client, false, false);
 	
-	menu.Display(client, MENU_TIME_FOREVER);
+	DisplayMenu(menu, client, MENU_TIME_FOREVER);
 }
 
 public AdminMenu_VoteBan(Handle:topmenu, 
@@ -88,17 +88,17 @@ public AdminMenu_VoteBan(Handle:topmenu,
 	}
 }
 
-public MenuHandler_Ban(Menu menu, MenuAction action, int param1, int param2)
+public MenuHandler_Ban(Handle:menu, MenuAction:action, param1, param2)
 {
 	if (action == MenuAction_End)
 	{
-		delete menu;
+		CloseHandle(menu);
 	}
 	else if (action == MenuAction_Cancel)
 	{
-		if (param2 == MenuCancel_ExitBack && hTopMenu)
+		if (param2 == MenuCancel_ExitBack && hTopMenu != INVALID_HANDLE)
 		{
-			hTopMenu.Display(param1, TopMenuPosition_LastCategory);
+			DisplayTopMenu(hTopMenu, param1, TopMenuPosition_LastCategory);
 		}
 	}
 	else if (action == MenuAction_Select)
@@ -106,7 +106,7 @@ public MenuHandler_Ban(Menu menu, MenuAction action, int param1, int param2)
 		decl String:info[32], String:name[32];
 		new userid, target;
 		
-		menu.GetItem(param2, info, sizeof(info), _, name, sizeof(name));
+		GetMenuItem(menu, param2, info, sizeof(info), _, name, sizeof(name));
 		userid = StringToInt(info);
 
 		if ((target = GetClientOfUserId(userid)) == 0)

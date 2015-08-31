@@ -31,20 +31,20 @@
  * Version: $Id$
  */
  
-public MenuHandler_ChangeMap(Menu menu, MenuAction action, int param1, int param2)
+public MenuHandler_ChangeMap(Handle:menu, MenuAction:action, param1, param2)
 {
 	if (action == MenuAction_Cancel)
 	{
-		if (param2 == MenuCancel_ExitBack && hTopMenu)
+		if (param2 == MenuCancel_ExitBack && hTopMenu != INVALID_HANDLE)
 		{
-			hTopMenu.Display(param1, TopMenuPosition_LastCategory);
+			DisplayTopMenu(hTopMenu, param1, TopMenuPosition_LastCategory);
 		}
 	}
 	else if (action == MenuAction_Select)
 	{
 		decl String:map[64];
 		
-		menu.GetItem(param2, map, sizeof(map));
+		GetMenuItem(menu, param2, map, sizeof(map));
 	
 		ShowActivity2(param1, "[SM] ", "%t", "Changing map", map);
 
@@ -75,7 +75,7 @@ public AdminMenu_Map(Handle:topmenu,
 	}
 	else if (action == TopMenuAction_SelectOption)
 	{
-		g_MapList.Display(param, MENU_TIME_FOREVER);
+		DisplayMenu(g_MapList, param, MENU_TIME_FOREVER);
 	}
 }
 
@@ -119,10 +119,10 @@ public Action:Timer_ChangeMap(Handle:timer, Handle:dp)
 	return Plugin_Stop;
 }
 
-new Handle:g_map_array = null;
+new Handle:g_map_array = INVALID_HANDLE;
 new g_map_serial = -1;
 
-int LoadMapList(Menu menu)
+LoadMapList(Handle:menu)
 {
 	new Handle:map_array;
 	
@@ -130,25 +130,25 @@ int LoadMapList(Menu menu)
 			g_map_serial,
 			"sm_map menu",
 			MAPLIST_FLAG_CLEARARRAY|MAPLIST_FLAG_NO_DEFAULT|MAPLIST_FLAG_MAPSFOLDER))
-		!= null)
+		!= INVALID_HANDLE)
 	{
 		g_map_array = map_array;
 	}
 	
-	if (g_map_array == null)
+	if (g_map_array == INVALID_HANDLE)
 	{
 		return 0;
 	}
 	
 	RemoveAllMenuItems(menu);
 	
-	char map_name[64];
-	int map_count = GetArraySize(g_map_array);
+	decl String:map_name[64];
+	new map_count = GetArraySize(g_map_array);
 	
-	for (int i = 0; i < map_count; i++)
+	for (new i = 0; i < map_count; i++)
 	{
 		GetArrayString(g_map_array, i, map_name, sizeof(map_name));
-		menu.AddItem(map_name, map_name);
+		AddMenuItem(menu, map_name, map_name);
 	}
 	
 	return map_count;

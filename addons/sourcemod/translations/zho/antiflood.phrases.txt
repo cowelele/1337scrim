@@ -1,8 +1,8 @@
-"Phrases"
-{
-	"Flooding the server"
-	{
-		"zho"		"請勿灌水!"
-	}
-
-}
+"Phrases"
+{
+	"Flooding the server"
+	{
+		"zho"		"請勿灌水!"
+	}
+
+}

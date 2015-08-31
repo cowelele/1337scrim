@@ -1,8 +1,8 @@
-"Phrases"
-{
-	"Played sound to target"
-	{
-		"hu"		"Hang lejátszása {1}-nak"
-	}
-
-}
+"Phrases"
+{
+	"Played sound to target"
+	{
+		"hu"		"Hang lejátszása {1}-nak"
+	}
+
+}

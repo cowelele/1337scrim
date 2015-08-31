@@ -48,14 +48,14 @@ public Plugin:myinfo =
 };
 
 // Admin Menu
-TopMenu hTopMenu;
+new Handle:hTopMenu = INVALID_HANDLE;
 
 // Sounds
-new String:g_BlipSound[PLATFORM_MAX_PATH];
-new String:g_BeepSound[PLATFORM_MAX_PATH];
-new String:g_FinalSound[PLATFORM_MAX_PATH];
-new String:g_BoomSound[PLATFORM_MAX_PATH];
-new String:g_FreezeSound[PLATFORM_MAX_PATH];
+#define SOUND_BLIP		"buttons/blip1.wav"
+#define SOUND_BEEP		"buttons/button17.wav"
+#define SOUND_FINAL		"weapons/cguard/charging.wav"
+#define SOUND_BOOM		"weapons/explode3.wav"
+#define SOUND_FREEZE	"physics/glass/glass_impact_bullet4.wav"
 
 // Following are model indexes for temp entities
 new g_BeamSprite        = -1;
@@ -95,7 +95,7 @@ new EngineVersion:g_GameEngine = Engine_Unknown;
 
 public OnPluginStart()
 {
-	if (FindPluginByFile("basefuncommands.smx") != null)
+	if (FindPluginByFile("basefuncommands.smx") != INVALID_HANDLE)
 	{
 		ThrowError("This plugin replaces basefuncommands.  You cannot run both at once.");
 	}
@@ -110,8 +110,8 @@ public OnPluginStart()
 	HookEvents( );
 	
 	/* Account for late loading */
-	TopMenu topmenu;
-	if (LibraryExists("adminmenu") && ((topmenu = GetAdminTopMenu()) != null))
+	new Handle:topmenu;
+	if (LibraryExists("adminmenu") && ((topmenu = GetAdminTopMenu()) != INVALID_HANDLE))
 	{
 		OnAdminMenuReady(topmenu);
 	}
@@ -179,65 +179,45 @@ HookEvents( )
 
 public OnMapStart()
 {
-	new Handle:gameConfig = LoadGameConfigFile("funcommands.games");
-	if (gameConfig == null)
+	PrecacheSound(SOUND_BLIP, true);
+	PrecacheSound(SOUND_BEEP, true);
+	PrecacheSound(SOUND_FINAL, true);
+	PrecacheSound(SOUND_BOOM, true);
+	PrecacheSound(SOUND_FREEZE, true);
+
+	new EngineVersion:sdkversion = GetEngineVersion();
+	if (sdkversion == Engine_Left4Dead || sdkversion == Engine_Left4Dead2
+		 || sdkversion == Engine_AlienSwarm || sdkversion == Engine_CSGO)
 	{
-		SetFailState("Unable to load game config funcommands.games");
-		return;
+		g_BeamSprite = PrecacheModel("materials/sprites/laserbeam.vmt");
+		g_HaloSprite = PrecacheModel("materials/sprites/glow01.vmt");
+		
+		// l4d, l4d2, and csgo have this. swarm does not.
+		if (sdkversion != Engine_AlienSwarm)
+		{
+			g_BeamSprite2 = PrecacheModel("materials/sprites/physbeam.vmt");
+		}
+		
+		g_GlowSprite = PrecacheModel("materials/sprites/blueflare1.vmt");
+		
+		if (sdkversion == Engine_Left4Dead || sdkversion == Engine_Left4Dead2)
+		{
+			g_ExplosionSprite = PrecacheModel("sprites/floorfire4_.vmt");
+		}
+		else if (sdkversion == Engine_AlienSwarm)
+		{
+			g_ExplosionSprite = PrecacheModel("sprites/flamelet1.vmt");
+		}
+	}
+	else
+	{
+		g_BeamSprite = PrecacheModel("materials/sprites/laser.vmt");
+		g_HaloSprite = PrecacheModel("materials/sprites/halo01.vmt");
+		g_BeamSprite2 = PrecacheModel("sprites/bluelight1.vmt");
+		g_GlowSprite = PrecacheModel("sprites/blueglow2.vmt");
+		g_ExplosionSprite = PrecacheModel("sprites/sprite_fire01.vmt");
 	}
 	
-	if (GameConfGetKeyValue(gameConfig, "SoundBlip", g_BlipSound, sizeof(g_BlipSound)) && g_BlipSound[0])
-	{
-		PrecacheSound(g_BlipSound, true);
-	}
-	
-	if (GameConfGetKeyValue(gameConfig, "SoundBeep", g_BeepSound, sizeof(g_BeepSound)) && g_BeepSound[0])
-	{
-		PrecacheSound(g_BeepSound, true);
-	}
-	
-	if (GameConfGetKeyValue(gameConfig, "SoundFinal", g_FinalSound, sizeof(g_FinalSound)) && g_FinalSound[0])
-	{
-		PrecacheSound(g_FinalSound, true);
-	}
-	
-	if (GameConfGetKeyValue(gameConfig, "SoundBoom", g_BoomSound, sizeof(g_BoomSound)) && g_BoomSound[0])
-	{
-		PrecacheSound(g_BoomSound, true);
-	}
-	
-	if (GameConfGetKeyValue(gameConfig, "SoundFreeze", g_FreezeSound, sizeof(g_FreezeSound)) && g_FreezeSound[0])
-	{
-		PrecacheSound(g_FreezeSound, true);
-	}
-	
-	new String:buffer[PLATFORM_MAX_PATH];
-	if (GameConfGetKeyValue(gameConfig, "SpriteBeam", buffer, sizeof(buffer)) && buffer[0])
-	{
-		g_BeamSprite = PrecacheModel(buffer);
-	}
-	
-	if (GameConfGetKeyValue(gameConfig, "SpriteBeam2", buffer, sizeof(buffer)) && buffer[0])
-	{
-		g_BeamSprite2 = PrecacheModel(buffer);
-	}
-	
-	if (GameConfGetKeyValue(gameConfig, "SpriteExplosion", buffer, sizeof(buffer)) && buffer[0])
-	{
-		g_ExplosionSprite = PrecacheModel(buffer);
-	}
-	
-	if (GameConfGetKeyValue(gameConfig, "SpriteGlow", buffer, sizeof(buffer)) && buffer[0])
-	{
-		g_GlowSprite = PrecacheModel(buffer);
-	}
-	
-	if (GameConfGetKeyValue(gameConfig, "SpriteHalo", buffer, sizeof(buffer)) && buffer[0])
-	{
-		g_HaloSprite = PrecacheModel(buffer);
-	}
-	
-	delete gameConfig;
 }
 
 public OnMapEnd()
@@ -258,10 +238,8 @@ public Action:Event_RoundEnd(Handle:event,const String:name[],bool:dontBroadcast
 	KillAllDrugs();
 }
 
-public OnAdminMenuReady(Handle aTopMenu)
+public OnAdminMenuReady(Handle:topmenu)
 {
-	TopMenu topmenu = TopMenu.FromHandle(aTopMenu);
-
 	/* Block us from being called twice */
 	if (topmenu == hTopMenu)
 	{
@@ -272,27 +250,96 @@ public OnAdminMenuReady(Handle aTopMenu)
 	hTopMenu = topmenu;
 	
 	/* Find the "Player Commands" category */
-	TopMenuObject player_commands = hTopMenu.FindCategory(ADMINMENU_PLAYERCOMMANDS);
+	new TopMenuObject:player_commands = FindTopMenuCategory(hTopMenu, ADMINMENU_PLAYERCOMMANDS);
 
 	if (player_commands != INVALID_TOPMENUOBJECT)
 	{
-		hTopMenu.AddItem("sm_beacon", AdminMenu_Beacon, player_commands, "sm_beacon", ADMFLAG_SLAY);
-		hTopMenu.AddItem("sm_timebomb", AdminMenu_TimeBomb, player_commands, "sm_timebomb", ADMFLAG_SLAY);
-		hTopMenu.AddItem("sm_burn", AdminMenu_Burn, player_commands, "sm_burn", ADMFLAG_SLAY);
-		hTopMenu.AddItem("sm_firebomb", AdminMenu_FireBomb, player_commands, "sm_firebomb", ADMFLAG_SLAY);
-		hTopMenu.AddItem("sm_freeze", AdminMenu_Freeze, player_commands, "sm_freeze", ADMFLAG_SLAY);
-		hTopMenu.AddItem("sm_freezebomb", AdminMenu_FreezeBomb, player_commands, "sm_freezebomb", ADMFLAG_SLAY);
-		hTopMenu.AddItem("sm_gravity", AdminMenu_Gravity, player_commands, "sm_gravity", ADMFLAG_SLAY);
-		hTopMenu.AddItem("sm_blind", AdminMenu_Blind, player_commands, "sm_blind", ADMFLAG_SLAY);
-		hTopMenu.AddItem("sm_noclip", AdminMenu_NoClip, player_commands, "sm_noclip", ADMFLAG_SLAY);
-		hTopMenu.AddItem("sm_drug", AdminMenu_Drug, player_commands, "sm_drug", ADMFLAG_SLAY);
+		AddToTopMenu(hTopMenu,
+			"sm_beacon",
+			TopMenuObject_Item,
+			AdminMenu_Beacon,
+			player_commands,
+			"sm_beacon",
+			ADMFLAG_SLAY);
+	
+		AddToTopMenu(hTopMenu,
+			"sm_timebomb",
+			TopMenuObject_Item,
+			AdminMenu_TimeBomb,
+			player_commands,
+			"sm_timebomb",
+			ADMFLAG_SLAY);
+
+		AddToTopMenu(hTopMenu,
+			"sm_burn",
+			TopMenuObject_Item,
+			AdminMenu_Burn,
+			player_commands,
+			"sm_burn",
+			ADMFLAG_SLAY);
+		
+		AddToTopMenu(hTopMenu,
+			"sm_firebomb",
+			TopMenuObject_Item,
+			AdminMenu_FireBomb,
+			player_commands,
+			"sm_firebomb",
+			ADMFLAG_SLAY);
+
+		AddToTopMenu(hTopMenu,
+			"sm_freeze",
+			TopMenuObject_Item,
+			AdminMenu_Freeze,
+			player_commands,
+			"sm_freeze",
+			ADMFLAG_SLAY);
+			
+		AddToTopMenu(hTopMenu,
+			"sm_freezebomb",
+			TopMenuObject_Item,
+			AdminMenu_FreezeBomb,
+			player_commands,
+			"sm_freezebomb",
+			ADMFLAG_SLAY);
+
+		AddToTopMenu(hTopMenu,
+			"sm_gravity",
+			TopMenuObject_Item,
+			AdminMenu_Gravity,
+			player_commands,
+			"sm_gravity",
+			ADMFLAG_SLAY);
+
+		AddToTopMenu(hTopMenu,
+			"sm_blind",
+			TopMenuObject_Item,
+			AdminMenu_Blind,
+			player_commands,
+			"sm_blind",
+			ADMFLAG_SLAY);
+
+		AddToTopMenu(hTopMenu,
+			"sm_noclip",
+			TopMenuObject_Item,
+			AdminMenu_NoClip,
+			player_commands,
+			"sm_noclip",
+			ADMFLAG_SLAY);
+
+		AddToTopMenu(hTopMenu,
+			"sm_drug",
+			TopMenuObject_Item,
+			AdminMenu_Drug,
+			player_commands,
+			"sm_drug",
+			ADMFLAG_SLAY);
 	}
 }
 
-void AddTranslatedMenuItem(Menu menu, const char[] opt, const char[] phrase, int client)
+AddTranslatedMenuItem(Handle:menu, const String:opt[], const String:phrase[], client)
 {
-	char buffer[128];
+	decl String:buffer[128];
 	Format(buffer, sizeof(buffer), "%T", phrase, client);
-	menu.AddItem(opt, buffer);
+	AddMenuItem(menu, opt, buffer);
 }
 

@@ -1,23 +1,23 @@
-"Phrases"
-{
-	"Admin Menu"
-	{
-		"pl"		"Menu Administracyjne"
-	}
-
-	"Player Commands"
-	{
-		"pl"		"Komendy na graczach"
-	}
-
-	"Server Commands"
-	{
-		"pl"		"Komendy serwera"
-	}
-
-	"Voting Commands"
-	{
-		"pl"		"Głosowania"
-	}
-
-}
+"Phrases"
+{
+	"Admin Menu"
+	{
+		"pl"		"Menu Administracyjne"
+	}
+
+	"Player Commands"
+	{
+		"pl"		"Komendy na graczach"
+	}
+
+	"Server Commands"
+	{
+		"pl"		"Komendy serwera"
+	}
+
+	"Voting Commands"
+	{
+		"pl"		"Głosowania"
+	}
+
+}

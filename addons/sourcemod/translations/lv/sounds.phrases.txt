@@ -1,8 +1,8 @@
-"Phrases"
-{
-	"Played sound to target"
-	{
-		"lv"		"Atskaņoja skaņu spēlētājam  {1}"
-	}
-
-}
+"Phrases"
+{
+	"Played sound to target"
+	{
+		"lv"		"Atskaņoja skaņu spēlētājam  {1}"
+	}
+
+}

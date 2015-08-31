@@ -1,8 +1,8 @@
-"Phrases"
-{
-	"Played sound to target"
-	{
-		"sk"		"Pustený zvuk pre {1}"
-	}
-
-}
+"Phrases"
+{
+	"Played sound to target"
+	{
+		"sk"		"Pustený zvuk pre {1}"
+	}
+
+}

@@ -1,8 +1,8 @@
-"Phrases"
-{
-	"Slot reserved"
-	{
-		"lv"		"Izmests dēļ slotu rezervācijas"
-	}
-
-}
+"Phrases"
+{
+	"Slot reserved"
+	{
+		"lv"		"Izmests dēļ slotu rezervācijas"
+	}
+
+}

@@ -64,10 +64,10 @@ public OnPluginStart()
 	RegServerCmd("sm_update_adm_tables", Command_UpdateTables);
 }
 
-Database Connect()
+Handle:Connect()
 {
-	char error[255];
-	Database db;
+	decl String:error[255];
+	new Handle:db;
 	
 	if (SQL_CheckConfig("admins"))
 	{
@@ -76,7 +76,7 @@ Database Connect()
 		db = SQL_Connect("default", true, error, sizeof(error));
 	}
 	
-	if (db == null)
+	if (db == INVALID_HANDLE)
 	{
 		LogError("Could not connect to database: %s", error);
 	}
@@ -157,16 +157,16 @@ CreateSQLite(client, Handle:db)
 
 public Action:Command_CreateTables(args)
 {
-	int client = 0;
-	Database db = Connect();
-	if (db == null)
+	new client = 0;
+	new Handle:db = Connect();
+	if (db == INVALID_HANDLE)
 	{
 		ReplyToCommand(client, "[SM] %t", "Could not connect to database");
 		return Plugin_Handled;
 	}
 
-	char ident[16];
-	db.Driver.GetIdentifier(ident, sizeof(ident));
+	new String:ident[16];
+	SQL_ReadDriver(db, ident, sizeof(ident));
 
 	if (strcmp(ident, "mysql") == 0)
 	{
@@ -177,28 +177,28 @@ public Action:Command_CreateTables(args)
 		ReplyToCommand(client, "[SM] Unknown driver type '%s', cannot create tables.", ident);
 	}
 
-	delete db;
+	CloseHandle(db);
 
 	return Plugin_Handled;
 }
 
 bool:GetUpdateVersion(client, Handle:db, versions[4])
 {
-	char query[256];
-	DBResultSet rs;
+	decl String:query[256];
+	new Handle:hQuery;
 
 	Format(query, sizeof(query), "SELECT cfg_value FROM sm_config WHERE cfg_key = 'admin_version'");
-	if ((rs = SQL_Query(db, query)) == null)
+	if ((hQuery = SQL_Query(db, query)) == INVALID_HANDLE)
 	{
 		DoError(client, db, query, "Version lookup query failed");
 		return false;
 	}
-	if (rs.FetchRow())
+	if (SQL_FetchRow(hQuery))
 	{
-		char version_string[255];
-		rs.FetchString(0, version_string, sizeof(version_string));
+		decl String:version_string[255];
+		SQL_FetchString(hQuery, 0, version_string, sizeof(version_string));
 
-		char version_numbers[4][12];
+		decl String:version_numbers[4][12];
 		if (ExplodeString(version_string, ".", version_numbers, 4, 12) == 4)
 		{
 			for (new i = 0; i < 4; i++)
@@ -208,7 +208,7 @@ bool:GetUpdateVersion(client, Handle:db, versions[4])
 		}
 	}
 
-	delete rs;
+	CloseHandle(hQuery);
 
 	if (current_version[3] < versions[3])
 	{
@@ -226,21 +226,21 @@ bool:GetUpdateVersion(client, Handle:db, versions[4])
 	return true;
 }
 
-UpdateSQLite(client, Database db)
+UpdateSQLite(client, Handle:db)
 {
-	char query[512];
-	DBResultSet rs;
+	decl String:query[512];
+	new Handle:hQuery;
 
 	Format(query, sizeof(query), "SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'sm_config'");
-	if ((rs = SQL_Query(db, query)) == null)
+	if ((hQuery = SQL_Query(db, query)) == INVALID_HANDLE)
 	{
 		DoError(client, db, query, "Table lookup query failed");
 		return;
 	}
 
-	bool found = rs.FetchRow();
+	new bool:found = SQL_FetchRow(hQuery);
 
-	delete rs;
+	CloseHandle(hQuery);
 
 	new versions[4];
 	if (found)
@@ -256,7 +256,7 @@ UpdateSQLite(client, Database db)
 	 */
 	if (versions[3] < SCHEMA_UPGRADE_1)
 	{
-		char queries[8][] = 
+		new String:queries[8][] = 
 		{
 			"ALTER TABLE sm_admins ADD immunity INTEGER DEFAULT 0 NOT NULL",
 			"CREATE TABLE _sm_groups_temp (id INTEGER PRIMARY KEY AUTOINCREMENT, flags varchar(30) NOT NULL, name varchar(120) NOT NULL, immunity_level INTEGER DEFAULT 0 NOT NULL)",
@@ -292,29 +292,29 @@ UpdateSQLite(client, Database db)
 	ReplyToCommand(client, "[SM] Your tables are now up to date.");
 }
 
-UpdateMySQL(client, Database db)
+UpdateMySQL(client, Handle:db)
 {
-	char query[512];
-	DBResultSet rs;
+	decl String:query[512];
+	new Handle:hQuery;
 	
 	Format(query, sizeof(query), "SHOW TABLES");
-	if ((rs = SQL_Query(db, query)) == null)
+	if ((hQuery = SQL_Query(db, query)) == INVALID_HANDLE)
 	{
 		DoError(client, db, query, "Table lookup query failed");
 		return;
 	}
 
-	char table[64];
-	bool found = false;
-	while (rs.FetchRow())
+	decl String:table[64];
+	new bool:found = false;
+	while (SQL_FetchRow(hQuery))
 	{
-		rs.FetchString(0, table, sizeof(table));
+		SQL_FetchString(hQuery, 0, table, sizeof(table));
 		if (strcmp(table, "sm_config") == 0)
 		{
 			found = true;
 		}
 	}
-	delete rs;
+	CloseHandle(hQuery);
 
 	new versions[4];
 
@@ -328,7 +328,7 @@ UpdateMySQL(client, Database db)
 	 */
 	if (versions[3] < SCHEMA_UPGRADE_1)
 	{
-		char queries[6][] = 
+		new String:queries[6][] = 
 		{
 			"CREATE TABLE IF NOT EXISTS sm_config (cfg_key varchar(32) NOT NULL, cfg_value varchar(255) NOT NULL, PRIMARY KEY (cfg_key))",
 			"ALTER TABLE sm_admins ADD immunity INT UNSIGNED NOT NULL",
@@ -346,7 +346,7 @@ UpdateMySQL(client, Database db)
 			}
 		}
 
-		char upgr[48];
+		decl String:upgr[48];
 		Format(upgr, sizeof(upgr), "1.0.0.%d", SCHEMA_UPGRADE_1);
 
 		Format(query, sizeof(query), "INSERT INTO sm_config (cfg_key, cfg_value) VALUES ('admin_version', '%s') ON DUPLICATE KEY UPDATE cfg_value = '%s'", upgr, upgr);
@@ -364,15 +364,15 @@ UpdateMySQL(client, Database db)
 public Action:Command_UpdateTables(args)
 {
 	new client = 0;
-	Database db = Connect();
-	if (db == null)
+	new Handle:db = Connect();
+	if (db == INVALID_HANDLE)
 	{
 		ReplyToCommand(client, "[SM] %t", "Could not connect to database");
 		return Plugin_Handled;
 	}
 
-	char ident[16];
-	db.Driver.GetIdentifier(ident, sizeof(ident));
+	new String:ident[16];
+	SQL_ReadDriver(db, ident, sizeof(ident));
 
 	if (strcmp(ident, "mysql") == 0)
 	{
@@ -383,7 +383,7 @@ public Action:Command_UpdateTables(args)
 		ReplyToCommand(client, "[SM] Unknown driver type, cannot upgrade.");
 	}
 
-	delete db;
+	CloseHandle(db);
 
 	return Plugin_Handled;
 }
@@ -396,7 +396,7 @@ public Action:Command_SetAdminGroups(client, args)
 		return Plugin_Handled;
 	}
 	
-	char authtype[16];
+	decl String:authtype[16];
 	GetCmdArg(1, authtype, sizeof(authtype));
 	
 	if (!StrEqual(authtype, "steam")
@@ -407,42 +407,42 @@ public Action:Command_SetAdminGroups(client, args)
 		return Plugin_Handled;
 	}
 	
-	Database db = Connect();
-	if (db == null)
+	new Handle:db = Connect();
+	if (db == INVALID_HANDLE)
 	{
 		ReplyToCommand(client, "[SM] %t", "Could not connect to database");
 		return Plugin_Handled;
 	}
 	
-	char identity[65];
-	char safe_identity[140];
+	decl String:identity[65];
+	decl String:safe_identity[140];
 	GetCmdArg(2, identity, sizeof(identity));
-	db.Escape(identity, safe_identity, sizeof(safe_identity));
+	SQL_EscapeString(db, identity, safe_identity, sizeof(safe_identity));
 	
-	char query[255];
+	decl String:query[255];
 	Format(query, 
 		sizeof(query),
 		"SELECT id FROM sm_admins WHERE authtype = '%s' AND identity = '%s'",
 		authtype,
 		safe_identity);
 		
-	DBResultSet rs;
-	if ((rs = SQL_Query(db, query)) == null)
+	new Handle:hQuery;
+	if ((hQuery = SQL_Query(db, query)) == INVALID_HANDLE)
 	{
 		return DoError(client, db, query, "Admin lookup query failed");
 	}
 	
-	if (!rs.FetchRow())
+	if (!SQL_FetchRow(hQuery))
 	{
 		ReplyToCommand(client, "[SM] %t", "SQL Admin not found");
-		delete rs;
-		delete db;
+		CloseHandle(hQuery);
+		CloseHandle(db);
 		return Plugin_Handled;
 	}
 	
-	int id = rs.FetchInt(0);
+	new id = SQL_FetchInt(hQuery, 0);
 	
-	delete rs;
+	CloseHandle(hQuery);
 	
 	/**
 	 * First delete all of the user's existing groups.
@@ -455,16 +455,16 @@ public Action:Command_SetAdminGroups(client, args)
 	
 	if (args < 3)
 	{
-		delete db;
 		ReplyToCommand(client, "[SM] %t", "SQL Admin groups reset");
+		CloseHandle(db);
 		return Plugin_Handled;
 	}
 	
-	char error[256];
-	DBStatement hAddQuery, hFindQuery;
+	decl String:error[256];
+	new Handle:hAddQuery, Handle:hFindQuery;
 	
 	Format(query, sizeof(query), "SELECT id FROM sm_groups WHERE name = ?");
-	if ((hFindQuery = SQL_PrepareQuery(db, query, error, sizeof(error))) == null)
+	if ((hFindQuery = SQL_PrepareQuery(db, query, error, sizeof(error))) == INVALID_HANDLE)
 	{
 		return DoStmtError(client, db, query, error, "Group search prepare failed");
 	}
@@ -473,27 +473,27 @@ public Action:Command_SetAdminGroups(client, args)
 		sizeof(query), 
 		"INSERT INTO sm_admins_groups (admin_id, group_id, inherit_order) VALUES (%d, ?, ?)",
 		id);
-	if ((hAddQuery = SQL_PrepareQuery(db, query, error, sizeof(error))) == null)
+	if ((hAddQuery = SQL_PrepareQuery(db, query, error, sizeof(error))) == INVALID_HANDLE)
 	{
-		delete hFindQuery;
+		CloseHandle(hFindQuery);
 		return DoStmtError(client, db, query, error, "Add admin group prepare failed");
 	}
 	
-	char name[80];
-	int inherit_order = 0;
+	decl String:name[80];
+	new inherit_order = 0;
 	for (new i=3; i<=args; i++)
 	{
 		GetCmdArg(i, name, sizeof(name));
 		
-		hFindQuery.BindString(0, name, false);
+		SQL_BindParamString(hFindQuery, 0, name, false);
 		if (!SQL_Execute(hFindQuery) || !SQL_FetchRow(hFindQuery))
 		{
 			ReplyToCommand(client, "[SM] %t", "SQL Group X not found", name);
 		} else {
 			new gid = SQL_FetchInt(hFindQuery, 0);
 			
-			hAddQuery.BindInt(0, gid);
-			hAddQuery.BindInt(1, ++inherit_order);
+			SQL_BindParamInt(hAddQuery, 0, gid);
+			SQL_BindParamInt(hAddQuery, 1, ++inherit_order);
 			if (!SQL_Execute(hAddQuery))
 			{
 				ReplyToCommand(client, "[SM] %t", "SQL Group X failed to bind", name);
@@ -502,9 +502,9 @@ public Action:Command_SetAdminGroups(client, args)
 		}
 	}
 	
-	delete hAddQuery;
-	delete hFindQuery;
-	delete db;
+	CloseHandle(hAddQuery);
+	CloseHandle(hFindQuery);
+	CloseHandle(db);
 	
 	if (inherit_order == 1)
 	{
@@ -524,47 +524,48 @@ public Action:Command_DelGroup(client, args)
 		return Plugin_Handled;
 	}
 
-	Database db = Connect();
-	if (db == null)
+	new Handle:db = Connect();
+	if (db == INVALID_HANDLE)
 	{
 		ReplyToCommand(client, "[SM] %t", "Could not connect to database");
 		return Plugin_Handled;
 	}
 	
-	char name[80];
-	char safe_name[180];
+	new len;
+	decl String:name[80];
+	decl String:safe_name[180];
 	GetCmdArgString(name, sizeof(name));
 	
 	/* Strip quotes in case the user tries to use them */
-	int len = strlen(name);
+	len = strlen(name);
 	if (len > 1 && (name[0] == '"' && name[len-1] == '"'))
 	{
 		name[--len] = '\0';
-		db.Escape(name[1], safe_name, sizeof(safe_name));
+		SQL_EscapeString(db, name[1], safe_name, sizeof(safe_name));
 	} else {
-		db.Escape(name, safe_name, sizeof(safe_name));
+		SQL_EscapeString(db, name, safe_name, sizeof(safe_name));
 	}
 	
-	char query[256];
+	decl String:query[256];
 	
-	DBResultSet rs;
+	new Handle:hQuery;
 	Format(query, sizeof(query), "SELECT id FROM sm_groups WHERE name = '%s'", safe_name);
-	if ((rs = SQL_Query(db, query)) == null)
+	if ((hQuery = SQL_Query(db, query)) == INVALID_HANDLE)
 	{
 		return DoError(client, db, query, "Group retrieval query failed");
 	}
 	
-	if (!rs.FetchRow())
+	if (!SQL_FetchRow(hQuery))
 	{
 		ReplyToCommand(client, "[SM] %t", "SQL Group not found");
-		delete rs;
-		delete db;
+		CloseHandle(hQuery);
+		CloseHandle(db);
 		return Plugin_Handled;
 	}
 	
-	int id = rs.FetchInt(0);
+	new id = SQL_FetchInt(hQuery, 0);
 	
-	delete rs;
+	CloseHandle(hQuery);
 	
 	/* Delete admin inheritance for this group */
 	Format(query, sizeof(query), "DELETE FROM sm_admins_groups WHERE group_id = %d", id);
@@ -596,7 +597,8 @@ public Action:Command_DelGroup(client, args)
 	
 	ReplyToCommand(client, "[SM] %t", "SQL Group deleted");
 	
-	delete db;
+	CloseHandle(db);
+	
 	return Plugin_Handled;
 }
 
@@ -620,40 +622,40 @@ public Action:Command_AddGroup(client, args)
 		}
 	}
 	
-	Database db = Connect();
-	if (db == null)
+	new Handle:db = Connect();
+	if (db == INVALID_HANDLE)
 	{
 		ReplyToCommand(client, "[SM] %t", "Could not connect to database");
 		return Plugin_Handled;
 	}
 	
-	char name[64];
-	char safe_name[64];
+	decl String:name[64];
+	decl String:safe_name[64];
 	GetCmdArg(1, name, sizeof(name));
-	db.Escape(name, safe_name, sizeof(safe_name));
+	SQL_EscapeString(db, name, safe_name, sizeof(safe_name));
 	
-	DBResultSet rs;
-	char query[256];
+	new Handle:hQuery;
+	decl String:query[256];
 	Format(query, sizeof(query), "SELECT id FROM sm_groups WHERE name = '%s'", safe_name);
-	if ((rs = SQL_Query(db, query)) == null)
+	if ((hQuery = SQL_Query(db, query)) == INVALID_HANDLE)
 	{
 		return DoError(client, db, query, "Group retrieval query failed");
 	}
 	
-	if (rs.RowCount > 0)
+	if (SQL_GetRowCount(hQuery) > 0)
 	{
 		ReplyToCommand(client, "[SM] %t", "SQL Group already exists");
-		delete rs;
-		delete db;
+		CloseHandle(hQuery);
+		CloseHandle(db);
 		return Plugin_Handled;
 	}
 	
-	delete rs;
+	CloseHandle(hQuery);
 	
-	char flags[30];
-	char safe_flags[64];
+	decl String:flags[30];
+	decl String:safe_flags[64];
 	GetCmdArg(2, flags, sizeof(safe_flags));
-	db.Escape(flags, safe_flags, sizeof(safe_flags));
+	SQL_EscapeString(db, flags, safe_flags, sizeof(safe_flags));
 	
 	Format(query, 
 		sizeof(query),
@@ -669,7 +671,8 @@ public Action:Command_AddGroup(client, args)
 	
 	ReplyToCommand(client, "[SM] %t", "SQL Group added");
 	
-	delete db;
+	CloseHandle(db);
+		
 	return Plugin_Handled;
 }	
 
@@ -682,7 +685,7 @@ public Action:Command_DelAdmin(client, args)
 		return Plugin_Handled;
 	}
 	
-	char authtype[16];
+	decl String:authtype[16];
 	GetCmdArg(1, authtype, sizeof(authtype));
 	
 	if (!StrEqual(authtype, "steam")
@@ -693,43 +696,42 @@ public Action:Command_DelAdmin(client, args)
 		return Plugin_Handled;
 	}
 	
-	Database db = Connect();
-	if (db == null)
+	new Handle:db = Connect();
+	if (db == INVALID_HANDLE)
 	{
 		ReplyToCommand(client, "[SM] %t", "Could not connect to database");
 		return Plugin_Handled;
 	}
 	
-	char identity[65];
-	char safe_identity[140];
+	decl String:identity[65];
+	decl String:safe_identity[140];
 	GetCmdArg(2, identity, sizeof(identity));
-	db.Escape(identity, safe_identity, sizeof(safe_identity));
+	SQL_EscapeString(db, identity, safe_identity, sizeof(safe_identity));
 	
-	char query[255];
+	decl String:query[255];
 	Format(query, 
 		sizeof(query),
 		"SELECT id FROM sm_admins WHERE authtype = '%s' AND identity = '%s'",
 		authtype,
 		safe_identity);
 		
-	DBResultSet rs;
-	if ((rs = SQL_Query(db, query)) == null)
+	new Handle:hQuery;
+	if ((hQuery = SQL_Query(db, query)) == INVALID_HANDLE)
 	{
-		delete db;
 		return DoError(client, db, query, "Admin lookup query failed");
 	}
 	
-	if (!rs.FetchRow())
+	if (!SQL_FetchRow(hQuery))
 	{
 		ReplyToCommand(client, "[SM] %t", "SQL Admin not found");
-		delete rs;
-		delete db;
+		CloseHandle(hQuery);
+		CloseHandle(db);
 		return Plugin_Handled;
 	}
 	
-	int id = rs.FetchInt(0);
+	new id = SQL_FetchInt(hQuery, 0);
 	
-	delete rs;
+	CloseHandle(hQuery);
 	
 	/* Delete group bindings */
 	Format(query, sizeof(query), "DELETE FROM sm_admins_groups WHERE admin_id = %d", id);
@@ -744,7 +746,7 @@ public Action:Command_DelAdmin(client, args)
 		return DoError(client, db, query, "Admin deletion query failed");
 	}
 	
-	delete db;
+	CloseHandle(db);
 	
 	ReplyToCommand(client, "[SM] %t", "SQL Admin deleted");
 	
@@ -760,7 +762,7 @@ public Action:Command_AddAdmin(client, args)
 		return Plugin_Handled;
 	}
 	
-	char authtype[16];
+	decl String:authtype[16];
 	GetCmdArg(2, authtype, sizeof(authtype));
 	
 	if (!StrEqual(authtype, "steam")
@@ -771,10 +773,10 @@ public Action:Command_AddAdmin(client, args)
 		return Plugin_Handled;
 	}
 
-	int immunity;
+	new immunity;
 	if (args >= 5)
 	{
-		char arg5[32];
+		new String:arg5[32];
 		GetCmdArg(5, arg5, sizeof(arg5));
 		if (!StringToIntEx(arg5, immunity))
 		{
@@ -783,59 +785,59 @@ public Action:Command_AddAdmin(client, args)
 		}
 	}
 	
-	char identity[65];
-	char safe_identity[140];
+	decl String:identity[65];
+	decl String:safe_identity[140];
 	GetCmdArg(3, identity, sizeof(identity));
 	
-	char query[256];
-	Database db = Connect();
-	if (db == null)
+	decl String:query[256];
+	new Handle:hQuery;
+	new Handle:db = Connect();
+	if (db == INVALID_HANDLE)
 	{
 		ReplyToCommand(client, "[SM] %t", "Could not connect to database");
 		return Plugin_Handled;
 	}
 	
-	db.Escape(identity, safe_identity, sizeof(safe_identity));
-
-	DBResultSet rs;
+	SQL_EscapeString(db, identity, safe_identity, sizeof(safe_identity));
 	
 	Format(query, sizeof(query), "SELECT id FROM sm_admins WHERE authtype = '%s' AND identity = '%s'", authtype, identity);
-	if ((rs = SQL_Query(db, query)) == null)
+	if ((hQuery = SQL_Query(db, query)) == INVALID_HANDLE)
 	{
 		return DoError(client, db, query, "Admin retrieval query failed");
 	}
 	
-	if (rs.RowCount > 0)
+	if (SQL_GetRowCount(hQuery) > 0)
 	{
 		ReplyToCommand(client, "[SM] %t", "SQL Admin already exists");
-		delete rs;
-		delete db;
+		CloseHandle(hQuery);
+		CloseHandle(db);
 		return Plugin_Handled;
 	}
 	
-	delete rs;
+	CloseHandle(hQuery);
 	
-	char alias[64];
-	char safe_alias[140];
+	decl String:alias[64];
+	decl String:safe_alias[140];
 	GetCmdArg(1, alias, sizeof(alias));
-	db.Escape(alias, safe_alias, sizeof(safe_alias));
+	SQL_EscapeString(db, alias, safe_alias, sizeof(safe_alias));
 	
-	char flags[30];
-	char safe_flags[64];
+	decl String:flags[30];
+	decl String:safe_flags[64];
 	GetCmdArg(4, flags, sizeof(flags));
-	db.Escape(flags, safe_flags, sizeof(safe_flags));
+	SQL_EscapeString(db, flags, safe_flags, sizeof(safe_flags));
 	
-	char password[32];
-	char safe_password[80];
+	decl String:password[32];
+	decl String:safe_password[80];
 	if (args >= 6)
 	{
 		GetCmdArg(6, password, sizeof(password));
-		db.Escape(password, safe_password, sizeof(safe_password));
+		SQL_EscapeString(db, password, safe_password, sizeof(safe_password));
 	} else {
 		safe_password[0] = '\0';
 	}
 	
-	int len = Format(query, sizeof(query), "INSERT INTO sm_admins (authtype, identity, password, flags, name, immunity) VALUES");
+	new len = 0;
+	len += Format(query[len], sizeof(query)-len, "INSERT INTO sm_admins (authtype, identity, password, flags, name, immunity) VALUES");
 	if (safe_password[0] == '\0')
 	{
 		len += Format(query[len], sizeof(query)-len, " ('%s', '%s', NULL, '%s', '%s', %d)", authtype, safe_identity, safe_flags, safe_alias, immunity);
@@ -850,7 +852,8 @@ public Action:Command_AddAdmin(client, args)
 	
 	ReplyToCommand(client, "[SM] %t", "SQL Admin added");
 	
-	delete db;
+	CloseHandle(db);
+		
 	return Plugin_Handled;
 }
 
@@ -875,7 +878,7 @@ stock Action:DoError(client, Handle:db, const String:query[], const String:msg[]
 		SQL_GetError(db, error, sizeof(error));
 		LogError("%s: %s", msg, error);
 		LogError("Query dump: %s", query);
-		delete db;
+		CloseHandle(db);
 		ReplyToCommand(client, "[SM] %t", "Failed to query database");
 		return Plugin_Handled;
 }
@@ -884,7 +887,7 @@ stock Action:DoStmtError(client, Handle:db, const String:query[], const String:e
 {
 		LogError("%s: %s", msg, error);
 		LogError("Query dump: %s", query);
-		delete db;
+		CloseHandle(db);
 		ReplyToCommand(client, "[SM] %t", "Failed to query database");
 		return Plugin_Handled;
 }

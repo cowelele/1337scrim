@@ -1,7 +1,7 @@
-"Phrases"
-{
-	"Flooding the server"
-	{
-		"en"			"You are flooding the server!"
-	}
-}
+"Phrases"
+{
+	"Flooding the server"
+	{
+		"en"			"You are flooding the server!"
+	}
+}

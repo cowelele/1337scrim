@@ -1,0 +1,27 @@
+L 08/30/2015 - 06:28:41: SourceMod log file session started (file "L20150830.log") (Version "1.7.2-dev+5200")
+L 08/30/2015 - 06:28:41: -------- Mapchange to de_dust2 --------
+L 08/30/2015 - 06:28:42: [GEOIP] GeoIP database info: GEO-106FREE 20091001 Build 1 Copyright (c) 2009 MaxMind Inc All Rights Reserved
+L 08/30/2015 - 06:28:43: [warmod.smx] Current Map: de_dust2, Warmod Version: 0.5.6.2
+L 08/30/2015 - 12:39:52: -------- Mapchange to de_dust2 --------
+L 08/30/2015 - 12:39:53: [warmod.smx] Current Map: de_dust2, Warmod Version: 0.5.6.2
+L 08/30/2015 - 12:49:11: [warmod.smx] "force_start" (player "Console<0><Console><Console>")
+L 08/30/2015 - 13:26:00: [tEasyFTP.smx] Uploading file _2015-08-30-1249-69b8-de_dust2-rrorists-vs-counterterrorists.zip (20255805 byte) to target demos
+L 08/30/2015 - 13:26:01: [tEasyFTP.smx] Uploading file 2015-08-30-1249-69b8-de_dust2-rrorists-vs-counterterrorists.log (2352114 byte) to target logs
+L 08/30/2015 - 13:56:42: -------- Mapchange to de_dust2 --------
+L 08/30/2015 - 13:56:43: [warmod.smx] Current Map: de_dust2, Warmod Version: 0.5.6.2
+L 08/30/2015 - 13:58:46: -------- Mapchange to de_overpass --------
+L 08/30/2015 - 13:58:47: [warmod.smx] Current Map: de_overpass, Warmod Version: 0.5.6.2
+L 08/30/2015 - 14:02:54: [warmod.smx] "knife_on_3" (player "Console<0><Console><Console>")
+L 08/30/2015 - 14:03:44: [warmod.smx] "force_start" (player "Console<0><Console><Console>")
+L 08/30/2015 - 14:31:46: [tEasyFTP.smx] Uploading file _2015-08-30-1402-69b8-de_overpass-rrorists-vs-counterterrorists.zip (17209245 byte) to target demos
+L 08/30/2015 - 14:31:47: [tEasyFTP.smx] Uploading file 2015-08-30-1402-69b8-de_overpass-rrorists-vs-counterterrorists.log (1853806 byte) to target logs
+L 08/30/2015 - 14:32:54: -------- Mapchange to de_mirage --------
+L 08/30/2015 - 14:32:55: [warmod.smx] Current Map: de_mirage, Warmod Version: 0.5.6.2
+L 08/30/2015 - 14:47:36: [warmod.smx] "force_start" (player "Console<0><Console><Console>")
+L 08/30/2015 - 15:12:10: [tEasyFTP.smx] Uploading file _2015-08-30-1447-69b8-de_mirage-rrorists-vs-counterterrorists.zip (14132265 byte) to target demos
+L 08/30/2015 - 15:12:11: [tEasyFTP.smx] Uploading file 2015-08-30-1447-69b8-de_mirage-rrorists-vs-counterterrorists.log (1603327 byte) to target logs
+L 08/30/2015 - 15:12:16: -------- Mapchange to de_cache --------
+L 08/30/2015 - 15:12:16: [warmod.smx] Current Map: de_cache, Warmod Version: 0.5.6.2
+L 08/30/2015 - 15:15:25: [warmod.smx] "force_start" (player "Console<0><Console><Console>")
+L 08/30/2015 - 15:58:09: [tEasyFTP.smx] Uploading file _2015-08-30-1515-69b8-de_cache-rrorists-vs-counterterrorists.zip (20933962 byte) to target demos
+L 08/30/2015 - 15:58:10: [tEasyFTP.smx] Uploading file 2015-08-30-1515-69b8-de_cache-rrorists-vs-counterterrorists.log (2530105 byte) to target logs

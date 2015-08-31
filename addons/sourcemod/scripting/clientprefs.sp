@@ -86,7 +86,7 @@ public Action:Command_Cookie(client, args)
 			}
 		}
 		
-		delete iter;		
+		CloseHandle(iter);		
 		return Plugin_Handled;
 	}
 	
@@ -102,7 +102,7 @@ public Action:Command_Cookie(client, args)
 	
 	new Handle:cookie = FindClientCookie(name);
 	
-	if (cookie == null)
+	if (cookie == INVALID_HANDLE)
 	{
 		ReplyToCommand(client, "[SM] %t", "Cookie not Found", name);
 		return Plugin_Handled;
@@ -113,7 +113,7 @@ public Action:Command_Cookie(client, args)
 	if (access == CookieAccess_Private)
 	{
 		ReplyToCommand(client, "[SM] %t", "Cookie not Found", name);
-		delete cookie;
+		CloseHandle(cookie);
 		return Plugin_Handled;
 	}
 	
@@ -125,14 +125,14 @@ public Action:Command_Cookie(client, args)
 		GetClientCookie(client, cookie, value, sizeof(value));
 		ReplyToCommand(client, "[SM] %t", "Cookie Value", name, value);
 		
-		delete cookie;
+		CloseHandle(cookie);
 		return Plugin_Handled;
 	}
 	
 	if (access == CookieAccess_Protected)
 	{
 		ReplyToCommand(client, "[SM] %t", "Protected Cookie", name);
-		delete cookie;
+		CloseHandle(cookie);
 		return Plugin_Handled;
 	}
 	
@@ -141,7 +141,7 @@ public Action:Command_Cookie(client, args)
 	GetCmdArg(2, value, sizeof(value));
 	
 	SetClientCookie(client, cookie, value);
-	delete cookie;
+	CloseHandle(cookie);
 	ReplyToCommand(client, "[SM] %t", "Cookie Changed Value", name, value);
 	
 	return Plugin_Handled;

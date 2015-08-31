@@ -1,3 +1,28 @@
-L 08/26/2015 - 17:45:07: SourceMod log file session started (file "L20150826.log") (Version "1.7.2")
-L 08/26/2015 - 17:45:07: -------- Mapchange to de_overpass --------
-L 08/26/2015 - 17:45:07: [basecommands.smx] "Console<0><Console><Console>" changed cvar (cvar "sv_maxcmdrate") (value "128")
+L 08/26/2015 - 20:05:38: SourceMod log file session started (file "L20150826.log") (Version "1.7.2-dev+5200")
+L 08/26/2015 - 20:05:38: -------- Mapchange to de_dust2 --------
+L 08/26/2015 - 20:05:38: [GEOIP] GeoIP database info: GEO-106FREE 20091001 Build 1 Copyright (c) 2009 MaxMind Inc All Rights Reserved
+L 08/26/2015 - 20:05:42: [warmod.smx] Current Map: de_dust2, Warmod Version: 0.5.6.2
+L 08/26/2015 - 20:05:50: -------- Mapchange to de_dust2 --------
+L 08/26/2015 - 20:05:50: [warmod.smx] Current Map: de_dust2, Warmod Version: 0.5.6.2
+L 08/26/2015 - 20:06:11: [basecommands.smx] "Takita<3><STEAM_1:0:102148><>" changed map to "de_overpass"
+L 08/26/2015 - 20:06:14: [SM] Changed map to "de_overpass"
+L 08/26/2015 - 20:06:15: -------- Mapchange to de_overpass --------
+L 08/26/2015 - 20:06:15: [warmod.smx] Current Map: de_overpass, Warmod Version: 0.5.6.2
+L 08/26/2015 - 20:07:01: [basecommands.smx] "Takita<3><STEAM_1:0:102148><>" console command (cmdline "sv_cheats 1")
+L 08/26/2015 - 20:07:25: [basecommands.smx] "Takita<3><STEAM_1:0:102148><>" console command (cmdline "sv_infinite_ammo 1")
+L 08/26/2015 - 20:08:37: [basecommands.smx] "Takita<3><STEAM_1:0:102148><>" console command (cmdline "mp_roundtimedefuse 9999")
+L 08/26/2015 - 20:09:02: [basecommands.smx] "Takita<3><STEAM_1:0:102148><>" console command (cmdline "mp_roundtime_defuse 9999")
+L 08/26/2015 - 20:51:20: [basecommands.smx] "wckdSiCk LOOKINGFORWAR<4><STEAM_1:1:8684313><>" changed map to "de_mirage"
+L 08/26/2015 - 20:51:23: [SM] Changed map to "de_mirage"
+L 08/26/2015 - 20:51:26: -------- Mapchange to de_mirage --------
+L 08/26/2015 - 20:51:27: [warmod.smx] Current Map: de_mirage, Warmod Version: 0.5.6.2
+L 08/26/2015 - 20:56:34: [warmod.smx] "force_start" (player "wckdSiCk LOOKINGFORWAR<4><STEAM_1:1:8684313><>")
+L 08/26/2015 - 21:22:34: [tEasyFTP.smx] Uploading file _2015-08-26-2056-69b8-de_mirage-cyphers-vs-counterterrorists.zip (15743944 byte) to target demos
+L 08/26/2015 - 21:22:35: [tEasyFTP.smx] Uploading file 2015-08-26-2056-69b8-de_mirage-cyphers-vs-counterterrorists.log (1543564 byte) to target logs
+L 08/26/2015 - 21:23:11: [basecommands.smx] "wckdSiCk LOOKINGFORWAR<4><STEAM_1:1:8684313><>" changed map to "de_cbble"
+L 08/26/2015 - 21:23:14: [SM] Changed map to "de_cbble"
+L 08/26/2015 - 21:23:17: -------- Mapchange to de_cbble --------
+L 08/26/2015 - 21:23:18: [warmod.smx] Current Map: de_cbble, Warmod Version: 0.5.6.2
+L 08/26/2015 - 21:24:35: [warmod.smx] "force_start" (player "wckdSiCk LOOKINGFORWAR<4><STEAM_1:1:8684313><>")
+L 08/26/2015 - 21:57:41: [tEasyFTP.smx] Uploading file _2015-08-26-2124-69b8-de_cbble-rrorists-vs-counterterrorists.zip (20800366 byte) to target demos
+L 08/26/2015 - 21:57:41: [tEasyFTP.smx] Uploading file 2015-08-26-2124-69b8-de_cbble-rrorists-vs-counterterrorists.log (1874455 byte) to target logs

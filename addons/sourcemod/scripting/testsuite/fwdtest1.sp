@@ -9,8 +9,8 @@ public Plugin:myinfo =
 	url = "http://www.sourcemod.net/"
 };
 
-new Handle:g_GlobalFwd = null;
-new Handle:g_PrivateFwd = null;
+new Handle:g_GlobalFwd = INVALID_HANDLE;
+new Handle:g_PrivateFwd = INVALID_HANDLE;
 
 public OnPluginStart()
 {	
@@ -22,20 +22,20 @@ public OnPluginStart()
 
 public OnPluginEnd()
 {
-	delete g_GlobalFwd;
-	delete g_PrivateFwd;
+	CloseHandle(g_GlobalFwd);
+	CloseHandle(g_PrivateFwd);
 }
 
 public Action:Command_CreateGlobalForward(args)
 {
-	if (g_GlobalFwd != null)
+	if (g_GlobalFwd != INVALID_HANDLE)
 	{
-		delete g_GlobalFwd;
+		CloseHandle(g_GlobalFwd);
 	}
 	
 	g_GlobalFwd = CreateGlobalForward("OnGlobalForward", ET_Ignore, Param_Any, Param_Cell, Param_Float, Param_String, Param_Array, Param_CellByRef, Param_FloatByRef);
 	
-	if (g_GlobalFwd == null)
+	if (g_GlobalFwd == INVALID_HANDLE)
 	{
 		PrintToServer("Failed to create global forward!");
 	}
@@ -48,14 +48,14 @@ public Action:Command_CreatePrivateForward(args)
 	new Handle:pl;
 	new Function:func;
 	
-	if (g_PrivateFwd != null)
+	if (g_PrivateFwd != INVALID_HANDLE)
 	{
-		delete g_PrivateFwd;
+		CloseHandle(g_PrivateFwd);
 	}
 	
 	g_PrivateFwd = CreateForward(ET_Hook, Param_Cell, Param_String, Param_VarArgs);
 	
-	if (g_PrivateFwd == null)
+	if (g_PrivateFwd == INVALID_HANDLE)
 	{
 		PrintToServer("Failed to create private forward!")
 	}
@@ -92,7 +92,7 @@ public Action:Command_ExecGlobalForward(args)
 	new Float:b = 4.215;
 	new err, ret;
 	
-	if (g_GlobalFwd == null)
+	if (g_GlobalFwd == INVALID_HANDLE)
 	{
 		PrintToServer("Failed to execute global forward. Create it first.");
 		return Plugin_Handled;
@@ -124,7 +124,7 @@ public Action:Command_ExecPrivateForward(args)
 {
 	new err, ret;
 	
-	if (g_PrivateFwd == null)
+	if (g_PrivateFwd == INVALID_HANDLE)
 	{
 		PrintToServer("Failed to execute private forward. Create it first.");
 		return Plugin_Handled;

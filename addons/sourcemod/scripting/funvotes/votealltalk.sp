@@ -52,19 +52,19 @@ DisplayVoteAllTalkMenu(client)
 
 	g_hVoteMenu = CreateMenu(Handler_VoteCallback, MenuAction:MENU_ACTIONS_ALL);
 	
-	if (g_Cvar_Alltalk.BoolValue)
+	if (GetConVarBool(g_Cvar_Alltalk))
 	{
-		g_hVoteMenu.SetTitle("Votealltalk Off");
+		SetMenuTitle(g_hVoteMenu, "Votealltalk Off");
 	}
 	else
 	{
-		g_hVoteMenu.SetTitle("Votealltalk On");
+		SetMenuTitle(g_hVoteMenu, "Votealltalk On");
 	}
 	
-	g_hVoteMenu.AddItem(VOTE_YES, "Yes");
-	g_hVoteMenu.AddItem(VOTE_NO, "No");
-	g_hVoteMenu.ExitButton = false;
-	g_hVoteMenu.DisplayVoteToAll(20);
+	AddMenuItem(g_hVoteMenu, VOTE_YES, "Yes");
+	AddMenuItem(g_hVoteMenu, VOTE_NO, "No");
+	SetMenuExitButton(g_hVoteMenu, false);
+	VoteMenuToAll(g_hVoteMenu, 20);
 }
 
 

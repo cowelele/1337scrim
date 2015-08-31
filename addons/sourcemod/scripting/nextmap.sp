@@ -31,13 +31,12 @@
  * Version: $Id$
  */
 
+#pragma semicolon 1
+
 #include <sourcemod>
 #include "include/nextmap.inc"
 
-#pragma semicolon 1
-#pragma newdecls required
-
-public Plugin myinfo = 
+public Plugin:myinfo = 
 {
 	name = "Nextmap",
 	author = "AlliedModders LLC",
@@ -46,15 +45,16 @@ public Plugin myinfo =
 	url = "http://www.sourcemod.net/"
 };
 
-int g_MapPos = -1;
-Handle g_MapList = null;
-int g_MapListSerial = -1;
+ 
+new g_MapPos = -1;
+new Handle:g_MapList = INVALID_HANDLE;
+new g_MapListSerial = -1;
 
-int g_CurrentMapStartTime;
+new g_CurrentMapStartTime;
 
-public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
+public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max)
 {
-	char game[128];
+	decl String:game[128];
 	GetGameFolderName(game, sizeof(game));
 
 	if (StrEqual(game, "left4dead", false)
@@ -62,9 +62,7 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 			|| StrEqual(game, "synergy", false)
 			|| StrEqual(game, "left4dead2", false)
 			|| StrEqual(game, "garrysmod", false)
-			|| StrEqual(game, "swarm", false)
-			|| StrEqual(game, "dota", false)
-			|| GetEngineVersion() == Engine_Insurgency)
+			|| StrEqual(game, "swarm", false))
 	{
 		strcopy(error, err_max, "Nextmap is incompatible with this game");
 		return APLRes_SilentFailure;
@@ -74,8 +72,9 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 }
 
 
-public void OnPluginStart()
+public OnPluginStart()
 {
+
 	LoadTranslations("common.phrases");
 	LoadTranslations("nextmap.phrases");
 	
@@ -85,19 +84,19 @@ public void OnPluginStart()
 	RegConsoleCmd("listmaps", Command_List);
 
 	// Set to the current map so OnMapStart() will know what to do
-	char currentMap[64];
+	decl String:currentMap[64];
 	GetCurrentMap(currentMap, 64);
 	SetNextMap(currentMap);
 }
 
-public void OnMapStart()
+public OnMapStart()
 {
 	g_CurrentMapStartTime = GetTime();
 }
  
-public void OnConfigsExecuted()
+public OnConfigsExecuted()
 {
-	char lastMap[64], currentMap[64];
+	decl String:lastMap[64], String:currentMap[64];
 	GetNextMap(lastMap, sizeof(lastMap));
 	GetCurrentMap(currentMap, 64);
 	
@@ -110,13 +109,13 @@ public void OnConfigsExecuted()
 	}
 }
 
-public Action Command_List(int client, int args) 
+public Action:Command_List(client, args) 
 {
 	PrintToConsole(client, "Map Cycle:");
 	
-	int mapCount = GetArraySize(g_MapList);
-	char mapName[32];
-	for (int i = 0; i < mapCount; i++)
+	new mapCount = GetArraySize(g_MapList);
+	decl String:mapName[32];
+	for (new i = 0; i < mapCount; i++)
 	{
 		GetArrayString(g_MapList, i, mapName, sizeof(mapName));
 		PrintToConsole(client, "%s", mapName);
@@ -125,13 +124,13 @@ public Action Command_List(int client, int args)
 	return Plugin_Handled;
 }
   
-void FindAndSetNextMap()
+FindAndSetNextMap()
 {
 	if (ReadMapList(g_MapList, 
 			g_MapListSerial, 
 			"mapcyclefile", 
 			MAPLIST_FLAG_CLEARARRAY|MAPLIST_FLAG_NO_DEFAULT)
-		== null)
+		== INVALID_HANDLE)
 	{
 		if (g_MapListSerial == -1)
 		{
@@ -140,15 +139,15 @@ void FindAndSetNextMap()
 		}
 	}
 	
-	int mapCount = GetArraySize(g_MapList);
-	char mapName[32];
+	new mapCount = GetArraySize(g_MapList);
+	decl String:mapName[32];
 	
 	if (g_MapPos == -1)
 	{
-		char current[64];
+		decl String:current[64];
 		GetCurrentMap(current, 64);
 
-		for (int i = 0; i < mapCount; i++)
+		for (new i = 0; i < mapCount; i++)
 		{
 			GetArrayString(g_MapList, i, mapName, sizeof(mapName));
 			if (strcmp(current, mapName, false) == 0)
@@ -170,17 +169,17 @@ void FindAndSetNextMap()
 	SetNextMap(mapName);
 }
 
-public Action Command_MapHistory(int client, int args)
+public Action:Command_MapHistory(client, args)
 {
-	int mapCount = GetMapHistorySize();
+	new mapCount = GetMapHistorySize();
 	
-	char mapName[32];
-	char changeReason[100];
-	char timeString[100];
-	char playedTime[100];
-	int startTime;
+	decl String:mapName[32];
+	decl String:changeReason[100];
+	decl String:timeString[100];
+	decl String:playedTime[100];
+	new startTime;
 	
-	int lastMapStartTime = g_CurrentMapStartTime;
+	new lastMapStartTime = g_CurrentMapStartTime;
 	
 	PrintToConsole(client, "Map History:\n");
 	PrintToConsole(client, "Map : Started : Played Time : Reason for ending");
@@ -188,7 +187,7 @@ public Action Command_MapHistory(int client, int args)
 	GetCurrentMap(mapName, sizeof(mapName));
 	PrintToConsole(client, "%02i. %s (Current Map)", 0, mapName);
 	
-	for (int i=0; i<mapCount; i++)
+	for (new i=0; i<mapCount; i++)
 	{
 		GetMapHistory(i, mapName, sizeof(mapName), changeReason, sizeof(changeReason), startTime);
 
@@ -203,12 +202,12 @@ public Action Command_MapHistory(int client, int args)
 	return Plugin_Handled;
 }
 
-int FormatTimeDuration(char[] buffer, int maxlen, int time)
+FormatTimeDuration(String:buffer[], maxlen, time)
 {
-	int days = time / 86400;
-	int hours = (time / 3600) % 24;
-	int minutes = (time / 60) % 60;
-	int seconds =  time % 60;
+	new	days = time / 86400;
+	new	hours = (time / 3600) % 24;
+	new	minutes = (time / 60) % 60;
+	new	seconds =  time % 60;
 	
 	if (days > 0)
 	{

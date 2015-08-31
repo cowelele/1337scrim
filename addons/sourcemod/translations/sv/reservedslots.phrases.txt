@@ -1,8 +1,8 @@
-"Phrases"
-{
-	"Slot reserved"
-	{
-		"sv"		"Nerkopplad på grund av reserverade platser"
-	}
-
-}
+"Phrases"
+{
+	"Slot reserved"
+	{
+		"sv"		"Nerkopplad på grund av reserverade platser"
+	}
+
+}

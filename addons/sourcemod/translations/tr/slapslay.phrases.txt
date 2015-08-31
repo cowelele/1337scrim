@@ -1,28 +1,28 @@
-"Phrases"
-{
-	"Slayed target"
-	{
-		"tr"		"{1} katledildi."
-	}
-
-	"Slay player"
-	{
-		"tr"		"Oyuncuyu katlet"
-	}
-
-	"Slapped target"
-	{
-		"tr"		"{1} tokatlandı."
-	}
-
-	"Slap player"
-	{
-		"tr"		"Oyuncuyu tokatla"
-	}
-
-	"Slap damage"
-	{
-		"tr"		"Tokatlama hasarı"
-	}
-
-}
+"Phrases"
+{
+	"Slayed target"
+	{
+		"tr"		"{1} katledildi."
+	}
+
+	"Slay player"
+	{
+		"tr"		"Oyuncuyu katlet"
+	}
+
+	"Slapped target"
+	{
+		"tr"		"{1} tokatlandı."
+	}
+
+	"Slap player"
+	{
+		"tr"		"Oyuncuyu tokatla"
+	}
+
+	"Slap damage"
+	{
+		"tr"		"Tokatlama hasarı"
+	}
+
+}
